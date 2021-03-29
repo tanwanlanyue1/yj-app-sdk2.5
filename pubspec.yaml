@@ -1,0 +1,189 @@
+name: scet_app
+description: A new Flutter project.
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  flutter_localizations:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^0.1.3
+  flutter_screenutil: ^3.1.0 # 屏幕适配
+  bot_toast: ^3.0.4  #弹出框
+  flutter_map: ^0.10.0 #地图
+  flutter_map_marker_cluster: ^0.3.1 #点聚合
+  flutter_picker: ^1.1.5 #时间选择
+  intl: ^0.16.1 #格式化时间
+  date_range_picker: ^1.0.5 #日期范围
+  dio: ^3.0.10  #网络请求
+  shared_preferences: ^0.5.12 #本地存储
+  provider: ^4.0.4  #状态管理
+  video_player: ^0.10.12+2 #视频
+  geolocator: ^6.1.1 #定位
+  flutter_echarts: ^1.3.6 #可视化
+  gzx_dropdown_menu: ^2.1.0 #下拉筛选菜单
+  flutter_full_pdf_viewer: ^1.0.6 #pdf
+  flutter_easyrefresh: ^2.1.6 #下拉刷新
+  path_provider: ^1.6.27 #创建目录和文件
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/video/open.mp4
+
+    - assets/icon/bottomMenu/tab_index.png
+    - assets/icon/bottomMenu/tab_index_active.png
+    - assets/icon/bottomMenu/tab_add.png
+    - assets/icon/bottomMenu/tab_add_close.png
+    - assets/icon/bottomMenu/tab_mine.png
+    - assets/icon/bottomMenu/tab_mine_active.png
+
+    - assets/icon/add/maintenance.png
+    - assets/icon/add/polling.png
+    - assets/icon/add/complaints.png
+    - assets/icon/add/inspect_task.png
+    - assets/icon/add/monitor_task.png
+    - assets/icon/add/alarm_event.png
+
+    - assets/icon/map/locate.png
+    - assets/icon/map/locations.png
+    - assets/icon/map/station.png
+    - assets/icon/map/enterprise.png
+    - assets/icon/map/riskSource.png
+    - assets/icon/map/flue.png
+
+    - assets/icon/report/search.png
+    - assets/icon/report/pdf.png
+
+    - assets/icon/input/close.png
+    - assets/icon/input/search.png
+
+    - assets/icon/other/add.png
+    - assets/icon/other/close.png
+    - assets/icon/other/publish.png
+    - assets/icon/other/cancel.png
+    - assets/icon/other/task.png
+
+    - assets/icon/alarm/InspectTask.png
+    - assets/icon/alarm/MonitorTask.png
+    - assets/icon/alarm/BasicInformation.png
+    - assets/icon/alarm/DataSource.png
+    - assets/icon/alarm/DataAnalysis.png
+    - assets/icon/alarm/MsdsSuggest.png
+    - assets/icon/alarm/AttachmentReport.png
+    - assets/icon/alarm/MsdsSuggestIcon.png
+
+    - assets/icon/user/alert.png
+    - assets/icon/user/abnormal.png
+    - assets/icon/user/inspect.png
+    - assets/icon/user/monitor.png
+    - assets/icon/user/service.png
+    - assets/icon/user/polling.png
+
+    - assets/icon/login/people.png
+    - assets/icon/login/password.png
+
+    - assets/images/home/layer.png
+    - assets/images/home/map_button.png
+    - assets/images/home/satellite_map.png
+    - assets/images/home/standard_map.png
+    - assets/images/home/bgImage.png
+
+    - assets/images/RightMenu/check.png
+    - assets/images/RightMenu/air.png
+    - assets/images/RightMenu/btn.png
+    - assets/images/RightMenu/unBtn.png
+    - assets/images/RightMenu/danger.png
+    - assets/images/RightMenu/effluent.png
+    - assets/images/RightMenu/enterprises.png
+    - assets/images/RightMenu/flue.png
+    - assets/images/RightMenu/other.png
+    - assets/images/RightMenu/other.png
+    - assets/images/RightMenu/sites.png
+    - assets/images/RightMenu/unsites.png
+    - assets/images/RightMenu/unenterprises.png
+
+    - assets/images/monitor/factor_bg.png
+
+    - assets/images/user/setting.png
+    - assets/images/user/backlog.png
+    - assets/images/user/warning.png
+    - assets/images/user/monitor.png
+    - assets/images/user/supervise.png
+    - assets/images/user/header.png
+    - assets/images/user/monIcon.png
+
+    - assets/images/station/noData.png
+    - assets/images/station/matterBg.png
+    - assets/images/station/device.png
+    - assets/images/station/device-icon.png
+
+    - assets/images/login/bgImage.png
+    - assets/images/login/guide.png
+    - assets/images/login/logos.png
+
+    - assets/images/loading/loading1.png
+    - assets/images/loading/loading2.png
+    - assets/images/loading/loading3.png
+    - assets/images/loading/loading4.png
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
