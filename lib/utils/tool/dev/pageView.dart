@@ -87,18 +87,18 @@ class MyHomePageState extends State<MyHomePage> {
   final _kArrowColor = Colors.black.withOpacity(0.8);
 
   final List<Widget> _pages = <Widget>[
-    new ConstrainedBox(
-      constraints: const BoxConstraints.expand(),
-      child: new FlutterLogo(colors: Colors.blue),
-    ),
-    new ConstrainedBox(
-      constraints: const BoxConstraints.expand(),
-      child: new FlutterLogo(style: FlutterLogoStyle.stacked, colors: Colors.red),
-    ),
-    new ConstrainedBox(
-      constraints: const BoxConstraints.expand(),
-      child: new FlutterLogo(style: FlutterLogoStyle.horizontal, colors: Colors.green),
-    ),
+    // new ConstrainedBox(
+    //   constraints: const BoxConstraints.expand(),
+    //   child: new FlutterLogo(colors: Colors.blue),
+    // ),
+    // new ConstrainedBox(
+    //   constraints: const BoxConstraints.expand(),
+    //   child: new FlutterLogo(style: FlutterLogoStyle.stacked, colors: Colors.red),
+    // ),
+    // new ConstrainedBox(
+    //   constraints: const BoxConstraints.expand(),
+    //   child: new FlutterLogo(style: FlutterLogoStyle.horizontal, colors: Colors.green),
+    // ),
   ];
 
   @override

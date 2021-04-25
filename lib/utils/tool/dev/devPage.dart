@@ -170,7 +170,7 @@ class _DevPageState extends State<DevPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false, //输入框抵住键盘 内容不随键盘滚动
+      resizeToAvoidBottomInset: false, //输入框抵住键盘 内容不随键盘滚动
       appBar: AppBar(
         title: Text('测试页面'),
       ),

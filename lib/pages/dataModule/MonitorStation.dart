@@ -190,7 +190,7 @@ class _MonitorStationState extends State<MonitorStation> {
           )
         ],
       ),
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
     );
   }
 
