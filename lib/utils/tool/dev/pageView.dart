@@ -127,7 +127,7 @@ class MyHomePageState extends State<MyHomePage> {
                   controller: _controller,
                   itemCount: _pages.length,
                   onPageSelected: (int page) {
-                    print('====>${_controller.initialPage}');
+                    // print('====>${_controller.initialPage}');
                     _controller.animateToPage(
                       page,
                       duration: _kDuration,

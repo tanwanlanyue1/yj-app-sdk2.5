@@ -38,7 +38,7 @@ class _AddPollingState extends State<AddPolling> {
   DateTime stopTime, expectTime;
   void timeChange(int state, DateTime time) {
     if (mounted) {
-      print(time);
+      // print(time);
       if (state == 0) {
         setState(() {
           stopTime = time;

@@ -180,7 +180,7 @@ class _InspectTaskState extends State<InspectTask> {
     }else if(!val && _publishPlatform.contains(index+1)) {
       _publishPlatform.remove(index+1);
     }
-    print(_publishPlatform);
+    // print(_publishPlatform);
     List data = fbpt;
     data[index]['value'] = !data[index]['value'];
     setState(() {

@@ -344,7 +344,7 @@ class _MapPageState extends State<MapPage> with AutomaticKeepAliveClientMixin{
           bgColor: _bottomType == cardType.List ? Color(0xffffffff) : Color(0xffF2F4FA),
             textFieldColor: _bottomType == cardType.List ? Color(0xffEFF0F4) : Color(0xffffffff),
             search:(value){
-              print('==>$value');
+              // print('==>$value');
             },
           hintText: '查找监测站点、企业',
         ),

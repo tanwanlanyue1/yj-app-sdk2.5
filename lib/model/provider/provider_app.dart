@@ -35,7 +35,7 @@ class AppState with ChangeNotifier {
       });
 
       if(status != null &&  status == true){
-        print('status=>${status}');
+        // print('status=>${status}');
         DialogPages.succeedDialog(
             context,
             title:'安卓app更新弹窗预留坑',

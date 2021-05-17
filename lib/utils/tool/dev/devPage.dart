@@ -250,7 +250,7 @@ class _DevPageState extends State<DevPage> {
                       List<int> liInt;
                       var li =  json.decode(StorageUtil().getString('ceshi'));
                       liInt =  List<int>.from(li);
-                      print(liInt);
+                      // print(liInt);
                       setState(() {});
                     },
                     child: Text('读取缓存测试'),
@@ -354,7 +354,7 @@ class _test1State extends State<test1> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async{
-        print('---$da');
+        // print('---$da');
         SelectInput.showProgress(
             context,
             key: _globalKey,
@@ -363,7 +363,7 @@ class _test1State extends State<test1> {
             more: false,
             onTabs: (val){
               da = val;
-              print('--1-$da');
+              // print('--1-$da');
               setState(() {});
               // print('---$val');
 

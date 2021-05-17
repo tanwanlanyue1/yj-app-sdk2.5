@@ -39,7 +39,7 @@ class _MyAbnormalComplaintsState extends State<MyAbnormalComplaints> {
                     MyIssueComponent.maintenanceTitle(
                         title: item['stName'] ,
                         onDetails:(){
-                          print('异常投诉');
+                          // print('异常投诉');
                         }
                     ),
                     MyIssueComponent.rowItem(
