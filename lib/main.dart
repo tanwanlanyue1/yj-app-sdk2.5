@@ -32,12 +32,8 @@ void main() {
     runApp(
         MultiProvider(
             providers: [
-              ChangeNotifierProvider<AppState>.value(
-                value: Global.appState,
-              ),
-              ChangeNotifierProvider<HomeModel>.value(
-                value: HomeModel(),
-              ),
+              ChangeNotifierProvider<AppState>.value(value: Global.appState,),
+              ChangeNotifierProvider<HomeModel>.value(value: HomeModel(),),
             ],
             child: MyApp(
               isLogin: Global.isOfflineLogin,
@@ -74,10 +70,10 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           primaryColor: Color(0XFF4D7CFF),
           /*字体选择类型
-        *  B : Alibaba-PuHuiTi-Bold
-        *  M : Alibaba-PuHuiTi-Medium
-        *  R : Alibaba-PuHuiTi-Regular
-        */
+          *  B : Alibaba-PuHuiTi-Bold
+          *  M : Alibaba-PuHuiTi-Medium
+          *  R : Alibaba-PuHuiTi-Regular
+          */
           fontFamily: 'R',
           visualDensity: VisualDensity.adaptivePlatformDensity,
           scaffoldBackgroundColor: Color(0XFFF2F4FA),

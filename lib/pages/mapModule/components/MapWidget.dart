@@ -164,9 +164,11 @@ class _MapWidgetState extends State<MapWidget> {
     var _homeModel = Provider.of<HomeModel>(context, listen: true);
     List data = _homeModel.siteList;
     return data.map((item) {
+      // print('=0=${item['location']['latiude']}');
+      // print('=1=${item['location']['longitude'] == ''} ');
       List position = GpsUtil.gps84_To_Gcj02(
-        double.parse(item['location']['latiude']), 
-        double.parse(item['location']['longitude'])
+        double.parse(item['location']['latiude'] == '' ? '0.0': item['location']['latiude']),
+        double.parse(item['location']['longitude']== '' ? '0.0': item['location']['longitude'])
       );
       return commonMaker(
         latiude: position[0], 
