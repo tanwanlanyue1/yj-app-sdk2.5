@@ -53,7 +53,6 @@ class _AlarmHandleProcessState extends State<AlarmHandleProcess> with SingleTick
     Map<String, String> _data = Map();
     _data['code'] = widget.data['eventCode'];
     var response = await Request().get(Api.url['eventDetails'], data: _data);
-    print( widget.data);
     if(response['code'] == 200){
       if(response['data'] == null ) {
         ToastWidget.showToastMsg('暂无数据');
