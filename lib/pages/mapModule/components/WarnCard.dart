@@ -135,7 +135,9 @@ class WarnCard extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () { Navigator.pushNamed(context, '/alarm/handleProcess',arguments:data );},
+      onTap: () {
+        Navigator.pushNamed(context, '/alarm/handleProcess',arguments:data );
+        },
     );
   }
 

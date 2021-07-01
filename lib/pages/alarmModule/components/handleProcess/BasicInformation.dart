@@ -78,9 +78,7 @@ class _BasicInformationState extends State<BasicInformation> with AutomaticKeepA
                   padding: true,
                   title: '启动时间',
                   child: WidgetCheck.textData(
-                      data: '${dateUtc(_baseInfo == null
-                          ? ''
-                          : _baseInfo['runupTime'])}'
+                      data: '${_baseInfo == null ? '' :dateUtc( _baseInfo['runupTime'])}'
                   )
                 ),
                 WidgetCheck.rowItem(
