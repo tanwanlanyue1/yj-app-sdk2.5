@@ -1,16 +1,41 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
 
 class RoseCharts extends StatelessWidget {
   final windData;
+  bool reload = true;
   RoseCharts({this.windData});
 
-  List windDirection = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
-  
+  List windDirection = [
+    'N',
+    'NNE',
+    'NE',
+    'ENE',
+    'E',
+    'ESE',
+    'SE',
+    'SSE',
+    'S',
+    'SSW',
+    'SW',
+    'WSW',
+    'W',
+    'WNW',
+    'NW',
+    'NNW'
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Echarts(
+      onLoad: (dynamic controller) {
+        if (reload && Platform.isIOS) {
+          controller.reload();
+          reload = false;
+        }
+      },
       option: '''
         {
           grid: {
@@ -113,7 +138,6 @@ class RoseCharts extends StatelessWidget {
           })
         }
       ''',
-    
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
 
@@ -6,17 +8,33 @@ class CardCharts extends StatelessWidget {
   final String unit;
   final int warnLevel;
   final List valueData;
+  bool reload = true;
   CardCharts({this.facName, this.unit, this.warnLevel, this.valueData});
 
-  var themeColor; 
+  var themeColor;
   List bgColor;
   void _colorSelect(int level) {
-    switch(level) {
-      case 0: bgColor = ['rgba(77, 124, 255, 0.3)', 'rgba(77, 124, 255, 0)']; themeColor = 'rgba(77, 124, 255, 1)'; break;
-      case 1: bgColor = ['rgba(144, 204, 0, 0.4)', 'rgba(255, 255, 255, 0)']; themeColor = 'rgba(144, 204, 0, 1)'; break;
-      case 2: bgColor = ['rgba(255, 219, 0, 1.0)', 'rgba(255, 255, 255, 0)']; themeColor = 'rgba(255, 219, 0, 1)'; break; 
-      case 3: bgColor = ['rgba(255, 134, 0, 0.4)', 'rgba(255, 255, 255, 0)']; themeColor = 'rgba(255, 134, 0, 1)'; break; 
-      case 4: bgColor = ['rgba(255, 51, 51, 0.5)', 'rgba(255, 255, 255, 0)']; themeColor = 'rgba(255, 51, 51, 0.7)'; break;
+    switch (level) {
+      case 0:
+        bgColor = ['rgba(77, 124, 255, 0.3)', 'rgba(77, 124, 255, 0)'];
+        themeColor = 'rgba(77, 124, 255, 1)';
+        break;
+      case 1:
+        bgColor = ['rgba(144, 204, 0, 0.4)', 'rgba(255, 255, 255, 0)'];
+        themeColor = 'rgba(144, 204, 0, 1)';
+        break;
+      case 2:
+        bgColor = ['rgba(255, 219, 0, 1.0)', 'rgba(255, 255, 255, 0)'];
+        themeColor = 'rgba(255, 219, 0, 1)';
+        break;
+      case 3:
+        bgColor = ['rgba(255, 134, 0, 0.4)', 'rgba(255, 255, 255, 0)'];
+        themeColor = 'rgba(255, 134, 0, 1)';
+        break;
+      case 4:
+        bgColor = ['rgba(255, 51, 51, 0.5)', 'rgba(255, 255, 255, 0)'];
+        themeColor = 'rgba(255, 51, 51, 0.7)';
+        break;
     }
   }
 
@@ -24,7 +42,13 @@ class CardCharts extends StatelessWidget {
   Widget build(BuildContext context) {
     _colorSelect(warnLevel);
     return Echarts(
-      option: '''
+        onLoad: (dynamic controller) {
+          if (reload && Platform.isIOS) {
+            controller.reload();
+            reload = false;
+          }
+        },
+        option: '''
         {
           tooltip: {
             trigger: 'axis',
@@ -137,7 +161,6 @@ class CardCharts extends StatelessWidget {
             }
           ]
         }
-      '''
-    );
+      ''');
   }
 }
