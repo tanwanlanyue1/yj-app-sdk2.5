@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
 
@@ -6,17 +8,28 @@ class ValueChart extends StatelessWidget {
   final String unit;
   final int warnLevel;
   final List valueData;
-  ValueChart({this.facName, this.warnLevel,this.unit, this.valueData});
-
-  var themeColor; 
+  ValueChart({this.facName, this.warnLevel, this.unit, this.valueData});
+  bool reload = true;
+  var themeColor;
   void _colorSelect(int level) {
-    switch(level) {
-      case 0: themeColor = 'rgba(102, 143, 255, 1)'; break;
-      case 1: themeColor = 'rgba(144, 204, 0, 1)'; break;
-      case 2: themeColor = 'rgba(255, 219, 0, 1)'; break; 
-      case 3: themeColor = 'rgba(255, 134, 0, 1)'; break; 
-      case 4: themeColor = 'rgba(102, 143, 255, 1)'; break;
-      default: themeColor = 'rgba(102, 143, 255, 1)';
+    switch (level) {
+      case 0:
+        themeColor = 'rgba(102, 143, 255, 1)';
+        break;
+      case 1:
+        themeColor = 'rgba(144, 204, 0, 1)';
+        break;
+      case 2:
+        themeColor = 'rgba(255, 219, 0, 1)';
+        break;
+      case 3:
+        themeColor = 'rgba(255, 134, 0, 1)';
+        break;
+      case 4:
+        themeColor = 'rgba(102, 143, 255, 1)';
+        break;
+      default:
+        themeColor = 'rgba(102, 143, 255, 1)';
     }
   }
 
@@ -25,7 +38,13 @@ class ValueChart extends StatelessWidget {
     print(warnLevel);
     _colorSelect(warnLevel);
     return Echarts(
-      option: '''
+        onLoad: (dynamic controller) {
+          if (reload && Platform.isIOS) {
+            controller.reload();
+            reload = false;
+          }
+        },
+        option: '''
         {
           tooltip: {
             show: true,
@@ -132,7 +151,6 @@ class ValueChart extends StatelessWidget {
             }
           ]
         }
-      '''
-    );
+      ''');
   }
 }
