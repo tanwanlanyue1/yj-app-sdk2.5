@@ -24,8 +24,8 @@ class _MonitorStationState extends State<MonitorStation> {
 
   EasyRefreshController _controller = EasyRefreshController(); // 上拉组件控制器
 
-  List stationList; // 站点信息
-  List _searchList; // 搜索的数组
+  List? stationList; // 站点信息
+  List? _searchList; // 搜索的数组
 
   _realStationInfo() async{
     var response = await Request().get(Api.url['realStationInfo']);
@@ -92,7 +92,7 @@ class _MonitorStationState extends State<MonitorStation> {
   //搜索事件的处理
   List _searchStrig(value){
     List _newList = [];
-    _searchList.forEach((item) {
+    _searchList!.forEach((item) {
       if((item['stName'].contains(value))){
         _newList.add(item);
       }
@@ -152,7 +152,7 @@ class _MonitorStationState extends State<MonitorStation> {
                   slivers: <Widget>[
                     SliverList(
                       delegate: SliverChildBuilderDelegate((context, index) {
-                        Map data = stationList[index];
+                        Map data = stationList![index];
                         return InkWell(
                           onTap: () {
                             Navigator.pushNamed(context, '/StationDetails',arguments: data);
@@ -160,7 +160,7 @@ class _MonitorStationState extends State<MonitorStation> {
                           child: _itemStationCard(data: data)
                         );
                       },
-                      childCount: stationList.length),
+                      childCount: stationList!.length),
                     ),
                     SliverPersistentHeader(
                       floating: false,//floating 与pinned 不能同时为true
@@ -169,7 +169,7 @@ class _MonitorStationState extends State<MonitorStation> {
                         minHeight: px(100),
                         maxHeight: px(100),
                         child: Visibility(
-                          visible: stationList.length > 0,
+                          visible: stationList!.length > 0,
                           child: Container(
                             padding: EdgeInsets.only(top: px(24.0)),
                             child: Text(
@@ -194,7 +194,7 @@ class _MonitorStationState extends State<MonitorStation> {
     );
   }
 
-  Widget _itemStationCard({Map data}) {
+  Widget _itemStationCard({required Map data}) {
     return Card(
       color: Color(0XFFFFFFFF),
       margin: EdgeInsets.only(top: px(24.0)),
@@ -308,7 +308,7 @@ class _MonitorStationState extends State<MonitorStation> {
     );
   }
 
-  Widget _itemWeatherData({String value, String name, int type}) {
+  Widget _itemWeatherData({required String value, required String name, required int type}) {
     return Expanded(
       flex: 1,
       child: Column(
@@ -361,9 +361,9 @@ class _MonitorStationState extends State<MonitorStation> {
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverAppBarDelegate({
-    @required this.minHeight,
-    @required this.maxHeight,
-    @required this.child,
+    required this.minHeight,
+    required this.maxHeight,
+    required this.child,
   });
 
   final double minHeight;

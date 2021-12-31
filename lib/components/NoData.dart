@@ -5,7 +5,7 @@ import 'package:scet_app/utils/tool/screen/screen.dart';
 
 class NoData extends StatelessWidget {
   bool timeType;
-  String state;
+  String? state;
   NoData({this.timeType = false, this.state});
 
   @override

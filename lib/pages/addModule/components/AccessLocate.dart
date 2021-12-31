@@ -5,15 +5,15 @@ import 'package:scet_app/utils/tool/screen/screen.dart';
 
 class AccessLocate extends StatefulWidget {
   final callback;
-  final String hintStrl;
-  AccessLocate({Key key, this.callback,this.hintStrl});
+  final String? hintStrl;
+  AccessLocate({Key? key, this.callback,this.hintStrl});
   @override
   _AccessLocateState createState() => _AccessLocateState();
 }
 
 class _AccessLocateState extends State<AccessLocate> {
 
-  String currentPoint;
+  String? currentPoint;
 
   @override
   Widget build(BuildContext context) {

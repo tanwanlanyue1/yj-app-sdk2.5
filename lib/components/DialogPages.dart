@@ -9,8 +9,8 @@ class DialogPages {
     String subTitle = '前往“我发布的”查看详情',
     String backStr = '返回首页',
     String succeedStr = '立即查看',
-    Function back, //返回按钮回调
-    Function succeed, //成功按钮回调
+    Function? back, //返回按钮回调
+    Function? succeed, //成功按钮回调
   }) {
     return showDialog<Null>(
       context: context,
@@ -99,7 +99,7 @@ class DialogPages {
   }
 
   // 弹框的按钮
-  static Widget succeedDialogBtn({String str, Function onTap,Color bgColor}){
+  static Widget succeedDialogBtn({String? str, Function? onTap,required Color bgColor}){
     return InkWell(
       child: Container(
         width: px(270),
@@ -113,7 +113,9 @@ class DialogPages {
               color: Color(0xFFFFFFFF)),
         ),
       ),
-      onTap: onTap,
+      onTap: (){
+        onTap?.call();
+      },
     );
   }
 }

@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:scet_app/pages/LoginModel/components/addFont.dart';
 import 'package:scet_app/routers/Routes.dart';
 import 'model/data/data_global.dart';
 import 'model/provider/provider.dart';
@@ -48,7 +47,7 @@ void main() {
 class MyApp extends StatelessWidget {
   final bool isLogin;
 
-  MyApp({this.isLogin});
+  MyApp({required this.isLogin});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -79,7 +78,8 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Color(0XFFF2F4FA),
         ),
         initialRoute: isLogin ? '/HomePage' : '/',
-        onGenerateRoute: onGenerateRoute,
+        // onGenerateRoute: onGenerateRoute,
+      onGenerateRoute:(RouteSettings settings) =>onGenerateRoute(settings),
     );
   }
 }

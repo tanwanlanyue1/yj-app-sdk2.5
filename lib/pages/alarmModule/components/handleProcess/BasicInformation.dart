@@ -9,9 +9,9 @@ import 'package:scet_app/utils/tool/screen/screen.dart';
 
 class BasicInformation extends StatefulWidget {
   final Map data;
-  final Map baseInfo;
+  final Map? baseInfo;
   BasicInformation({
-    this.data,
+    required this.data,
     this.baseInfo
   });
   @override
@@ -25,7 +25,7 @@ class _BasicInformationState extends State<BasicInformation> with AutomaticKeepA
 
   List upgradeAlarm = [{"name": "是", "value": true}, {"name": "否", "value": false}];
 
-  Map _baseInfo;// 事件基础信息
+  Map? _baseInfo;// 事件基础信息
   @override
   void initState() {
     // TODO: implement initState
@@ -62,7 +62,7 @@ class _BasicInformationState extends State<BasicInformation> with AutomaticKeepA
                   title: '事件名称',
                   child: WidgetCheck.textData(data: '${ _baseInfo == null
                       ?'/'
-                      :_baseInfo['name']
+                      :_baseInfo!['name']
                   }')
                 ),
                 WidgetCheck.rowItem(
@@ -72,13 +72,13 @@ class _BasicInformationState extends State<BasicInformation> with AutomaticKeepA
                   child:
                   Status(status:_baseInfo == null
                       ?''
-                      : _baseInfo['status'].toString() ,)
+                      : _baseInfo!['status'].toString() ,)
                 ),
                 WidgetCheck.rowItem(
                   padding: true,
                   title: '启动时间',
                   child: WidgetCheck.textData(
-                      data: '${_baseInfo == null ? '' :dateUtc( _baseInfo['runupTime'])}'
+                      data: '${_baseInfo == null ? '' :dateUtc( _baseInfo!['runupTime'])}'
                   )
                 ),
                 WidgetCheck.rowItem(
@@ -87,10 +87,10 @@ class _BasicInformationState extends State<BasicInformation> with AutomaticKeepA
                   child: _itemLevel(
                       level: '警报级 -- ${_baseInfo == null
                           ? '/'
-                          : _baseInfo['maxWarn']['level'].toString()}级',
+                          : _baseInfo!['maxWarn']['level'].toString()}级',
                       multiple: '超标${_baseInfo == null
                           ? '/'
-                          :_baseInfo['maxWarn']['thresholdValue'].toString()}倍'
+                          :_baseInfo!['maxWarn']['thresholdValue'].toString()}倍'
                   )
                 ),
                 WidgetCheck.rowItem(
@@ -99,10 +99,10 @@ class _BasicInformationState extends State<BasicInformation> with AutomaticKeepA
                   child: _itemLevel(
                       level: '警报级 -- ${_baseInfo== null
                           ? '/'
-                          : _baseInfo['warn']['level'].toString()}级',
+                          : _baseInfo!['warn']['level'].toString()}级',
                       multiple: '超标${_baseInfo == null
                           ? '/'
-                          : _baseInfo['warn']['thresholdValue'].toString()}倍'
+                          : _baseInfo!['warn']['thresholdValue'].toString()}倍'
                   )
                 ),
                 WidgetCheck.rowItem(
@@ -112,7 +112,7 @@ class _BasicInformationState extends State<BasicInformation> with AutomaticKeepA
                       state: false,
                       data: '${_baseInfo == null
                       ? '暂无核查任务及结论'
-                      : _baseInfo['conclusion']}'
+                      : _baseInfo!['conclusion']}'
                   )
                 ),
                 WidgetCheck.rowItem(
@@ -151,7 +151,7 @@ class _BasicInformationState extends State<BasicInformation> with AutomaticKeepA
                     _itemCheckbox(
                         checkbox:_baseInfo == null
                             ? 0
-                            : _baseInfo['isResponse']
+                            : _baseInfo!['isResponse']
                     )
                     // Row(
                     //   children: upgradeAlarm.asMap().keys.map((index) {
@@ -196,7 +196,7 @@ class _BasicInformationState extends State<BasicInformation> with AutomaticKeepA
     );
   }
 
-  Widget _itemLevel({String level, String multiple}) {
+  Widget _itemLevel({String? level, String? multiple}) {
     return Row(
       children: [
         Text(
@@ -221,7 +221,7 @@ class _BasicInformationState extends State<BasicInformation> with AutomaticKeepA
       ],
     );
   }
-  Widget _itemCheckbox({int checkbox}) {
+  Widget _itemCheckbox({required int checkbox}) {
     return Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
@@ -232,7 +232,7 @@ class _BasicInformationState extends State<BasicInformation> with AutomaticKeepA
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               activeColor: Color(0XFF4D7CFF),
               value:checkbox == 1,
-              onChanged: (bool val) {},
+              onChanged: (bool? val) {},
             ),
           ),
           Container(
@@ -247,7 +247,7 @@ class _BasicInformationState extends State<BasicInformation> with AutomaticKeepA
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               activeColor: Color(0XFF4D7CFF),
               value:checkbox == 0,
-              onChanged: (bool val) {},
+              onChanged: (bool? val) {},
             ),
           ),
           Container(

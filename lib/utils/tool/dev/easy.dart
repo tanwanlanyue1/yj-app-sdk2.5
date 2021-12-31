@@ -11,8 +11,8 @@ class BasicPage extends StatefulWidget {
 }
 
 class _BasicPageState extends State<BasicPage> {
-  EasyRefreshController _controller;
-  ScrollController _scrollController;
+  late EasyRefreshController _controller;
+  late ScrollController _scrollController;
 
   // 条目总数
   int _count = 20;
@@ -69,7 +69,7 @@ class _BasicPageState extends State<BasicPage> {
                 ? ClassicalHeader(
               enableInfiniteRefresh: false,
               bgColor:
-              _headerFloat ? Theme.of(context).primaryColor : null,
+              _headerFloat ? Theme.of(context).primaryColor : Colors.transparent,
               infoColor: _headerFloat ? Colors.black87 : Colors.teal,
               float: _headerFloat,
               enableHapticFeedback: _vibration,
@@ -98,7 +98,7 @@ class _BasicPageState extends State<BasicPage> {
             onRefresh: _enableRefresh
                 ? () async {
               await Future.delayed(Duration(seconds: 2), () {
-                if (mounted) {
+                if (mounted == true) {
                   setState(() {
                     _count = 20;
                   });
@@ -113,7 +113,7 @@ class _BasicPageState extends State<BasicPage> {
             onLoad: _enableLoad
                 ? () async {
               await Future.delayed(Duration(seconds: 2), () {
-                if (mounted) {
+                if (mounted == true) {
                   setState(() {
                     _count += 20;
                   });

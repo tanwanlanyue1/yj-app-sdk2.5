@@ -6,7 +6,7 @@ class RightMenu extends StatefulWidget {
   final String layerType;
   final Function layerData;
   final Function mapType;
-  RightMenu({this.commonMapType, this.layerType, this.layerData, this.mapType});
+  RightMenu({required this.commonMapType, required this.layerType, required this.layerData, required this.mapType});
 
 
   @override

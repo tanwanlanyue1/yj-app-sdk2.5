@@ -7,7 +7,7 @@ import 'package:scet_app/utils/tool/screen/screen.dart';
 
 class MsdsSuggest extends StatefulWidget {
   final Map data;
-  MsdsSuggest({this.data});
+  MsdsSuggest({required this.data});
   @override
   _MsdsSuggestState createState() => _MsdsSuggestState();
 }
@@ -28,10 +28,10 @@ class _MsdsSuggestState extends State<MsdsSuggest> with AutomaticKeepAliveClient
 
   /// MSDS建议
   void _actionAdvices() async{
-    Map<String, String> _data = Map();
+    Map<String, String?> _data = Map();
     _data['code'] = widget.data['eventCode'];
     var response = await Request().get(Api.url['actionAdvice'], data: _data);
-    if(response['code'] == 200 && mounted){
+    if(response['code'] == 200 && mounted == true){
       _actionAdvice = response['data'][0];
       if(response['data'] == null ) {
         ToastWidget.showToastMsg('暂无数据');
@@ -59,7 +59,7 @@ class _MsdsSuggestState extends State<MsdsSuggest> with AutomaticKeepAliveClient
     );
   }
 
-  Widget _itemCard({String title, List data}) {
+  Widget _itemCard({String? title, required List data}) {
     return WidgetCheck.fromCard(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

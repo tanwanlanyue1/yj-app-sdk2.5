@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:scet_app/utils/api/Api.dart';
-import 'package:scet_app/utils/api/Request.dart';
-import 'package:scet_app/utils/tool/storage/data_storageKey.dart';
-import 'package:scet_app/utils/tool/storage/storage.dart';
 
 ///首页配置
 class HomeModel with ChangeNotifier {

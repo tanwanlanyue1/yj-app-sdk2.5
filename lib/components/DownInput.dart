@@ -5,16 +5,17 @@ import 'package:scet_app/utils/tool/screen/screen.dart';
 // 下拉选择器 支持 单选 多选操作
 class DownInput extends StatefulWidget {
   final String hitStr; //为空显示的文字
-  final String value;  //已选择内容后
-  final List data;     // 列表数据[{'name':标题}]
-  final Map currentData;//默认选中项（单选参数 或有id即可）
-  final List currentDataList;//默认选中项（多选参数 每项有id即可）
+  final String? value;  //已选择内容后
+  final List? data;     // 列表数据[{'name':标题}]
+  final Map? currentData;//默认选中项（单选参数 或有id即可）
+  final List? currentDataList;//默认选中项（多选参数 每项有id即可）
   final callback;     // 事件
   final beforeClick;  //点击返回前的点击处理
   final bool more;    // 是否开启多选状态 默认单选
   DownInput({
     this.hitStr = '请选择内容',
-    this.value, this.data,
+    this.value,
+    this.data,
     this.currentData,
     this.currentDataList,
     this.callback,
@@ -28,13 +29,13 @@ class DownInput extends StatefulWidget {
 
 class _DownInputState extends State<DownInput> {
 
-  GlobalKey _globalKey;
-  String _hitStr;//标题背景
-  String _value;//选择后显示
-  List _data; //下拉数据
-  bool _more;//true 多选 false 单选
-  Map _currentData; //单选时候的内容
-  List _currentDataList;//多选时候的内容
+  GlobalKey? _globalKey;
+  String _hitStr = "";//标题背景
+  String? _value;//选择后显示
+  List _data = []; //下拉数据
+  bool _more = false;//true 多选 false 单选
+  Map? _currentData; //单选时候的内容
+  List? _currentDataList;//多选时候的内容
   @override
   void initState() {
     // TODO: implement initState
@@ -42,35 +43,35 @@ class _DownInputState extends State<DownInput> {
     _globalKey = GlobalKey();
     _hitStr= widget.hitStr;
     _value= widget.value;
-    _data = widget.data;
+    _data = widget.data!;
     _more = widget.more;
     _currentData = widget.currentData;
-    _currentDataList = widget.currentDataList != null ? widget.currentDataList : [];
+    _currentDataList = (widget.currentDataList != null ? widget.currentDataList : [])!;
   }
   @override
   void didUpdateWidget(DownInput oldWidget) {
     super.didUpdateWidget(oldWidget);
     _hitStr= widget.hitStr;
     _value= widget.value;
-    _data = widget.data;
+    _data = widget.data!;
     _more = widget.more;
-    _currentData = widget.currentData != null ? widget.currentData:_currentData;
-    _currentDataList = widget.currentDataList != null ? widget.currentDataList : _currentDataList;
+    _currentData = widget.currentData != null ? widget.currentData!:_currentData;
+    _currentDataList = widget.currentDataList != null ? widget.currentDataList! : _currentDataList;
   }
   ///判断多选还是单选的回调操作
   setList(Map val){
     if(_more){  //多选
-      if(_currentDataList.contains(val)) {
-        _currentDataList.remove(val);
+      if(_currentDataList!.contains(val)) {
+        _currentDataList!.remove(val);
       } else {
-        _currentDataList.add(val);
+        _currentDataList!.add(val);
       }
       widget.callback(_currentDataList);
     } else { //单选
       if(_currentData.toString() == val.toString()
           || (_currentData != null
-              && _currentData.containsKey('id')
-              && _currentData['id'] == val['id'])
+              && _currentData!.containsKey('id')
+              && _currentData!['id'] == val['id'])
       ) {
         // _currentData = null; //下次重复点击 则清空已选择
         _currentData = val;//不清空已选
@@ -120,7 +121,8 @@ class _DownInputState extends State<DownInput> {
                             '${_value == null || _value == '' ? _hitStr : _value}',
                             style: TextStyle(
                                 fontSize:sp(28.0),
-                                color: _currentData == null && _currentDataList.length == 0 ? Color(0XFFA8ABB3) : Color(0XFF45474D)
+                                color:
+                                _currentData == null && _currentDataList?.length == 0 ? Color(0XFFA8ABB3) : Color(0XFF45474D)
                             ),
                           ),
                         ),
@@ -146,7 +148,8 @@ class _DownInputState extends State<DownInput> {
         if(_data.length <= 0 ) {
           return;
         }
-        RenderBox renderBox = _globalKey.currentContext.findRenderObject();
+        RenderBox renderBox = _globalKey!.currentContext!.findRenderObject() as RenderBox;
+        // RenderBox renderBox = _globalKey.currentContext.findRenderObject();
         Rect box = renderBox.localToGlobal(Offset.zero) & renderBox.size;
         Navigator.push(
             context,
@@ -169,7 +172,7 @@ class DropDownMenuRouteLayout extends SingleChildLayoutDelegate {
   final Rect position;
   final double menuHeight;
 
-  DropDownMenuRouteLayout({this.position, this.menuHeight});
+  DropDownMenuRouteLayout({required this.position, required this.menuHeight});
 
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
@@ -192,14 +195,14 @@ class DropDownMenuRouteLayout extends SingleChildLayoutDelegate {
 }
 class DropDownMenuRoute extends PopupRoute {
   final Rect position; //出現的位置
-  final double menuHeight; //下拉顯示的高度 已设置默认 4*px（58）
-  final List data; //数据
-  final Map currentData;//单选内容
-  final List currentDataList;//多选内容
-  final bool more;//多选状态
+  final double? menuHeight; //下拉顯示的高度 已设置默认 4*px（58）
+  final List? data; //数据
+  final Map? currentData;//单选内容
+  final List? currentDataList;//多选内容
+  final bool? more;//多选状态
   final callback;
   DropDownMenuRoute({
-    this.position,
+    required this.position,
     this.menuHeight,
     this.data,
     this.currentData,
@@ -210,7 +213,7 @@ class DropDownMenuRoute extends PopupRoute {
 
   @override
   // TODO: implement barrierColor
-  Color get barrierColor => null;
+  Color? get barrierColor => null;
 
   @override
   // TODO: implement barrierDismissible
@@ -218,7 +221,7 @@ class DropDownMenuRoute extends PopupRoute {
 
   @override
   // TODO: implement barrierLabel
-  String get barrierLabel => null;
+  String? get barrierLabel => null;
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation) {
@@ -227,17 +230,17 @@ class DropDownMenuRoute extends PopupRoute {
       delegate: DropDownMenuRouteLayout(
           position: position,
           menuHeight: menuHeight != null
-              ? menuHeight
-              : data.length <= 4 ? data.length * px(58.0) + px(data.length) : 4 * px(58.0)+px(40)
+              ? menuHeight!
+              : data!.length <= 4 ? data!.length * px(58.0) + px(data!.length) : 4 * px(58.0)+px(40)
       ),
       child: SizeTransition(
           sizeFactor: Tween<double>(begin: 0.0, end: 1.0).animate(animation),
           child:WindowsPop(
-            data: data,
-            callback:  callback,
+            data: data!,
+            callback: callback,
             currentData: currentData,
-            currentDataList: currentDataList,
-            more: more,
+            currentDataList: currentDataList!,
+            more: more!,
           )
       ),
     );
@@ -251,15 +254,15 @@ class DropDownMenuRoute extends PopupRoute {
 ///下拉菜单样式
 class WindowsPop extends StatefulWidget {
   final List data; //数据
-  final Map currentData;//单选内容
-  final List currentDataList;//多选内容
+  final Map? currentData;//单选内容
+  final List? currentDataList;//多选内容
   final bool more;//多选状态
   final callback;
   WindowsPop({
-    this.data,
+    required this.data,
     this.currentData,
     this.currentDataList,
-    this.more,
+    required this.more,
     this.callback
   });
   @override
@@ -269,8 +272,8 @@ class WindowsPop extends StatefulWidget {
 class _WindowsPopState extends State<WindowsPop> {
 
   List  _data = [];
-  Map  _currentData;
-  List _currentDataList;
+  Map?  _currentData;
+  List? _currentDataList;
   bool _more = false;
 
   @override
@@ -294,14 +297,14 @@ class _WindowsPopState extends State<WindowsPop> {
   bool _bools(index) {
     bool _bo = false;
     if(_more) {
-      if(_currentDataList.contains(_data[index])
-          || _currentDataList.map((e) => e['id']==_data[index]['id']).contains(true)
+      if(_currentDataList!.contains(_data[index])
+          || _currentDataList!.map((e) => e['id']==_data[index]['id']).contains(true)
       ) {
         _bo = true;
       }
     }else if(!_more && _currentData.toString() != '' && _currentData != null ){
       if( _currentData.toString() == _data[index].toString()
-          || ( _currentData.containsKey('id') && _currentData['id'] == _data[index]['id'])
+          || ( _currentData!.containsKey('id') && _currentData!['id'] == _data[index]['id'])
       ) {
         _bo = true;
       }

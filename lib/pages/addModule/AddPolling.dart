@@ -23,7 +23,7 @@ class _AddPollingState extends State<AddPolling> {
 
   FocusNode blankNode = FocusNode();
 
-  String person, remark, offSetReason, applicant; 
+  String? person, remark, offSetReason, applicant;
   
   Map station = {}, offsetType = {}, device = {};
 
@@ -35,9 +35,9 @@ class _AddPollingState extends State<AddPolling> {
 
   List deviceList = [];
 
-  DateTime stopTime, expectTime;
+  DateTime? stopTime, expectTime;
   void timeChange(int state, DateTime time) {
-    if (mounted) {
+    if (mounted == true) {
       // print(time);
       if (state == 0) {
         setState(() {
@@ -86,8 +86,8 @@ class _AddPollingState extends State<AddPolling> {
       params['devId'] = device['value'];
       params['NTO'] = nto;
       params['offSetType'] = offsetType['value'];
-      params['offSetTime'] = stopTime.toUtc().toString();
-      params['exceptRecoverTime'] = expectTime.toUtc().toString();
+      params['offSetTime'] = stopTime!.toUtc().toString();
+      params['exceptRecoverTime'] = expectTime!.toUtc().toString();
       params['applicant'] = applicant;
       params['offSetReason'] = offSetReason;
       var response = await Request().post(Api.url['maintainUpload'],data: params);
@@ -228,7 +228,7 @@ class _AddPollingState extends State<AddPolling> {
                                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                     activeColor: Color(0XFF4D7CFF),
                                     value: tzyz[index]['value'],
-                                    onChanged: (bool val) {
+                                    onChanged: (bool? val) {
                                       nto = index;
                                       List data = tzyz;
                                       data.forEach((item) {

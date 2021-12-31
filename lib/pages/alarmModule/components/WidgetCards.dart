@@ -12,23 +12,23 @@ class WidgetCards extends StatefulWidget {
   final String title;//任务标题
   final String code;//编号
   final String event;//事件
-  final String explain;//说明
+  final String? explain;//说明
   final String time;//时间
   final String executor;//执行
   final int index;//当前下标
   final int showIndex;//当前显示的下标
   final callBackIndex;//回调父组件当前显示的下标的事件
   WidgetCards({
-    this.type,
-    this.status,
-    this.title,
-    this.code,
-    this.event,
+    required this.type,
+    required this.status,
+    required this.title,
+    required this.code,
+    required this.event,
     this.explain,
-    this.time,
-    this.executor,
-    this.index,
-    this.showIndex,
+    required this.time,
+    required this.executor,
+    required this.index,
+    required this.showIndex,
     this.callBackIndex
   });
   @override
@@ -78,7 +78,7 @@ class _WidgetCardsState extends State<WidgetCards> {
     }
   }
   /// 动态改变高度 核查/监测
-  double _height() {
+  double? _height() {
     if(widget.index == widget.showIndex &&  _show){
       if(widget.type == 4) {
        return px(415) + px( 350 * _detailsList.length);
@@ -216,7 +216,7 @@ class _WidgetCardsState extends State<WidgetCards> {
        },
     );
   }
-  Widget _itemCard({Widget child}){
+  Widget _itemCard({required Widget child}){
     return Container(
       width: px(616),
       margin: EdgeInsets.only(top: px(10)),

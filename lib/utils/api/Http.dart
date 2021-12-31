@@ -12,16 +12,16 @@ class Http {
   static final String CODE = "code";
   static final String STATUS = "status";
 
-  Dio dio;
-  String showMsg;
-  BaseOptions options;
-  static Http _instance;
+  Dio dio = new Dio();
+  late String showMsg;
+  late BaseOptions options;
+  static Http? _instance;
 
   static Http getInstance() {
     if (_instance == null) {
       _instance = Http();
     }
-    return _instance;
+    return _instance!;
   }
 
   Http() {
@@ -35,42 +35,42 @@ class Http {
 
     // 添加请求拦截器
     dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (RequestOptions options) {
+      onRequest: (RequestOptions options,RequestInterceptorHandler handler) {
         dio.lock();
         Future<dynamic> future = Future(() async{
           SharedPreferences prefs = await SharedPreferences.getInstance();
           return prefs.getString("token");
-        });
-        return future.then((value) {
+        }).then((value) {
           options.headers["token"] = value;
           return options;
         }).whenComplete(() => dio.unlock());
+        return handler.next(options);
       }, 
-      onResponse: (Response response) {
+      onResponse: (Response response,ResponseInterceptorHandler handler) {
         BotToast.closeAllLoading();
-        return response; 
+        return handler.next(response);
       }, 
-      onError: (DioError e) {
+      onError: (DioError e,ErrorInterceptorHandler  handler) {
         BotToast.closeAllLoading();
-        return e; 
+        return handler.next(e);
       })
     );
   }
 
   // get请求
-  get(String url, Function successCallBack, {params, Function errorCallBack}) async {
+  get(String url, Function successCallBack, {params, Function? errorCallBack}) async {
     _requstHttp(url, successCallBack, GET, params, errorCallBack);
   }
 
   // post请求
-  post(String url, Function successCallBack, {params, Function errorCallBack}) async {
+  post(String url, Function successCallBack, {params, Function? errorCallBack}) async {
     _requstHttp(url, successCallBack, POST, params, errorCallBack);
   }
 
-  _requstHttp(String url, Function successCallBack, [String method, Map<String, dynamic> params, Function errorCallBack]) async {
+  _requstHttp(String url, Function successCallBack, [String? method, Map<String, dynamic>? params, Function? errorCallBack]) async {
     String errorMsg = ''; 
     try {
-      Response response;
+     late Response response;
 
       if (method == GET) {
         if (params != null && params.isNotEmpty) {
@@ -88,25 +88,25 @@ class Http {
 
       if (response.statusCode == 200) {
         String dataStr = json.encode(response.data);
-        Map<String, dynamic> dataMap = json.decode(dataStr);
+        Map<String, dynamic>? dataMap = json.decode(dataStr);
         if (dataMap != null && dataMap[CODE] != 200) {
           errorMsg = '错误码：' + dataMap[CODE].toString() + '，' + dataMap[STATUS].toString();
           _error(errorCallBack, errorMsg);
           return false;
         } else if (successCallBack != null) {
-          successCallBack(dataMap[DATA]);
+          successCallBack(dataMap![DATA]);
         }
       } 
     } on DioError catch (e) {
-      if (e.type == DioErrorType.CONNECT_TIMEOUT) {
+      if (e.type == DioErrorType.connectTimeout) {
         _error(errorCallBack, '连接服务器超时！');
-      } else if (e.type == DioErrorType.SEND_TIMEOUT) {
+      } else if (e.type == DioErrorType.sendTimeout) {
         _error(errorCallBack, '请求数据超时！');
-      } else if (e.type == DioErrorType.RECEIVE_TIMEOUT) {
+      } else if (e.type == DioErrorType.receiveTimeout) {
         _error(errorCallBack, '服务器响应超时！');
-      } else if (e.type == DioErrorType.RESPONSE) {
+      } else if (e.type == DioErrorType.response) {
         _error(errorCallBack, '出现异常！');
-      } else if (e.type == DioErrorType.CANCEL) {
+      } else if (e.type == DioErrorType.cancel) {
         _error(errorCallBack, '请求取消！');
       } else {
         _error(errorCallBack, '未知错误！');
@@ -114,7 +114,7 @@ class Http {
     }
   }
 
-  _error(Function errorCallBack, String error) {
+  _error(Function? errorCallBack, String error) {
     if(showMsg == error.toString()) {
       return false;
     } else {

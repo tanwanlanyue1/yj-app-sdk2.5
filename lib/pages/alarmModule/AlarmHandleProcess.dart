@@ -16,7 +16,7 @@ import 'package:scet_app/utils/tool/screen/Adapter.dart';
 import 'package:scet_app/utils/tool/screen/screen.dart';
 
 class AlarmHandleProcess extends StatefulWidget {
-  final Map  data;
+  final Map? data;
   AlarmHandleProcess({this.data});
   @override
   _AlarmHandleProcessState createState() => _AlarmHandleProcessState();
@@ -24,22 +24,21 @@ class AlarmHandleProcess extends StatefulWidget {
 
 class _AlarmHandleProcessState extends State<AlarmHandleProcess> with SingleTickerProviderStateMixin {
 
-  TabController _tabController;
+  TabController? _tabController;
 
   List _tabTitles = ['基础信息', 'MSDS建议', '数据核查及分析', '来源误判-溯源清单', '核查任务', '监测任务', '附件报告'];
 
-  int tabIndex;
-  Map _baseInfo;// 事件基础信息
+  int? tabIndex;
+  Map? _baseInfo;// 事件基础信息
   List _dataPlural = [],_valueData = []; // 数据核查及分析
   var _windData; // 数据核查及分析
-  String _lineChartsName, _lineChartsUnit, _dataConclusion, _windConclusion; // 数据核查及分析
-  Map _traceSourceData; // 溯源清单
+  String? _lineChartsName, _lineChartsUnit, _dataConclusion, _windConclusion; // 数据核查及分析
+  Map? _traceSourceData; // 溯源清单
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this,length: _tabTitles.length);
-
     if(widget.data == null ) {
       ToastWidget.showToastMsg('暂无数据');
       Navigator.pop(context);
@@ -50,17 +49,17 @@ class _AlarmHandleProcessState extends State<AlarmHandleProcess> with SingleTick
 
   // 事件基础信息
   void _getEventInfo() async{
-    Map<String, String> _data = Map();
-    _data['code'] = widget.data['eventCode'];
+    Map<String, String?> _data = Map();
+    _data['code'] = widget.data!['eventCode'];
     var response = await Request().get(Api.url['eventDetails'], data: _data);
     if(response['code'] == 200){
       if(response['data'] == null ) {
         ToastWidget.showToastMsg('暂无数据');
         Navigator.pop(context);
-        return;
+        return null;
       }
       var result = response['data'];
-      List listData = [{"stId": widget.data['stId'], "facId": widget.data['facId'], "devId": widget.data['devId']}];
+      List listData = [{"stId": widget.data!['stId'], "facId": widget.data!['facId'], "devId": widget.data!['devId']}];
       var startTime =  DateTime.parse(dateUtc(result['runupTime'])).add(Duration(hours: -1));
       var endTime = result['endTime'] != null ? dateUtc(result['endTime']) : DateTime.now().toString();
       _dataPlurals(json.encode(listData), startTime, endTime);
@@ -107,9 +106,9 @@ class _AlarmHandleProcessState extends State<AlarmHandleProcess> with SingleTick
   /// 溯源清单
   void _traceSource(wdStat) async{
     Map<String, dynamic> _data = Map();
-    _data['stId'] = widget.data['stId'];
-    _data['code'] = widget.data['eventCode'];
-    _data['CAS'] = widget.data['cAS'];
+    _data['stId'] = widget.data!['stId'];
+    _data['code'] = widget.data!['eventCode'];
+    _data['CAS'] = widget.data!['cAS'];
     _data['wdStat'] = json.encode(wdStat);
     var response = await Request().get(Api.url['traceSource'], data: _data);
     if(response['code'] == 200){
@@ -122,7 +121,7 @@ class _AlarmHandleProcessState extends State<AlarmHandleProcess> with SingleTick
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _tabController!.dispose();
     super.dispose();
   }
 
@@ -177,35 +176,35 @@ class _AlarmHandleProcessState extends State<AlarmHandleProcess> with SingleTick
                 controller: _tabController,
                 children: <Widget>[
                   BasicInformation(
-                      data:widget.data,
+                      data:widget.data!,
                       baseInfo:_baseInfo
                   ),
                   MsdsSuggest(
-                      data:widget.data
+                      data:widget.data!
                   ),
                   DataAnalysis(
-                      data:widget.data,
-                      baseInfo:_baseInfo,
-                      windData:_windData,
-                      dataPlural:_dataPlural,
-                      valueData:_valueData,
-                      lineChartsName:_lineChartsName,
-                      lineChartsUnit:_lineChartsUnit,
-                      dataConclusion:_dataConclusion,
-                      windConclusion:_windConclusion,
+                    data:widget.data,
+                    baseInfo:_baseInfo,
+                    windData:_windData,
+                    dataPlural:_dataPlural,
+                    valueData:_valueData,
+                    lineChartsName:_lineChartsName,
+                    lineChartsUnit:_lineChartsUnit,
+                    dataConclusion:_dataConclusion,
+                    windConclusion:_windConclusion,
                   ),
                   DataSource(
-                      data:widget.data,
-                      traceSource: _traceSourceData,
+                    data:widget.data!,
+                    traceSource: _traceSourceData,
                   ),
                   InspectTask(
-                    data:widget.data,
+                    data:widget.data!,
                   ),
                   MonitorTask(
-                    data:widget.data,
+                    data:widget.data!,
                   ),
                   AttachmentReport()
-                ] 
+                ]
               ),
             )
           ]

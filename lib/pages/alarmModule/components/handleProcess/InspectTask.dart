@@ -8,7 +8,7 @@ import 'package:scet_app/utils/tool/screen/screen.dart';
 class InspectTask extends StatefulWidget {
   final Map data;
   InspectTask({
-    this.data,
+    required this.data,
   });
   @override
   _InspectTaskState createState() => _InspectTaskState();
@@ -34,7 +34,7 @@ class _InspectTaskState extends State<InspectTask> with AutomaticKeepAliveClient
     _data['code'] = widget.data['eventCode'];
     _data['type'] = type;
     var response = await Request().get(Api.url['taskList'], data: _data);
-    if(response['code'] == 200 && mounted){
+    if(response['code'] == 200 && mounted == true){
       _taskList = response['data'];
       setState(() {});
     }

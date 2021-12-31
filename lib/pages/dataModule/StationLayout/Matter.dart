@@ -11,8 +11,8 @@ import 'package:scet_app/utils/tool/screen/screen.dart';
 /// 物质
 class Matter extends StatefulWidget {
   final int stId;
-  final String facId;
-  Matter({this.stId, this.facId});
+  final String? facId;
+  Matter({required this.stId, this.facId});
 
   @override
   _MatterState createState() => _MatterState();
@@ -23,7 +23,7 @@ class _MatterState extends State<Matter> with AutomaticKeepAliveClientMixin {
   bool get wantKeepAlive => true;
 
   Map _nowMatter = {}; // 选中的物质
-  List _matterList; // 物质数组
+  List _matterList = []; // 物质数组
   List _searchList = []; //搜索物质数组数据的参考数据源
 
   @override
@@ -33,7 +33,7 @@ class _MatterState extends State<Matter> with AutomaticKeepAliveClientMixin {
   }
 
   // 获取站点所有监测因子
-  void _getStationFactor({int stId}) async {
+  void _getStationFactor({required int stId}) async {
     var response = await Request().get(Api.url['stationFactor']  + '/$stId');
     if(response['code'] == 200) {
       List data = response['data'];
@@ -57,7 +57,7 @@ class _MatterState extends State<Matter> with AutomaticKeepAliveClientMixin {
 
   // 获取当前因子的详细信息
   Map _facInfo = {};
-  void _getFactorDescription({String facId}) async {
+  void _getFactorDescription({required String facId}) async {
     Map<String, dynamic> params = Map();
     params['facId'] = facId;
     var response = await Request().get(Api.url['factorDescription'], data: params);
@@ -72,7 +72,7 @@ class _MatterState extends State<Matter> with AutomaticKeepAliveClientMixin {
 
   // 获取当前因子的浓度趋势
   List _valueData = [];
-  void _getFactorValueList({int stId, String facId}) async {
+  void _getFactorValueList({ int? stId, String? facId}) async {
     Map<String, dynamic> params = Map();
     params['stId'] = stId;
     params['facId'] = facId;

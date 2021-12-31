@@ -18,7 +18,7 @@ class FormCheck {
     );
   }
 
-  static Widget fromCard({Widget child,Function close}) {
+  static Widget fromCard({required Widget child,Function? close}) {
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -48,7 +48,7 @@ class FormCheck {
       )
     );
   }
-  static Widget formRowItem({bool alignStart = false, bool padding, String title, Widget child}) {
+  static Widget formRowItem({bool alignStart = false,required bool padding, String? title, required Widget child}) {
     return Padding(
       padding: padding ? EdgeInsets.symmetric(vertical: px(16.0)) : EdgeInsets.zero,
       child: Row(
@@ -75,7 +75,7 @@ class FormCheck {
     );
   }
 
-  static Widget inputWidget({bool disabled, String hintText, Function onChanged}) {
+  static Widget inputWidget({bool? disabled, String? hintText, Function? onChanged}) {
     return TextFormField(
       enabled: disabled,
       decoration: InputDecoration(
@@ -95,7 +95,9 @@ class FormCheck {
         border: InputBorder.none,
 
       ),
-      onChanged: onChanged,
+      onChanged: (val){
+        onChanged?.call(val);
+      },
       style: TextStyle(
           color: Color(0XFF2E2F33),
           fontSize: sp(28.0),
@@ -103,7 +105,7 @@ class FormCheck {
     );
   }
 
-  static Widget selectWidget({String hintText, List items, String value, Function onChanged}) {
+  static Widget selectWidget({String? hintText, required List items, String? value, Function? onChanged}) {
     TextEditingController _controller = TextEditingController();
     // return DownInput(
     //   hitStr: '测试',
@@ -141,7 +143,9 @@ class FormCheck {
           color: Color(0XFF45474D),
           fontSize: sp(28.0)
         ),
-        onChanged: onChanged,
+        onChanged: (val){
+          onChanged?.call(val);
+        },
         value: value,
         iconSize: sp(40.0),
         elevation: 10,
@@ -149,7 +153,7 @@ class FormCheck {
     );
   }
 
-  static Widget textAreaWidget({String hintText, Function onChanged}) {
+  static Widget textAreaWidget({String? hintText, Function? onChanged}) {
     return TextFormField(
       maxLines: 4,
       autofocus: false,
@@ -173,11 +177,13 @@ class FormCheck {
         color: Color(0XFF45474D),
         fontSize: sp(28.0)
       ),
-      onChanged: onChanged
+      onChanged: (val){
+        onChanged?.call(val);
+      }
     );
   }
 
-  static Widget textData({String data}) {
+  static Widget textData({required String data}) {
     return Padding(
       padding: EdgeInsets.only(left: px(12.0)),
       child: Text(

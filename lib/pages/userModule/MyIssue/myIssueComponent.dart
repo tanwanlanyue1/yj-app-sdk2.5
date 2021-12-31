@@ -6,7 +6,7 @@ class MyIssueComponent {
 
   static Widget card({
     Color color = Colors.white,
-    Widget child,
+    required Widget child,
     double paddingAll = 24.0,
     double marginAll = 24.0,
   }) {
@@ -24,9 +24,9 @@ class MyIssueComponent {
 
   ///检修任务 标题
   static Widget maintenanceTitle({
-    String title,
-    String status,
-    Function onDetails
+    required String title,
+    String? status,
+    Function? onDetails
   }) {
     return Container(
       height: px(68),
@@ -44,7 +44,9 @@ class MyIssueComponent {
            status: status,
          ),
           if(onDetails != null) InkWell(
-            onTap: onDetails,
+            onTap: (){
+              onDetails.call();
+            },
             child: Row(
               children: [
                 Text('详情',style: TextStyle(fontSize: sp(24),color: Color(0xff909399)),),
@@ -57,7 +59,7 @@ class MyIssueComponent {
     );
   }
   ///标题 加 内容
-  static Widget rowItem({bool isCenter = true, String title, String data}){
+  static Widget rowItem({bool isCenter = true, String? title, String? data}){
     return Padding(
       padding: EdgeInsets.only(top: px(10.0)),
       child: Row(

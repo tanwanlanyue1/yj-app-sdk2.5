@@ -7,7 +7,7 @@ import 'package:scet_app/utils/tool/screen/screen.dart';
 
 class Device extends StatefulWidget {
   final int stId;
-  Device({this.stId});
+  Device({required this.stId});
   @override
   _DeviceState createState() => _DeviceState();
 }
@@ -21,7 +21,7 @@ class _DeviceState extends State<Device> {
     _getCurrentStationDevice(stId: widget.stId);
   }
 
-  void _getCurrentStationDevice({int stId}) async {
+  void _getCurrentStationDevice({required int stId}) async {
     var response = await Request().get(Api.url['stationDevice'] + '/$stId');
     if (response['code'] == 200) {
       setState(() {
@@ -125,7 +125,7 @@ class _DeviceState extends State<Device> {
         : Container();
   }
 
-  Widget _itemData({String name, String value}) {
+  Widget _itemData({String? name, String? value}) {
     return Text.rich(
       TextSpan(
         text: '$name：',

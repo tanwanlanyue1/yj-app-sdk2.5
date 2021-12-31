@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scet_app/utils/tool/screen/screen.dart';
 
 class LoadingDialog extends Dialog {
-  final String text;
+  final String? text;
   LoadingDialog({this.text});
 
   @override

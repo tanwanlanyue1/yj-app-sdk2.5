@@ -13,11 +13,11 @@ class SelectInput {
   static void showProgress(
       BuildContext context, {
         key,
-        Function onTabs,
-        List data,
-        Map currentData,
-        List currentDataList,
-        bool more
+        Function? onTabs,
+        required List data,
+        Map? currentData,
+        List? currentDataList,
+        required bool more
       }) {
       RenderBox renderBox = key.currentContext.findRenderObject();
       Rect box = renderBox.localToGlobal(Offset.zero) & renderBox.size;
@@ -44,19 +44,19 @@ class SelectInput {
                 if(more){  //多选
                   if(_currentDataList.contains(val)) {
                     _currentDataList.remove(val);
-                    onTabs(_currentDataList);
+                    onTabs!(_currentDataList);
                   } else {
                     _currentDataList.add(val);
-                    onTabs(_currentDataList);
+                    onTabs!(_currentDataList);
                   }
                   // widget.callback(_currentDataList);
                 } else {
                   if(_currentData.toString() == val.toString()){
-                    _currentData = null;
+                    _currentData = {};
                   }else{
                     _currentData = val;
                   }
-                  onTabs(_currentData);
+                  onTabs!(_currentData);
                   Navigator.pop(context);
                 }
               }
@@ -85,16 +85,16 @@ class _PopRoute extends PopupRoute {
   final Duration _duration = Duration(milliseconds: 300);
   Widget child;
 
-  _PopRoute({@required this.child,this.position, this.data,});
+  _PopRoute({required this.child,required this.position, required this.data,});
 
   @override
-  Color get barrierColor => null;
+  Color? get barrierColor => null;
 
   @override
   bool get barrierDismissible => true;
 
   @override
-  String get barrierLabel => null;
+  String? get barrierLabel => null;
 
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
@@ -122,7 +122,7 @@ class DropDownMenuRouteLayout extends SingleChildLayoutDelegate {
   final Rect position;
   final double menuHeight;
 
-  DropDownMenuRouteLayout({this.position, this.menuHeight});
+  DropDownMenuRouteLayout({required this.position, required this.menuHeight});
 
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
@@ -153,12 +153,12 @@ class WindowsPop extends StatefulWidget {
   final bool more;//多选状态
   final callback;
   WindowsPop({
-    this.data,
-    this.currentData,
-    this.currentDataList,
-    this.more,
+    required this.data,
+    required this.currentData,
+    required this.currentDataList,
+    required this.more,
     this.callback,
-    Key key}) : super(key: key);
+    Key? key}) : super(key: key);
   @override
   _WindowsPopState createState() => _WindowsPopState();
 }
@@ -166,8 +166,8 @@ class WindowsPop extends StatefulWidget {
 class _WindowsPopState extends State<WindowsPop> {
 
   List  _data = [];
-  Map  _currentData;
-  List _currentDataList;
+  late Map  _currentData;
+  late List _currentDataList;
   bool _more = false;
 
   @override

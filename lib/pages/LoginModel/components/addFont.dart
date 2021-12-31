@@ -27,17 +27,23 @@ class _AddFontState extends State<AddFont> {
       await createDirectory(Global.appDownload);
     }
     // 文件1
-    await Request().download(Api.url['alibabaBold'], Global.fontFileB, downloadProgress:(val){
+    await Request().download(Api.url['alibabaBold'], Global.fontFileB,
+        downloadProgress:(val){
       checkProgress(val,Global.fontFileB,'B');
-    });
+    }
+    );
     // 文件2
-    await Request().download(Api.url['alibabaMedium'], Global.fontFileM, downloadProgress:(val){
+    await Request().download(Api.url['alibabaMedium'], Global.fontFileM,
+        downloadProgress:(val){
       checkProgress(val, Global.fontFileM,"M");
-    });
+    }
+    );
     // 文件3
-    await Request().download(Api.url['alibabaRegular'],  Global.fontFileR, downloadProgress:(val){
+    await Request().download(Api.url['alibabaRegular'],  Global.fontFileR,
+        downloadProgress:(val){
           checkProgress(val, Global.fontFileR,"R");
-    });
+    }
+    );
     // 下载完成
     if(_count == 0){
       ToastWidget.showToastMsg('下载完成,欢迎使用!');
@@ -72,7 +78,7 @@ class _AddFontState extends State<AddFont> {
     if(_popTrue == 3 ) { pop(); }
     return Future.delayed(Duration(seconds: 2), () {
       _popTrue = 1;
-      return;
+      return false;
     });
   }
 

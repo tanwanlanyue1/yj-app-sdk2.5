@@ -119,8 +119,8 @@ class _UserCenterState extends State<UserCenter> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: px(10.0)),
-                    child: Text('职务：技术工程师',style: TextStyle(fontSize: sp(28),color: Color(0xffFFFFFF))),
+                    padding: EdgeInsets.only(top: px(8.0)),
+                    child: Text('职务：技术工程师',style: TextStyle(fontSize: sp(22),color: Color(0xffFFFFFF))),
                   )
                 ],
               ),

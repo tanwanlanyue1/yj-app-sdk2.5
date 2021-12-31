@@ -5,7 +5,7 @@ import 'package:scet_app/utils/tool/screen/screen.dart';
 ///监测任务详情组件
 class TaskComponents{
   ///标题
-  static Widget title({String icon = 'assets/images/user/monIcon.png', String title, String status,}) {
+  static Widget title({String icon = 'assets/images/user/monIcon.png', required String title, required String status,}) {
     return Container(
       margin: EdgeInsets.fromLTRB(px(24), px(20), px(24), px(20)),
       child: Row(
@@ -33,7 +33,7 @@ class TaskComponents{
   }
 
   ///每张卡片
-  static Widget itemCard({String title,Widget child}){
+  static Widget itemCard({required String title,Widget? child}){
     return Container(
       margin: EdgeInsets.fromLTRB(px(24),px(0),px(24),px(24)),
       padding: EdgeInsets.all(px(24)),
@@ -53,7 +53,7 @@ class TaskComponents{
               ),
             ),
           ),
-          child??Container()
+          child ?? Container()
         ],
       ),
     );
@@ -64,8 +64,8 @@ class TaskComponents{
     bool isCenter = true,//是否居中显示 否则靠上
     bool isName = false,//是否人名
     bool isMap = false,//是否人名
-    String title,//标题
-    String data,//内容
+    String? title,//标题
+    required String data,//内容
   }) {
     return Padding(
       padding: EdgeInsets.only(top: px(10)),

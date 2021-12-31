@@ -14,7 +14,7 @@ class Global {
 //    accessToken: null,
 //  );
   /// 离线用户token
-  static String token;
+  static String? token;
 
   /// 是否第一次打开
   static bool isFirstOpen = false;

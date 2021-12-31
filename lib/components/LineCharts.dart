@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
 
 class LineCharts extends StatelessWidget {
-  final String facName;
-  final String unit;
+  final String? facName;
+  final String? unit;
   final bool showAxis;
   final int warnLevel;
-  final List valueData;
+  final List? valueData;
   bool reload = true;
   LineCharts(
-      {this.facName, this.showAxis, this.warnLevel, this.unit, this.valueData});
+      {this.facName, required this.showAxis, required this.warnLevel, this.unit, this.valueData});
 
   var themeColor;
-  List bgColor;
+  List bgColor = [];
   void _colorSelect(int level) {
     switch (level) {
       case 0:

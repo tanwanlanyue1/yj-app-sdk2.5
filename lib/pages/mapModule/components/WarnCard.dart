@@ -8,7 +8,7 @@ import 'package:scet_app/utils/tool/screen/screen.dart';
 /// 警情卡片
 class WarnCard extends StatelessWidget {
   final Map data; // 警情数据
-  WarnCard({this.data});
+  WarnCard({required this.data});
 
   _getMaxIndex(List arr) {
     var max = arr[0]['judgmentValue'];
@@ -48,12 +48,10 @@ class WarnCard extends StatelessWidget {
     }
     return valueList;
   }
-  
   @override
   Widget build(BuildContext context) {
 
     List valueList = _changeData(data['curveList']);
-
     return InkWell(
       child: Container(
         height: px(264),
@@ -136,7 +134,7 @@ class WarnCard extends StatelessWidget {
         ),
       ),
       onTap: () {
-        Navigator.pushNamed(context, '/alarm/handleProcess',arguments:data );
+        Navigator.pushNamed(context, '/alarm/handleProcess',arguments:data);
         },
     );
   }

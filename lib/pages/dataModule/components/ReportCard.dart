@@ -8,7 +8,7 @@ import 'package:scet_app/utils/tool/screen/screen.dart';
 
 class ReportCard extends StatelessWidget {
   final Map data;
-  ReportCard({this.data});
+  ReportCard({required this.data});
 
   Future<File> createFileOfPdfUrl(url) async {
     url = 'https://cz.scet.com.cn:1443/api/yujing/' + url;
@@ -21,7 +21,21 @@ class ReportCard extends StatelessWidget {
     await file.writeAsBytes(bytes);
     return file;
   }
-
+  String pdf = '';
+  String pdfFile = '';
+  // Future init() async {
+  //   pdf = (await getApplicationDocumentsDirectory()).path+"/fontDownload/";
+  //   pdfFile = pdf + "pdf";
+  // }
+  //
+  // downLoad() async {
+  //   await Request().download("https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf",
+  //     pdfFile,);
+  // }
+  Future<void> createDirectory(String path) async {
+    Directory directory = Directory(path);
+    directory.create();
+  }
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -69,12 +83,21 @@ class ReportCard extends StatelessWidget {
                         ]))
                   ],
                 ))),
-        onTap: () {
-          final url = data['fileAddress'];
-          createFileOfPdfUrl(url).then((file) {
-            Navigator.pushNamed(context, '/data/report/details',
-                arguments: file.path);
-          });
+        onTap: ()async{
+          //下载文件
+          // await createDirectory(pdf).then((value) => {
+          //    downLoad().then((file) async {
+          //       Navigator.pushNamed(context, '/data/report/details',
+          //     arguments: pdfFile);
+          //   })
+          // });
+          // final url = data['fileAddress'];
+          final url = 'https://cz.scet.com.cn:1443/api/yujing/'+data['fileAddress'];
+          Navigator.pushNamed(context, '/data/report/details', arguments: url);
+          // createFileOfPdfUrl(url).then((file) {
+          //   Navigator.pushNamed(context, '/data/report/details',
+          //       arguments: file.path);
+          // });
         });
   }
 }

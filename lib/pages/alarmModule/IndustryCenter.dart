@@ -23,7 +23,7 @@ class IndustryCenter extends StatefulWidget {
 
 class _IndustryCenterState extends State<IndustryCenter> {
 
-  List _dataList; // 警情数据
+  List? _dataList; // 警情数据
 
   List<String> _dropDownHeaderItemStrings = ['状态', '告警级别', '站点',];
 
@@ -42,8 +42,8 @@ class _IndustryCenterState extends State<IndustryCenter> {
   ]; // 警告级别数组
 
   List stIdList = []; // 站点id数组
-  SortCondition _selectWarnList; // 告警级别选中值
-  SortCondition _selectStatusList; // 状态选中值
+  SortCondition? _selectWarnList; // 告警级别选中值
+  SortCondition? _selectStatusList; // 状态选中值
 
   GZXDropdownMenuController _dropdownMenuController = GZXDropdownMenuController();
   GlobalKey _stackKey = GlobalKey();
@@ -69,7 +69,7 @@ class _IndustryCenterState extends State<IndustryCenter> {
   }
 
   /// 预警中心接口   type: 刷新 / 加载 ，  pageNo： 页码
-  _realtime({typeStatus type,int pageNo = 1}) async {
+  _realtime({typeStatus? type,int pageNo = 1}) async {
     var now = new DateTime.now();
     String startTime = now.add(new Duration(days: -30)).toString();
     Map<String, dynamic> _data = {
@@ -85,7 +85,7 @@ class _IndustryCenterState extends State<IndustryCenter> {
     if(response['code'] == 200) {
       Map _data = response['data'];
       _pageNo++;
-      if (mounted) {
+      if (mounted == true) {
         if(type == typeStatus.onRefresh) { 
           // 下拉刷新
           _onRefresh(data: _data['data'], total: _data['total']);
@@ -97,7 +97,7 @@ class _IndustryCenterState extends State<IndustryCenter> {
     }
   }
   // 下拉刷新
-  _onRefresh({List data,int total}) {
+  _onRefresh({required List data,required int total}) {
     _total = total;
     _dataList = data;
     _enableLoad = true;
@@ -106,10 +106,10 @@ class _IndustryCenterState extends State<IndustryCenter> {
     setState(() {});
   }
   // 上拉加载
-  _onLoad({List data,int total}) {
+  _onLoad({required List data,required int total}) {
     _total = total;
-    _dataList.addAll(data);
-    if(_dataList.length >= total){
+    _dataList!.addAll(data);
+    if(_dataList!.length >= total){
       _controller.finishLoad(noMore: true);
     }
     setState(() {});
@@ -184,8 +184,8 @@ class _IndustryCenterState extends State<IndustryCenter> {
                       slivers: <Widget>[
                         SliverList(
                           delegate: SliverChildBuilderDelegate((context, index) {
-                            return WarnCard(data: _dataList[index]);
-                          }, childCount: _dataList.length),
+                            return WarnCard(data: _dataList![index]);
+                          }, childCount: _dataList!.length),
                         ),
                       ],
                     )
@@ -201,9 +201,9 @@ class _IndustryCenterState extends State<IndustryCenter> {
                 GZXDropdownMenuBuilder(
                   dropDownHeight: px(65) * _statusList.length + 5,
                   dropDownWidget: _buildConditionListWidget(_statusList, (data) {
-                    _dropDownHeaderItemStrings[0] = data.value == '' ? '状态' : data.name;
+                    _dropDownHeaderItemStrings[0] = data.value == '' ? '状态' : data.name!;
                     _dropdownMenuController.hide();
-                    _eventStatus = data.value;
+                    _eventStatus = data.value!;
                     _controller.callRefresh();
                     // _scrollController.animateTo(0, duration: Duration(milliseconds: 200), curve: Curves.ease);
                     _realtime(type: typeStatus.onRefresh);
@@ -212,9 +212,9 @@ class _IndustryCenterState extends State<IndustryCenter> {
                 GZXDropdownMenuBuilder(
                   dropDownHeight: px(65) * _warnList.length + 5,
                   dropDownWidget: _buildConditionListWidget(_warnList, (data) {
-                    _dropDownHeaderItemStrings[1] = data.value == '' ? '告警级别' : data.name;
+                    _dropDownHeaderItemStrings[1] = data.value == '' ? '告警级别' : data.name!;
                     _dropdownMenuController.hide();
-                    _level = data.value;
+                    _level = data.value!;
                     _controller.callRefresh();
                     _realtime(type: typeStatus.onRefresh);
                   })
@@ -300,15 +300,15 @@ class _IndustryCenterState extends State<IndustryCenter> {
                 SizedBox(width: 16,),
                 Expanded(
                   child: Text(
-                    goodsSortCondition.name,
+                    goodsSortCondition.name!,
                     style: TextStyle(
-                      color: goodsSortCondition.isSelected
+                      color: goodsSortCondition.isSelected!
                         ? Theme.of(context).primaryColor
                         : Colors.black,
                     ),
                   ),
                 ),
-                goodsSortCondition.isSelected
+                goodsSortCondition.isSelected!
                   ? Icon(Icons.check, color: Theme.of(context).primaryColor, size: 16,)
                   : SizedBox(),
                 SizedBox(width: 16),
@@ -322,8 +322,8 @@ class _IndustryCenterState extends State<IndustryCenter> {
 }
 
 class SortCondition {
-  String name;
-  String value;
-  bool isSelected;
+  String? name;
+  String? value;
+  bool? isSelected;
   SortCondition({this.name, this.value, this.isSelected});
 }

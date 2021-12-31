@@ -4,9 +4,9 @@ import 'package:scet_app/utils/tool/screen/screen.dart';
 /// 指示器封装
 class Indicator extends AnimatedWidget {
   Indicator({
-    this.controller,
-    this.itemCount,
-    this.nowIndex,
+    required this.controller,
+    required this.itemCount,
+    required this.nowIndex,
   }) : super(listenable: controller);
 
   /// 滑动控制器
@@ -31,7 +31,7 @@ class Indicator extends AnimatedWidget {
       child: Stack(
         children: [
           Positioned(
-            left: px(_itemWith) * (controller.page != null ? controller.page : nowIndex.toDouble()),
+            left: px(_itemWith) * (controller.page != null ? controller.page : nowIndex.toDouble())!,
             top: 0.0,
             child: Container(
               width: px(40.0),

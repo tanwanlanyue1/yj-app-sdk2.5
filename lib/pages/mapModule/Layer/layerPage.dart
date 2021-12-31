@@ -7,7 +7,7 @@ import 'package:scet_app/pages/mapModule/Layer/sensitive.dart';
 import 'package:scet_app/utils/tool/screen/screen.dart';
 
 class LayerPage extends StatefulWidget {
-  final Map arguments;
+  final Map? arguments;
   LayerPage({this.arguments});
 
   @override
@@ -16,7 +16,7 @@ class LayerPage extends StatefulWidget {
 
 class _LayerPageState extends State<LayerPage> with SingleTickerProviderStateMixin {
 
-  TabController tabController;
+  TabController? tabController;
 
   List _tabs = ["风险物质", "敏感点位","废气排口", "废水排口"];
 
@@ -33,7 +33,7 @@ class _LayerPageState extends State<LayerPage> with SingleTickerProviderStateMix
     tabController = TabController(
       length: _tabs.length,
       vsync: this,
-      initialIndex: widget.arguments['index']);
+      initialIndex: widget.arguments!['index']);
   }
 
   @override
@@ -44,7 +44,7 @@ class _LayerPageState extends State<LayerPage> with SingleTickerProviderStateMix
   //当整个页面dispose时，记得把控制器也dispose掉，释放内存
   @override
   void dispose() {
-    tabController.dispose();
+    tabController!.dispose();
     super.dispose();
   }
 
@@ -58,7 +58,7 @@ class _LayerPageState extends State<LayerPage> with SingleTickerProviderStateMix
     );
   }
   ///选项卡
-  Widget _appBar(){
+  PreferredSizeWidget _appBar(){
     return  AppBar(
       //设置选项卡
       title: buildTabBar(),

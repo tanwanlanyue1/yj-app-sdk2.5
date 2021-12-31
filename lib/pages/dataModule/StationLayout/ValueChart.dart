@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
 
 class ValueChart extends StatelessWidget {
-  final String facName;
-  final String unit;
-  final int warnLevel;
-  final List valueData;
+  final String? facName;
+  final String? unit;
+  final int? warnLevel;
+  final List? valueData;
   ValueChart({this.facName, this.warnLevel, this.unit, this.valueData});
   bool reload = true;
   var themeColor;
-  void _colorSelect(int level) {
+  void _colorSelect(int? level) {
     switch (level) {
       case 0:
         themeColor = 'rgba(102, 143, 255, 1)';
@@ -35,7 +35,6 @@ class ValueChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(warnLevel);
     _colorSelect(warnLevel);
     return Echarts(
         onLoad: (dynamic controller) {

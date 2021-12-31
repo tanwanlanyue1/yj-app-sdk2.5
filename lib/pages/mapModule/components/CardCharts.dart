@@ -9,10 +9,10 @@ class CardCharts extends StatelessWidget {
   final int warnLevel;
   final List valueData;
   bool reload = true;
-  CardCharts({this.facName, this.unit, this.warnLevel, this.valueData});
+  CardCharts({required this.facName, required this.unit, required this.warnLevel, required this.valueData});
 
   var themeColor;
-  List bgColor;
+  List bgColor = [];
   void _colorSelect(int level) {
     switch (level) {
       case 0:

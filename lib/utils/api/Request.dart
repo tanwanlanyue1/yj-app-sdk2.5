@@ -1,7 +1,4 @@
-import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:scet_app/components/ToastWidget.dart';
 import 'package:scet_app/model/data/data_global.dart';
@@ -19,7 +16,7 @@ class Request {
   factory Request() => _instance;
 
   // 全局变量
-  Dio dio;
+  Dio dio = Dio();
 
   // 初始化
   Request._internal() {
@@ -38,43 +35,35 @@ class Request {
     /**如果需要添加cookie管理器**/
     // Future(() async {return (await getApplicationDocumentsDirectory()).path;
     // }).then((path) => {
-    //   dio.interceptors.add(CookieManager(PersistCookieJar(dir: path, ignoreExpires: true)))
+    //   dio.interceptors.add(CookieManager(PersistCookieeJar(dir: path, ignoreExpires: true)))
     // });
 
     // 添加拦截器
-    dio.interceptors.add(InterceptorsWrapper(onRequest: (RequestOptions options) {
-      dio.lock();
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (RequestOptions options,RequestInterceptorHandler handler) {
+        dio.lock();
       Future<dynamic> future = Future(() async {
-        return StorageUtil().getString(StorageKey.Token);
+        return StorageUtil().getString(StorageKey.Token) ?? "";
       });
-      return future.then((value) {
+      future.then((value) {
         options.headers["token"] = value;
         return options;
       }).whenComplete(() => dio.unlock());
-    }, onResponse: (Response response) {
+      return handler.next(options);
+    }, onResponse: (Response response,ResponseInterceptorHandler handler) {
       //统一处理 例如可以跳转登录页
       if (response.data is Map && response.data['code'] == 302) {
         ToastWidget.showToastMsg(response.data['status']);
-        Global.navigatorKey.currentState.pushAndRemoveUntil(
+        Global.navigatorKey.currentState!.pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => LoginPage()),
             (router) => router == null);
         // Global.navigatorKey.currentState.pushNamed("/LoginPage");
       }
-      return response;
-    }, onError: (DioError e) {
+      return handler.next(response);
+    }, onError: (DioError e,ErrorInterceptorHandler  handler) {
       ErrorEntity eInfo = createErrorEntity(e); // 错误提示
-      ToastWidget.showToastMsg(eInfo.message);
-      // 错误交互处理
-      // var context = e.request.extra["context"];
-      //    if (context != null) {
-      //      switch (eInfo.code) {
-      //        case 401: // 没有权限 重新登录
-      //          goLoginPage(context);
-      //          break;
-      //        default:
-      //      }
-      //    }
-      return eInfo;
+      ToastWidget.showToastMsg(eInfo.message!);
+      return handler.next(e);
     }));
   }
 
@@ -117,7 +106,8 @@ class Request {
   }
 
   /// 下载文件 savePath 文件保存的路径 downloadProgress 进度
-  download(urlPath, savePath,{Function downloadProgress}) async {
+  download(urlPath, savePath,{Function? downloadProgress}) async {
+    // print("downloadProgress===${downloadProgress}");
     Response response;
     Options option = Options(
       //响应流上前后两次接受到数据的间隔，单位为毫秒。
@@ -125,10 +115,11 @@ class Request {
     );
     try {
       response = await dio.download(urlPath, savePath,
-          onReceiveProgress: (int count, int total) {
+          onReceiveProgress: downloadProgress == null ? null : (int count, int total) {
         // print("下载进度：$count/$total");
         downloadProgress("${((count/total)*100).toStringAsFixed(2)}%");
-      },options: option);
+      },
+          options: option);
       return response.data;
     } on DioError catch (e) {
       print("download错误-->$e");
@@ -186,30 +177,30 @@ class Request {
    */
   ErrorEntity createErrorEntity(DioError error) {
     switch (error.type) {
-      case DioErrorType.CANCEL:
+      case DioErrorType.cancel:
         {
           return ErrorEntity(code: -1, message: "请求取消");
         }
         break;
-      case DioErrorType.CONNECT_TIMEOUT:
+      case DioErrorType.connectTimeout:
         {
           return ErrorEntity(code: -1, message: "连接超时");
         }
         break;
-      case DioErrorType.SEND_TIMEOUT:
+      case DioErrorType.sendTimeout:
         {
           return ErrorEntity(code: -1, message: "请求超时");
         }
         break;
-      case DioErrorType.RECEIVE_TIMEOUT:
+      case DioErrorType.receiveTimeout:
         {
           return ErrorEntity(code: -1, message: "响应超时");
         }
         break;
-      case DioErrorType.RESPONSE:
+      case DioErrorType.response:
         {
           try {
-            int errCode = error.response.statusCode;
+            int errCode = error.response!.statusCode!;
             // String errMsg = error.response.statusMessage;
             // return ErrorEntity(code: errCode, message: errMsg);
             switch (errCode) {
@@ -262,12 +253,19 @@ class Request {
                 {
                   // return ErrorEntity(code: errCode, message: "未知错误");
                   return ErrorEntity(
-                      code: errCode, message: error.response.statusMessage);
+                      code: errCode, message: error.response!.statusMessage!);
                 }
             }
           } on Exception catch (_) {
             return ErrorEntity(code: -1, message: "未知错误");
           }
+        }
+        break;
+    //默认错误类型，一些其他错误。在这种情况下，你可以
+    //使用dierror。如果不为空则返回错误。
+      case DioErrorType.other:
+        {
+          return ErrorEntity(code: -1, message: "默认错误类型");
         }
         break;
       default:
@@ -280,8 +278,8 @@ class Request {
 
 // 异常处理
 class ErrorEntity implements Exception {
-  int code;
-  String message;
+  int? code;
+  String? message;
 
   ErrorEntity({this.code, this.message});
 

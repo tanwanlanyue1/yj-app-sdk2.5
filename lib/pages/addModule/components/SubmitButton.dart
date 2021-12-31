@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scet_app/utils/tool/screen/screen.dart';
 
 class SubmitButton extends StatelessWidget {
-  final Function function;
+  final Function? function;
   SubmitButton({this.function});
 
   @override
@@ -23,7 +23,9 @@ class SubmitButton extends StatelessWidget {
           Expanded(
               flex: 1,
               child: InkWell(
-                onTap: function,
+                onTap: (){
+                  function?.call();
+                },
                 child: Image.asset('assets/icon/other/publish.png'),
               )
           ),

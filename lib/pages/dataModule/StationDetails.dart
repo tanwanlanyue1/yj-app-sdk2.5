@@ -13,11 +13,11 @@ class StationDetails extends StatefulWidget {
 }
 
 class _StationDetailsState extends State<StationDetails> with SingleTickerProviderStateMixin {
-  TabController _tabController;
+  TabController? _tabController;
 
   List _tabs = ["物质", "设备", "记录"];
 
-  List<Widget> _bodyList;
+  List<Widget>? _bodyList;
 
   @override
   void initState() {
@@ -32,7 +32,7 @@ class _StationDetailsState extends State<StationDetails> with SingleTickerProvid
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _tabController!.dispose();
     super.dispose();
   }
 
@@ -44,7 +44,7 @@ class _StationDetailsState extends State<StationDetails> with SingleTickerProvid
     );
   }
 
-  Widget _appBar() {
+  PreferredSizeWidget _appBar() {
     return AppBar(
       toolbarHeight: px(148),
       title: Text(
@@ -60,8 +60,9 @@ class _StationDetailsState extends State<StationDetails> with SingleTickerProvid
   }
 
   ///构造 TabBar
-  Widget _buildTabBar() {
+  PreferredSizeWidget _buildTabBar() {
     return PreferredSize(
+      preferredSize: Size.fromHeight(px(64.0)),
       child: Material(
         color: Colors.white,
         child: Container(
@@ -91,7 +92,7 @@ class _StationDetailsState extends State<StationDetails> with SingleTickerProvid
   Widget _buildTabBarView() {
     return TabBarView(
       controller: _tabController,
-      children: _bodyList
+      children: _bodyList!
     );
   }
 }

@@ -9,7 +9,7 @@ import 'package:scet_app/utils/tool/screen/screen.dart';
 /// 记录
 class Record extends StatefulWidget {
   final int stId;
-  Record({this.stId});
+  Record({required this.stId});
 
   @override
   _RecordState createState() => _RecordState();
@@ -48,7 +48,7 @@ class _RecordState extends State<Record> with AutomaticKeepAliveClientMixin {
   // 获取设备检修列表
   _maintainList(data) async {
     var response = await Request().get(Api.url['maintainList'], data: data);
-    if(response['code'] == 200 && mounted){
+    if(response['code'] == 200 && mounted == true){
       setState(() {_maintainData = response['data'];});
     }
   }
@@ -56,7 +56,7 @@ class _RecordState extends State<Record> with AutomaticKeepAliveClientMixin {
   // 获取巡检记录列表
   _patrolList(data) async {
     var response = await Request().get(Api.url['patrolList'], data: data);
-    if(response['code'] == 200 && mounted){
+    if(response['code'] == 200 && mounted == true){
       setState(() {_patrolListData = response['data'];});
     }
   }

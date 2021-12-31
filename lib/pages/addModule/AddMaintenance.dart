@@ -24,13 +24,13 @@ class _AddMaintenanceState extends State<AddMaintenance> {
 
   FocusNode blankNode = FocusNode();
 
-  String person, remark; 
+  String? person, remark;
   
   Map station = {};
 
-  DateTime currentTime;
+  DateTime? currentTime;
   void timeChange(DateTime time) {
-    if (mounted) {
+    if (mounted == true) {
       setState(() {
         currentTime = time;
       });
@@ -49,7 +49,7 @@ class _AddMaintenanceState extends State<AddMaintenance> {
     } else {
       Map<String, dynamic> params = Map();
       params['stId'] = station['value'];
-      params['time'] = currentTime.toUtc();
+      params['time'] = currentTime!.toUtc();
       params['name'] = person;
       params['remark'] = remark;
       var response = await Request().post(Api.url['patrolUpload']);

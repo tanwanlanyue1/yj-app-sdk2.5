@@ -6,9 +6,9 @@ import 'package:scet_app/utils/tool/screen/screen.dart';
 
 class DataSource extends StatefulWidget {
   final Map data;
-  final Map traceSource;
+  final Map? traceSource;
   DataSource({
-    this.data,
+    required this.data,
     this.traceSource
   });
   @override
@@ -20,7 +20,7 @@ class _DataSourceState extends State<DataSource> with AutomaticKeepAliveClientMi
   @override
   bool get wantKeepAlive => true;
 
-  Map _traceSource;// 溯源清单
+  Map? _traceSource;// 溯源清单
   @override
   void initState() {
     // TODO: implement initState
@@ -41,7 +41,7 @@ class _DataSourceState extends State<DataSource> with AutomaticKeepAliveClientMi
             '来源研判-溯源清单',
           icon: 'assets/icon/alarm/DataSource.png'
         ),
-        if (widget.traceSource!=null)_answer(_traceSource['answer']),
+        if (widget.traceSource!=null)_answer(_traceSource!['answer']),
       ]
     );
   }
@@ -69,8 +69,8 @@ class _DataSourceState extends State<DataSource> with AutomaticKeepAliveClientMi
   ///类型1
   List<Widget> answer1() {
     List<Widget> _li = [];
-    for(var i = 0; i<_traceSource['hasWeaData'].length; i++){
-      var item = _traceSource['hasWeaData'][i];
+    for(var i = 0; i<_traceSource!['hasWeaData'].length; i++){
+      var item = _traceSource!['hasWeaData'][i];
       List<String> _text = [];
       item.companys.asMap().keys.forEach((index) {
         _text.add(
@@ -90,11 +90,11 @@ class _DataSourceState extends State<DataSource> with AutomaticKeepAliveClientMi
   Widget answer3(){
     return _itemCard(
         title: '建议',
-        data: ['${_traceSource['allData']['advice']}']
+        data: ['${_traceSource!['allData']['advice']}']
     );
   }
 
-  Widget _itemCard({String title, List data}) {
+  Widget _itemCard({String? title, required List data}) {
     return WidgetCheck.fromCard(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

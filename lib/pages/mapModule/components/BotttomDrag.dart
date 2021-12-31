@@ -10,7 +10,7 @@ class BottomDragWidget extends StatefulWidget {
   final Widget body;
   final DragContainer dragContainer;
 
-  BottomDragWidget({Key key, @required this.body, @required this.dragContainer})
+  BottomDragWidget({Key? key, required this.body, required this.dragContainer})
       : assert(body != null),
         assert(dragContainer != null),
         super(key: key);
@@ -55,7 +55,7 @@ class _BottomDragWidgetState extends State<BottomDragWidget> {
 typedef DragListener = void Function(double dragDistance, ScrollNotificationListener isDragEnd);
 
 class DragController {
-  DragListener _dragListener;
+  DragListener? _dragListener;
 
   setDrag(DragListener l) {
     _dragListener = l;
@@ -64,21 +64,21 @@ class DragController {
   void updateDragDistance(
       double dragDistance, ScrollNotificationListener isDragEnd) {
     if (_dragListener != null) {
-      _dragListener(dragDistance, isDragEnd);
+      _dragListener!(dragDistance, isDragEnd);
     }
   }
 }
 
 class DragContainer extends StatefulWidget {
-  final Widget drawer;
-  final double defaultShowHeight;
-  final double height;
+  final Widget? drawer;
+  final double? defaultShowHeight;
+  final double? height;
 
   DragContainer(
-      {Key key,
-        @required this.drawer,
-        @required this.defaultShowHeight,
-        @required this.height})
+      {Key? key,
+        this.drawer,
+        this.defaultShowHeight,
+        this.height})
       : assert(drawer != null),
         assert(defaultShowHeight != null),
         assert(height != null),
@@ -91,24 +91,24 @@ class DragContainer extends StatefulWidget {
 }
 
 class _DragContainerState extends State<DragContainer> with TickerProviderStateMixin {
-  AnimationController animalController;
+  AnimationController? animalController;
 
   ///滑动位置超过这个位置，会滚到顶部；小于，会滚动底部。
-  double maxOffsetDistance;
+  late double maxOffsetDistance;
   bool onResetControllerValue = false;
-  double offsetDistance;
-  Animation<double> animation;
+  double offsetDistance = 0.0;
+  late Animation<double> animation;
   bool offstage = false;
   bool _isFling = false;
 
-  double get defaultOffsetDistance => widget.height - widget.defaultShowHeight;
+  double get defaultOffsetDistance => widget.height! - widget.defaultShowHeight!;
 
   @override
   void initState() {
     animalController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 250));
-    maxOffsetDistance = (widget.height + widget.defaultShowHeight) * 0.4;
-    _controller.setDrag((double value, ScrollNotificationListener notification) {
+    maxOffsetDistance = (widget.height! + widget.defaultShowHeight!) * 0.4;
+    _controller!.setDrag((double value, ScrollNotificationListener notification) {
       if (notification != ScrollNotificationListener.edge) {
         _handleDragEnd(null);
       } else {
@@ -137,7 +137,7 @@ class _DragContainerState extends State<DragContainer> with TickerProviderStateM
 
   @override
   void dispose() {
-    animalController.dispose();
+    animalController!.dispose();
     super.dispose();
   }
 
@@ -179,14 +179,14 @@ class _DragContainerState extends State<DragContainer> with TickerProviderStateM
   double get screenH => MediaQuery.of(context).size.height;
 
   ///当拖拽结束时调用
-  void _handleDragEnd(DragEndDetails details) {
+  void _handleDragEnd(DragEndDetails? details) {
     // print('当拖拽结束时调用');
 
     onResetControllerValue = true;
 
     ///很重要！！！动画完毕后，controller.value = 1.0， 这里要将value的值重置为0.0，才会再次运行动画
     ///重置value的值时，会刷新UI，故这里使用[onResetControllerValue]来进行过滤。
-    animalController.value = 0.0;
+    animalController!.value = 0.0;
     onResetControllerValue = false;
     double start;
     double end;
@@ -211,7 +211,7 @@ class _DragContainerState extends State<DragContainer> with TickerProviderStateM
 
     ///easeOut 先快后慢
     final CurvedAnimation curve =
-    new CurvedAnimation(parent: animalController, curve: Curves.easeOut);
+    new CurvedAnimation(parent: animalController!, curve: Curves.easeOut);
     animation = Tween(begin: start, end: end).animate(curve)
       ..addListener(() {
         if (!onResetControllerValue) {
@@ -220,7 +220,7 @@ class _DragContainerState extends State<DragContainer> with TickerProviderStateM
         }
       });
     ///自己滚动
-    animalController.forward();
+    animalController!.forward();
   }
 
   void _handleDragUpdate(DragUpdateDetails details) {
@@ -239,10 +239,10 @@ typedef FlingListener = void Function(bool isFling);
 ///1.监听child的位置更新
 ///2.判断child在手松的那一刻是否是出于fling状态
 class MyVerticalDragGestureRecognizer extends VerticalDragGestureRecognizer {
-  final FlingListener flingListener;
+  final FlingListener? flingListener;
 
   /// Create a gesture recognizer for interactions in the vertical axis.
-  MyVerticalDragGestureRecognizer({Object debugOwner, this.flingListener})
+  MyVerticalDragGestureRecognizer({Object? debugOwner, this.flingListener})
       : super(debugOwner: debugOwner);
 
   final Map<int, VelocityTracker> _velocityTrackers = <int, VelocityTracker>{};
@@ -252,14 +252,14 @@ class MyVerticalDragGestureRecognizer extends VerticalDragGestureRecognizer {
     super.handleEvent(event);
     if (!event.synthesized &&
         (event is PointerDownEvent || event is PointerMoveEvent)) {
-      final VelocityTracker tracker = _velocityTrackers[event.pointer];
+      final VelocityTracker tracker = _velocityTrackers[event.pointer]!;
       assert(tracker != null);
       tracker.addPosition(event.timeStamp, event.position);
     }
   }
 
   @override
-  void addPointer(PointerEvent event) {
+  void addPointer(PointerDownEvent event) {
     super.addPointer(event);
     _velocityTrackers[event.pointer] = VelocityTracker();
   }
@@ -269,10 +269,10 @@ class MyVerticalDragGestureRecognizer extends VerticalDragGestureRecognizer {
   void didStopTrackingLastPointer(int pointer) {
     final double minVelocity = minFlingVelocity ?? kMinFlingVelocity;
     final double minDistance = minFlingDistance ?? kTouchSlop;
-    final VelocityTracker tracker = _velocityTrackers[pointer];
+    final VelocityTracker tracker = _velocityTrackers[pointer]!;
 
     ///VelocityEstimate 计算二维速度的
-    final VelocityEstimate estimate = tracker.getVelocityEstimate();
+    final VelocityEstimate estimate = tracker.getVelocityEstimate()!;
     bool isFling = false;
     if (estimate != null && estimate.pixelsPerSecond != null) {
       isFling = estimate.pixelsPerSecond.dy.abs() > minVelocity &&
@@ -280,7 +280,7 @@ class MyVerticalDragGestureRecognizer extends VerticalDragGestureRecognizer {
     }
     _velocityTrackers.clear();
     if (flingListener != null) {
-      flingListener(isFling);
+      flingListener!(isFling);
     }
 
     ///super.didStopTrackingLastPointer(pointer) 会调用[_handleDragEnd]
@@ -298,7 +298,7 @@ class MyVerticalDragGestureRecognizer extends VerticalDragGestureRecognizer {
 typedef ScrollListener = void Function(
     double dragDistance, ScrollNotificationListener notification);
 
-DragController _controller;
+DragController? _controller;
 
 ///监听手指在child处于边缘时的滑动
 ///例如：当child滚动到顶部时，此时下拉，会回调[ScrollNotificationListener.edge],
@@ -332,8 +332,8 @@ DragController _controller;
 ///故这里，设定为[ClampingScrollPhysics]
 class OverscrollNotificationWidget extends StatefulWidget {
   const OverscrollNotificationWidget({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
 //    this.scrollListener,
   })  : assert(child != null),
         super(key: key);
@@ -370,15 +370,15 @@ class OverscrollNotificationWidgetState
           child: NotificationListener<ScrollEndNotification>(
             child: widget.child,
             onNotification: (ScrollEndNotification notification) {
-              _controller.updateDragDistance(
+              _controller!.updateDragDistance(
                   0.0, ScrollNotificationListener.end);
               return false;
             },
           ),
           onNotification: (OverscrollNotification notification) {
             if (notification.dragDetails != null &&
-                notification.dragDetails.delta != null) {
-              _controller.updateDragDistance(notification.dragDetails.delta.dy,
+                notification.dragDetails!.delta != null) {
+              _controller!.updateDragDistance(notification.dragDetails!.delta.dy,
                   ScrollNotificationListener.edge);
             }
             return false;
@@ -389,7 +389,7 @@ class OverscrollNotificationWidgetState
         },
       ),
       onNotification: (ScrollStartNotification scrollUpdateNotification) {
-        _controller.updateDragDistance(0.0, ScrollNotificationListener.start);
+        _controller!.updateDragDistance(0.0, ScrollNotificationListener.start);
         return false;
       },
     );

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
-import 'package:latlong/latlong.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:scet_app/model/provider/provider.dart';
 import 'package:scet_app/utils/api/Api.dart';
@@ -12,11 +12,11 @@ import 'package:provider/provider.dart';
 
 class MapWidget extends StatefulWidget {
   final bool commonMapType;
-  final bool backPark;
-  final String layerType;
+  final bool? backPark;
+  final String? layerType;
   final bottomDrag;
   MapWidget(
-      {this.commonMapType, this.backPark, this.layerType, this.bottomDrag});
+      {required this.commonMapType, this.backPark, this.layerType, this.bottomDrag});
 
   @override
   _MapWidgetState createState() => _MapWidgetState();
@@ -35,6 +35,8 @@ class _MapWidgetState extends State<MapWidget> {
 
   List<Marker> _markers = [];
   Color _markerColor = Color(0XFFFFFFFF);
+  final PopupController _popupController = PopupController();
+
   void _switchLayer(String type) {
     _markers.clear();
     switch (type) {
@@ -83,15 +85,15 @@ class _MapWidgetState extends State<MapWidget> {
     // TODO: implement initState
     super.initState();
     _getParkBorder();
-    _switchLayer(widget.layerType);
+    _switchLayer(widget.layerType!);
   }
 
   @override
   void didUpdateWidget(MapWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     // 切换图层
-    String oldLayerIndex = oldWidget.layerType;
-    String newLayerIndex = widget.layerType;
+    String oldLayerIndex = oldWidget.layerType!;
+    String newLayerIndex = widget.layerType!;
     if (newLayerIndex != oldLayerIndex) {
       _switchLayer(newLayerIndex);
     }
@@ -111,10 +113,11 @@ class _MapWidgetState extends State<MapWidget> {
             plugins: [
               MarkerClusterPlugin(),
             ],
-            onTap: (_) {
+            onTap: (_,val) {
               widget.bottomDrag.currentState.setBottomState(false);
               FocusScope.of(context).requestFocus(blankNode);
-            }),
+            }
+            ),
         layers: [
           TileLayerOptions(
             urlTemplate:
@@ -162,8 +165,8 @@ class _MapWidgetState extends State<MapWidget> {
   // 获取站点数据
   List<Marker> _stationPointList() {
     var _homeModel = Provider.of<HomeModel>(context, listen: true);
-    List data = _homeModel.siteList;
-    return data.map((item) {
+    List? data = _homeModel.siteList;
+    return data !=null ? data.map((item) {
       // print('=0=${item['location']['latiude']}');
       // print('=1=${item['location']['longitude'] == ''} ');
       List position = GpsUtil.gps84_To_Gcj02(
@@ -185,7 +188,7 @@ class _MapWidgetState extends State<MapWidget> {
               currentId = item['stId'];
             });
           });
-    }).toList();
+    }).toList():[];
   }
 
   // 获取企业
@@ -301,12 +304,12 @@ class _MapWidgetState extends State<MapWidget> {
   }
 
   Marker commonMaker({
-    double latiude,
-    double longitude,
-    String icon,
-    String markerName,
-    bool selected,
-    Function onTap,
+    required double latiude,
+    required double longitude,
+    required String icon,
+    String? markerName,
+    required bool selected,
+    Function? onTap,
   }) {
     return Marker(
         height: px(160.0),
@@ -314,7 +317,9 @@ class _MapWidgetState extends State<MapWidget> {
         anchorPos: AnchorPos.align(AnchorAlign.center),
         point: LatLng(latiude, longitude),
         builder: (ctx) => GestureDetector(
-            onTap: onTap,
+            onTap: (){
+              onTap?.call();
+            },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,

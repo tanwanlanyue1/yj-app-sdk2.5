@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:scet_app/pages/mapModule/MapPage.dart';
 import 'package:scet_app/pages/userModule/UserCenter.dart';
 import 'package:scet_app/utils/tool/screen/Adapter.dart';
@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> with TickerProviderStateMixin{
 
-  AnimationController _ctrlAnimationCircle;
+  AnimationController? _ctrlAnimationCircle;
 
   PageController _pageController = PageController();
 
@@ -84,7 +84,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin{
       duration: Duration(milliseconds: 300), 
       vsync: this
     );
-    _ctrlAnimationCircle.addListener(() => setState(() {}));
+    _ctrlAnimationCircle!.addListener(() => setState(() {}));
   }
 
   ///监听首页返回
@@ -94,7 +94,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin{
     if(_PopTrue == 3 ) { pop(); }
     return Future.delayed(Duration(seconds: 2), () {
       _PopTrue = 1;
-      return;
+      return false;
     });
   }
 
@@ -104,14 +104,14 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin{
 
   @override
   void dispose() {
-    _ctrlAnimationCircle.dispose();
+    _ctrlAnimationCircle!.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, designSize: Size(Adapter.designWidth, Adapter.designHeight), allowFontScaling: false);
-     return WillPopScope(
+    ScreenUtil.init(BoxConstraints(maxWidth: MediaQuery.of(context).size.width, maxHeight: MediaQuery.of(context).size.height), designSize: Size(Adapter.designWidth, Adapter.designHeight), orientation: Orientation.portrait);
+    return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
         body: PageView.builder(
@@ -137,7 +137,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin{
                   width: Adapt.screenW(),
                   height: Adapt.screenH(),
                   child: Flow(
-                    delegate: FlowAnimatedCircle(_ctrlAnimationCircle.value),
+                    delegate: FlowAnimatedCircle(_ctrlAnimationCircle!.value),
                     children: _buildFlowChildren(),
                   ),
                 )
@@ -178,15 +178,15 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin{
 
   }
 
-  Widget _buildItemMenu({int index, String commonImage, String activeImage}) {
+  Widget _buildItemMenu({int? index, required String commonImage, required String activeImage}) {
     Widget menuItem = SizedBox();
 
     if (index != -1) {
       menuItem = GestureDetector(
         onTap: () {
           if (index != _currentIndex) {
-            _ctrlAnimationCircle.reverse();
-            _pageController.jumpToPage(index);
+            _ctrlAnimationCircle!.reverse();
+            _pageController.jumpToPage(index!);
             setState(() {
               _showAddModel = false;
               _currentIndex = index;
@@ -203,9 +203,9 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin{
     } else {
       menuItem = GestureDetector(
         onTap: () {
-          if(_ctrlAnimationCircle.status == AnimationStatus.completed) {
+          if(_ctrlAnimationCircle!.status == AnimationStatus.completed) {
             setState(() {
-              _ctrlAnimationCircle.reverse();
+              _ctrlAnimationCircle!.reverse();
               Future.delayed(Duration(milliseconds: 300), (){
                 setState(() {
                   _showAddModel = false;
@@ -215,7 +215,7 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin{
           } else {
             setState(() {
               _showAddModel = true;
-              _ctrlAnimationCircle.forward();
+              _ctrlAnimationCircle!.forward();
             });
           }
         },

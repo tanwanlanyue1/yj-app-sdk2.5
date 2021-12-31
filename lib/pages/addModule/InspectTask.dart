@@ -105,7 +105,7 @@ class _InspectTaskState extends State<InspectTask> {
 
   ///时间获取
   void timeChange(DateTime time, int index) {
-    if (mounted) {
+    if (mounted == true) {
       setState(() {
         _verificationTasks[index]['time'] = time.toString();
         setState(() {});
@@ -289,8 +289,8 @@ class _InspectTaskState extends State<InspectTask> {
                                             MaterialTapTargetSize.shrinkWrap,
                                         activeColor: Color(0XFF4D7CFF),
                                         value: fbpt[index]['value'],
-                                        onChanged: (bool val) {
-                                          _seletIndex(val, index);
+                                        onChanged: (bool? val) {
+                                          _seletIndex(val!, index);
                                         },
                                       )),
                                   Container(

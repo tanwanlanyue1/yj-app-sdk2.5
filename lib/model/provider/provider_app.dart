@@ -6,7 +6,7 @@ import 'package:scet_app/components/DialogPages.dart';
 
 // 系统相应状态配置
 class AppState with ChangeNotifier {
-  bool _isGrayFilter;
+  bool? _isGrayFilter;
 
   get isGrayFilter => _isGrayFilter;
 
@@ -16,7 +16,7 @@ class AppState with ChangeNotifier {
 
   // 切换灰色滤镜夜晚模式
   switchGrayFilter() {
-    _isGrayFilter = !_isGrayFilter;
+    _isGrayFilter = !_isGrayFilter!;
     notifyListeners();
   }
 

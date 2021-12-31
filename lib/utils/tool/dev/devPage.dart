@@ -294,7 +294,7 @@ class _DevPageState extends State<DevPage> {
                   CasingPly.casingPly1(length: 1),
                   CasingPly.casingPly2(length: 1),
                   CasingPly.casingPly3(length: 1),
-                  CasingPly.casingPly4(length: 2),
+                  CasingPly.casingPly4(length: 1),
                 ],
               )
           ),
@@ -342,7 +342,7 @@ class _DevPageState extends State<DevPage> {
 
 class test1 extends StatefulWidget {
   final List data;
-  test1({this.data});
+  test1({required this.data});
   @override
   _test1State createState() => _test1State();
 }
@@ -366,8 +366,7 @@ class _test1State extends State<test1> {
               // print('--1-$da');
               setState(() {});
               // print('---$val');
-
-            }
+            },
         );
         setState(() {});
       },
@@ -382,40 +381,39 @@ class Skeleton extends StatefulWidget {
   final double height;
   final double width;
 
-  Skeleton({Key key, this.height = 20, this.width = 200 }) : super(key: key);
+  Skeleton({Key? key, this.height = 20, this.width = 200 }) : super(key: key);
 
   createState() => SkeletonState();
 }
 
 class SkeletonState extends State<Skeleton> with SingleTickerProviderStateMixin {
-  AnimationController _controller;
+  AnimationController? _controller;
 
-  Animation gradientPosition;
+  Animation? gradientPosition;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(duration: Duration(milliseconds: 1500), vsync: this);
-
+    _controller = AnimationController(duration: Duration(seconds: 2), vsync: this);
     gradientPosition = Tween<double>(
       begin: -3,
       end: 10,
     ).animate(
       CurvedAnimation(
-          parent: _controller,
+          parent: _controller!,
           curve: Curves.linear
       ),
     )..addListener(() {
-     if(mounted) setState(() {});
+     if(mounted == true)setState(() {});
     });
 
-    _controller.repeat();
+    _controller!.repeat();
   }
 
   @override
   void dispose() {
+    _controller!.dispose();
     super.dispose();
-    _controller.dispose();
   }
 
   @override
@@ -425,7 +423,7 @@ class SkeletonState extends State<Skeleton> with SingleTickerProviderStateMixin 
       height: widget.height,
       decoration: BoxDecoration(
           gradient: LinearGradient(
-              begin: Alignment(gradientPosition.value, 0),
+              begin: Alignment(gradientPosition!.value, 0),
               end: Alignment(-1, 0),
               colors: [Colors.black12, Colors.black26, Colors.black12]
           )

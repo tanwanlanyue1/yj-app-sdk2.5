@@ -5,9 +5,9 @@ import 'package:scet_app/utils/tool/screen/screen.dart';
 //指示器例子
 class DotsIndicator extends AnimatedWidget {
   DotsIndicator({
-    this.controller,
-    this.itemCount,
-    this.onPageSelected,
+    required this.controller,
+    required this.itemCount,
+    required this.onPageSelected,
     this.color: Colors.white,
   }) : super(listenable: controller);
 
@@ -89,15 +89,15 @@ class MyHomePageState extends State<MyHomePage> {
   final List<Widget> _pages = <Widget>[
     // new ConstrainedBox(
     //   constraints: const BoxConstraints.expand(),
-    //   child: new FlutterLogo(colors: Colors.blue),
+    //   child: new FlutterLogo(textColor: Colors.blue),
     // ),
     // new ConstrainedBox(
     //   constraints: const BoxConstraints.expand(),
-    //   child: new FlutterLogo(style: FlutterLogoStyle.stacked, colors: Colors.red),
+    //   child: new FlutterLogo(style: FlutterLogoStyle.stacked, textColor: Colors.red),
     // ),
     // new ConstrainedBox(
     //   constraints: const BoxConstraints.expand(),
-    //   child: new FlutterLogo(style: FlutterLogoStyle.horizontal, colors: Colors.green),
+    //   child: new FlutterLogo(style: FlutterLogoStyle.horizontal, textColor: Colors.green),
     // ),
   ];
 
@@ -114,8 +114,8 @@ class MyHomePageState extends State<MyHomePage> {
               itemCount: 3,
               onPageChanged: (int){
               },
-              itemBuilder: (BuildContext context, int index) {
-                return _pages[index % _pages.length];
+              itemBuilder: (BuildContext context, int? index) {
+                return index == 0 ? Container() : _pages[index! % _pages.length];
               },
             ),
             new Positioned(

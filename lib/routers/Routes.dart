@@ -58,9 +58,9 @@ final routes = {
 // Navigator.pushNamed(context, '/productsPage',arguments: val);
 
 /// 统一处理
-var onGenerateRoute = (RouteSettings settings) {
-  final String name = settings.name;
-  final Function pageContentBuilder = routes[name];
+onGenerateRoute (RouteSettings settings) {
+  final String? name = settings.name;
+  final Function? pageContentBuilder = routes[name];
   if (pageContentBuilder != null) {
     if (settings.arguments != null) {
       final Route route = MaterialPageRoute(
@@ -72,4 +72,4 @@ var onGenerateRoute = (RouteSettings settings) {
       return route;
     }
   }
-};
+}

@@ -22,7 +22,7 @@ class _AbnormalComplaintsState extends State<AbnormalComplaints> {
 
   FocusNode blankNode = FocusNode();
 
-  int thrillValue;
+  int? thrillValue;
 
   List likeFactorList= [];
 
@@ -30,7 +30,7 @@ class _AbnormalComplaintsState extends State<AbnormalComplaints> {
 
   DateTime currentTime = DateTime.now();
 
-  String eventCode, eventName, complaintsPlace, complaintsContent,smellType, complaintsSmell,complaintsScene;
+  late String eventCode, eventName, complaintsPlace, complaintsContent,smellType, complaintsSmell,complaintsScene;
 
   Map complaintsType = {}, complaintsMethod = {}, 
     complaintsColor = {}, complaintsForm ={}, 
@@ -304,7 +304,7 @@ class _AbnormalComplaintsState extends State<AbnormalComplaints> {
                                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                     activeColor: Color(0XFF4D7CFF),
                                     value: smellTypeList[index]['value'],
-                                    onChanged: (bool val) {
+                                    onChanged: (bool? val) {
                                       List data = smellTypeList;
                                       data.forEach((element) {
                                         element['value'] = false;
@@ -349,7 +349,7 @@ class _AbnormalComplaintsState extends State<AbnormalComplaints> {
                                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                     activeColor: Color(0XFF4D7CFF),
                                     value: thrillList[index]['value'],
-                                    onChanged: (bool val) {
+                                    onChanged: (bool? val) {
                                       List data = thrillList;
                                       data.forEach((element) {
                                         element['value'] = false;

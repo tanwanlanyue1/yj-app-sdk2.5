@@ -5,12 +5,12 @@ import 'package:scet_app/utils/tool/dateUtc/dateUtc.dart';
 import 'package:scet_app/utils/tool/screen/screen.dart';
 
 class TimeSelect extends StatefulWidget {
-  final GlobalKey scaffoldKey;
-  final DateTime time;
-  final String hintText;
+  final GlobalKey<ScaffoldState> scaffoldKey ;
+  final DateTime? time;
+  final String? hintText;
   final callBack;
   TimeSelect(
-      {Key key, this.scaffoldKey, this.time, this.hintText, this.callBack})
+      {Key? key, required this.scaffoldKey, this.time, this.hintText, this.callBack})
       : super(key: key);
 
   @override
@@ -18,7 +18,7 @@ class TimeSelect extends StatefulWidget {
 }
 
 class _TimeSelectState extends State<TimeSelect> {
-  String currentTime;
+  String? currentTime;
 
   @override
   void initState() {
@@ -112,7 +112,7 @@ class _TimeSelectState extends State<TimeSelect> {
           setState(() {
             currentTime = formatTime(time);
           });
-        }).show(widget.scaffoldKey.currentState);
+        }).show(widget.scaffoldKey.currentState!);
   }
 
   String formatTime(time) {

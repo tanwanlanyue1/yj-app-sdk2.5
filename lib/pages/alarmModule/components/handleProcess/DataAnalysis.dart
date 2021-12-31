@@ -11,12 +11,12 @@ import 'package:scet_app/utils/tool/dateUtc/dateUtc.dart';
 import 'package:scet_app/utils/tool/screen/screen.dart';
 
 class DataAnalysis extends StatefulWidget {
-  final Map data;
-  final Map baseInfo;
+  final Map? data;
+  final Map? baseInfo;
   final windData;
-  final List dataPlural;
-  final List valueData;
-  final String lineChartsName, lineChartsUnit, dataConclusion, windConclusion;
+  final List? dataPlural;
+  final List? valueData;
+  final String? lineChartsName, lineChartsUnit, dataConclusion, windConclusion;
   DataAnalysis({
     this.data,
     this.baseInfo,
@@ -44,9 +44,9 @@ class _DataAnalysisState extends State<DataAnalysis> with AutomaticKeepAliveClie
   ];
 
   // 数据核查及分析
-  List _dataPlural = [], _valueData = [];
+  List? _dataPlural = [], _valueData = [];
   var _windData;
-  String _lineChartsName, _lineChartsUnit, _dataConclusion, _windConclusion;
+  String? _lineChartsName, _lineChartsUnit, _dataConclusion, _windConclusion;
 
 @override
   void initState() {
@@ -61,10 +61,10 @@ class _DataAnalysisState extends State<DataAnalysis> with AutomaticKeepAliveClie
     _windConclusion =widget.windConclusion;
 
     if(widget.baseInfo !=null){
-      _switchData[0]['state'] =  widget.baseInfo['dataFiltering'] == 1 ? false : true;
-      _switchData[1]['state'] =  widget.baseInfo['siteEnvironment'] == 1 ? false : true;
-      _switchData[2]['state'] =  widget.baseInfo['instrumentEnvironment'] == 1 ? false : true;
-      _switchData[3]['state'] =  widget.baseInfo['networkEnvironment'] == 1 ? false : true;
+      _switchData[0]['state'] =  widget.baseInfo!['dataFiltering'] == 1 ? false : true;
+      _switchData[1]['state'] =  widget.baseInfo!['siteEnvironment'] == 1 ? false : true;
+      _switchData[2]['state'] =  widget.baseInfo!['instrumentEnvironment'] == 1 ? false : true;
+      _switchData[3]['state'] =  widget.baseInfo!['networkEnvironment'] == 1 ? false : true;
     }
   }
 
@@ -80,10 +80,10 @@ class _DataAnalysisState extends State<DataAnalysis> with AutomaticKeepAliveClie
       _dataConclusion =widget.dataConclusion;
       _windConclusion =widget.windConclusion;
       if(widget.baseInfo !=null){
-        _switchData[0]['state'] =  widget.baseInfo['dataFiltering'] == 1 ? false : true;
-        _switchData[1]['state'] =  widget.baseInfo['siteEnvironment'] == 1 ? false : true;
-        _switchData[2]['state'] =  widget.baseInfo['instrumentEnvironment'] == 1 ? false : true;
-        _switchData[3]['state'] =  widget.baseInfo['networkEnvironment'] == 1 ? false : true;
+        _switchData[0]['state'] =  widget.baseInfo!['dataFiltering'] == 1 ? false : true;
+        _switchData[1]['state'] =  widget.baseInfo!['siteEnvironment'] == 1 ? false : true;
+        _switchData[2]['state'] =  widget.baseInfo!['instrumentEnvironment'] == 1 ? false : true;
+        _switchData[3]['state'] =  widget.baseInfo!['networkEnvironment'] == 1 ? false : true;
       }
     }
   }
@@ -183,7 +183,7 @@ class _DataAnalysisState extends State<DataAnalysis> with AutomaticKeepAliveClie
     );
   }
 
-  Widget _chartsTitle({String title}) {
+  Widget _chartsTitle({String? title}) {
     return Container(
       padding: EdgeInsets.only(bottom: px(20.0)),
       child: Text(
@@ -197,7 +197,7 @@ class _DataAnalysisState extends State<DataAnalysis> with AutomaticKeepAliveClie
     );
   } 
 
-  Widget _itemResult({String title, String data}) {
+  Widget _itemResult({String? title, String? data}) {
     return Container(
       width: Adapt.screenW(),
       margin: EdgeInsets.only(top: px(20.0)),

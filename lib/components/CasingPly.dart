@@ -26,7 +26,8 @@ class CasingPly{
   }
 
   // 加载2
-  static Widget casingPly2({int length = 4}){
+  static Widget
+  casingPly2({int length = 4}){
     return bgDiv(
       child: Column(
         children: _listLoading(
@@ -45,33 +46,33 @@ class CasingPly{
     return bgDiv(
       child: Column(
         children: _listLoading(
-          length: length,
-          item: Container(
-            margin: EdgeInsets.fromLTRB(px(24), px(24), px(24), 0),
-            child: Column(
-              children: [
-                bgContainer(
-                  width: 702.0,
-                  height: 78.0
-                ),
-                Container(
-                  height: px(108),
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: _listLoading(
-                      item: bgContainer(
-                        width: 244.0,
-                        height: 108.0,
-                        marginR:24.0,
-                      ),
-                      length: 3
-                    )
+            length: length,
+            item: Container(
+              margin: EdgeInsets.fromLTRB(px(24), px(24), px(24), 0),
+              child: Column(
+                children: [
+                  bgContainer(
+                      width: 702.0,
+                      height: 78.0
                   ),
-                ),
-                Image.asset(_loading3,width: px(702),height: px(878),fit: BoxFit.fill,),
-              ],
+                  Container(
+                    height: px(108),
+                    child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: _listLoading(
+                            item: bgContainer(
+                              width: 244.0,
+                              height: 108.0,
+                              marginR:24.0,
+                            ),
+                            length: 3
+                        )
+                    ),
+                  ),
+                  Image.asset(_loading3,width: px(702),height: px(296),fit: BoxFit.fill,),
+                ],
+              ),
             )
-          )
         ),
       )
     );
@@ -92,7 +93,7 @@ class CasingPly{
     );
   }
   // 白色 滑动背景
-  static Widget bgDiv({Widget child}){
+  static Widget bgDiv({required Widget child}){
     return Container(
       color: Colors.white,
       child:SingleChildScrollView(
@@ -102,7 +103,7 @@ class CasingPly{
   }
 
   // 个数的 统一循环处理
-  static List<Widget> _listLoading({int length,Widget item}){
+  static List<Widget> _listLoading({required int length,required Widget item}){
     List<Widget> li =[];
     for(var i = 0; i < length; i++){
       li.add(item);
@@ -112,8 +113,8 @@ class CasingPly{
 
   // 抽离的 每个小盒子
   static Widget bgContainer({
-    double width,
-    double height,
+    required double width,
+    required double height,
     double marginL = 0.0,
     double marginT = 0.0,
     double marginR = 0.0,

@@ -6,13 +6,13 @@ import 'package:scet_app/utils/tool/screen/screen.dart';
 class BacklogComments{
 
   static Widget itemCard({
-    String status,//状态
-    String title,//任务标题
-    String taskId,//编号
-    String event,//事件
-    String explain,//说明
-    String time,//时间
-    String executor,//执行人
+    required String status,//状态
+    required String title,//任务标题
+    required String taskId,//编号
+    required String event,//事件
+    required String explain,//说明
+    required String time,//时间
+    required String executor,//执行人
   }) {
     return Container(
       width: px(702),
@@ -37,7 +37,7 @@ class BacklogComments{
   }
 
   ///卡片标题
-  static Widget rowTitle({String title,String status}) {
+  static Widget rowTitle({required String title,required String status}) {
     return Row(
       children: [
         Text(
@@ -78,9 +78,9 @@ class BacklogComments{
   ///卡片每一行数据
   static Widget rowItems({
     bool isCenter = true,//是否居中显示 否则靠上
-    String title,//标题
-    String data,//内容
-    String status //状态
+    String? title,//标题
+    required String data,//内容
+    required String status //状态
   }) {
     return Padding(
       padding: EdgeInsets.only(top: px(10)),

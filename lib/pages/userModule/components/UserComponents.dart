@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scet_app/utils/tool/screen/screen.dart';
 class UserComments{
   ///  白色背景
-  static Widget bgCard({List<Widget> children }){
+  static Widget bgCard({required List<Widget> children }){
     return Container(
       width: px(702.0),
       margin: EdgeInsets.only(bottom: px(24.0)),
@@ -21,7 +21,7 @@ class UserComments{
     );
   }
   ///工作台每一项
-  static Widget jopItem({String img, String title,Function onTab}) {
+  static Widget jopItem({required String img, required String title, Function? onTab}) {
     return Expanded(
       child:InkWell(
         onTap: () {
@@ -49,7 +49,7 @@ class UserComments{
     );
   }
   ///每栏大标题
-  static Widget titles({String title,String other,Function onTab}) {
+  static Widget titles({required String title,String? other,Function? onTab}) {
     return Container(
       width: px(702.0),
       height: px(78.0),
@@ -83,7 +83,7 @@ class UserComments{
     );
   }
   ///我发布中的每一项
-  static Widget releaseItem({String icon,String title,Function onTap}){
+  static Widget releaseItem({required String icon,String? title,Function? onTap}){
     return  Container(
       width: px(100.0),
       margin: EdgeInsets.only(right: px(60.0)),
@@ -99,16 +99,18 @@ class UserComments{
             Text('$title',style: TextStyle(fontSize: sp(24.0),color: Color(0xFF45474D)),)
           ],
         ),
-        onTap:onTap,
+        onTap:(){
+          onTap?.call();
+        },
       ),
     );
   }
   ///待办每一行
   static Widget backlogRowItem({
     String icon='assets/images/user/backlog.png',
-    String title,
-    String other,
-    Function onTab
+    required String title,
+    String? other,
+    Function? onTab
   }) {
     return Container(
       height: px(40.0),

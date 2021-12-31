@@ -273,8 +273,8 @@ class _MonitorTaskState extends State<MonitorTask> {
                                             MaterialTapTargetSize.shrinkWrap,
                                         activeColor: Color(0XFF4D7CFF),
                                         value: fbpt[index]['value'],
-                                        onChanged: (bool val) {
-                                          _seletIndex(val, index);
+                                        onChanged: (bool? val) {
+                                          _seletIndex(val!, index);
                                         },
                                       )),
                                   Container(

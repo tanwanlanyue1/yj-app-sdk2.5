@@ -6,7 +6,7 @@ class WidgetCheck {
 
   static TextStyle nameStyle = TextStyle(fontSize: sp(30), fontWeight: FontWeight.w600,fontFamily: 'Alibaba-PuHuiTi-M, Alibaba-PuHuiTi');
   
-  static Widget miniTitle(String title,{String icon}) {
+  static Widget miniTitle(String title,{String? icon}) {
     return Container(
       margin: EdgeInsets.fromLTRB(px(6.0), px(24.0), 0.0, px(12.0)),
       child: Row(
@@ -32,7 +32,7 @@ class WidgetCheck {
     );
   }
 
-  static Widget fromCard({Widget child}) {
+  static Widget fromCard({required Widget child}) {
     return Card(
       color: Color(0xffFFFFFF),
       shape: RoundedRectangleBorder(
@@ -48,7 +48,7 @@ class WidgetCheck {
     );
   }
   
-  static Widget rowItem({bool alignStart = false, bool padding, bool expanded = true, String title, Widget child}) {
+  static Widget rowItem({bool alignStart = false, required bool padding, bool expanded = true, String? title, required Widget child}) {
     return Padding(
       padding: padding ? EdgeInsets.symmetric(vertical: px(24.0)) : EdgeInsets.zero,
       child: Row(
@@ -73,9 +73,9 @@ class WidgetCheck {
     );
   }
 
-  static Widget textData({bool state = true, String data}) {
+  static Widget textData({bool state = true, String? data}) {
     return Text(
-      '$data',
+        '${data == "null" ? '' : data}',
       style: TextStyle(
         color: state ? Color(0XFF2E2F33) : Color(0XFFA8ABB3),
         fontSize: sp(30.0),
@@ -85,7 +85,7 @@ class WidgetCheck {
   }
   
   ///卡片每一行数据
-  static Widget rowItem2({bool isCenter = true, String title, String data}){
+  static Widget rowItem2({bool isCenter = true, String? title, String? data}){
     return Padding(
       padding: EdgeInsets.only(top: px(10)),
       child: Row(

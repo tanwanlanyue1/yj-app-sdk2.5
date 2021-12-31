@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:scet_app/components/ToastWidget.dart';
 import 'package:scet_app/model/provider/provider.dart';
@@ -58,7 +58,7 @@ class _GuidePageState extends State<GuidePage> {
   }
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, designSize: Size(Adapter.designWidth, Adapter.designHeight), allowFontScaling: false);
+    ScreenUtil.init(BoxConstraints(maxWidth: MediaQuery.of(context).size.width, maxHeight: MediaQuery.of(context).size.height), designSize: Size(Adapter.designWidth, Adapter.designHeight), orientation: Orientation.portrait);
     return Scaffold(
       body: Container(
         color: Colors.white,

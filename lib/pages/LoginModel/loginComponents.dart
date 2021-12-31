@@ -5,10 +5,10 @@ import 'package:scet_app/utils/tool/screen/screen.dart';
 class LoginComponents{
   ///输入框
   static Widget loginInput({
-    String icon,
-    String hitStr,
+    required String icon,
+    required String hitStr,
     bool isPassWord = false,
-    Function onChange,
+    Function? onChange,
   }) {
     return Container(
       width: px(550),
@@ -34,7 +34,9 @@ class LoginComponents{
                   textBaseline: TextBaseline.ideographic
               ),
               obscureText: isPassWord,
-              onChanged: onChange,
+              onChanged: (val){
+                onChange?.call(val);
+              },
               decoration: InputDecoration(
                   contentPadding: EdgeInsets.only(top: px(10), left: px(15.0)),
                   border: InputBorder.none,
@@ -48,7 +50,7 @@ class LoginComponents{
     );
   }
 ///登录按钮
-  static Widget loginBtn({Function onTap}){
+  static Widget loginBtn({Function? onTap}){
     return Padding(
       padding: EdgeInsets.only(top: px(120)),
       child:  InkWell(
@@ -64,7 +66,9 @@ class LoginComponents{
             style: TextStyle(color: Colors.white, fontSize: sp(32)),
           ),
         ),
-        onTap: onTap,
+        onTap: (){
+          onTap?.call();
+        },
       ),
     );
   }

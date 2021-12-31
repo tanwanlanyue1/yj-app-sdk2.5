@@ -4,7 +4,7 @@ import 'package:scet_app/utils/tool/screen/screen.dart';
 ///站点详情组件
 class SiteComponents {
   ///物质蓝色卡片
-  static Widget matterCard({List data, Function callBack}) {
+  static Widget matterCard({required List data, Function? callBack}) {
     return Container(
       height: px(118.0),
       child: ListView.builder(
@@ -14,7 +14,7 @@ class SiteComponents {
           return InkWell(
             child: matterCardItem(item: data[index]),
             onTap: () {
-              callBack(index, data[index]['facId']);
+              callBack!(index, data[index]['facId']);
             },
           );
         }),
@@ -22,7 +22,7 @@ class SiteComponents {
   }
 
   ///物质蓝色卡片每一项
-  static Widget matterCardItem({Map item}) {
+  static Widget matterCardItem({required Map item}) {
     return Container(
       width: px(244.0),
       height: px(118.0),
@@ -70,10 +70,10 @@ class SiteComponents {
 
   ///物质的 标题+内容
   static Widget matterCardTextrow(
-      {String leftTitle,
-      String leftValue,
-      String rightTitle,
-      String rightValue}) {
+      {String? leftTitle,
+      String? leftValue,
+      String? rightTitle,
+      String? rightValue}) {
     return Container(
       margin: EdgeInsets.only(top: px(14.0)),
       child: Row(
@@ -90,7 +90,7 @@ class SiteComponents {
   }
 
   ///物质的 标题+内容
-  static Widget matterCardText({String title, String value}) {
+  static Widget matterCardText({String? title, String? value}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -119,7 +119,7 @@ class SiteComponents {
   }
 
   ///白色卡片
-  static Widget itemCard({List<Widget> children}) {
+  static Widget itemCard({required List<Widget> children}) {
     return Container(
       width: px(702.0),
       // height: px(256),
@@ -134,7 +134,7 @@ class SiteComponents {
   }
 
   ///蓝色标题
-  static Widget title({ String title}){
+  static Widget title({ required String title}){
     return Text(
       title,
       style: TextStyle(
@@ -146,7 +146,7 @@ class SiteComponents {
   }
 
   /// 物质标题加内容
-  static Widget itemTextRow({String title, Widget child}) {
+  static Widget itemTextRow({String? title, required Widget child}) {
     return Container(
       margin: EdgeInsets.only(bottom: px(24.0)),
       child: Row(
@@ -173,8 +173,8 @@ class SiteComponents {
   static Widget itemCardRows({
     bool isCenter = true,//是否居中显示 否则靠上
     bool isName = false,//是否人名
-    String title,//标题
-    String data,//内容
+    String? title,//标题
+    required String data,//内容
   }) {
     return Padding(
       padding: EdgeInsets.only(top: px(10)),
@@ -216,14 +216,16 @@ class SiteComponents {
     );
   }
   ///查询按钮
-  static Widget queryButton({Function onTap}) {
+  static Widget queryButton({Function? onTap}) {
     return Align(
       alignment: Alignment.bottomRight,
       child: Container(
           width: px(120.0),
           height: px(48.0),
           child: GestureDetector(
-              onTap: onTap,
+              onTap: (){
+                onTap?.call();
+              },
               child: Image.asset('assets/icon/report/search.png',
                   fit: BoxFit.cover))),
     );

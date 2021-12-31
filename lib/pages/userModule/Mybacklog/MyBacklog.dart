@@ -6,8 +6,8 @@ import 'package:scet_app/utils/tool/screen/Adapter.dart';
 import 'package:scet_app/utils/tool/screen/screen.dart';
 
 class SortCondition {
-  String name;
-  bool isSelected;
+  String? name;
+  bool? isSelected;
   SortCondition({this.name, this.isSelected});
 }
 
@@ -17,13 +17,13 @@ class MyBacklog extends StatefulWidget {
 }
 
 class _MyBacklogState extends State<MyBacklog> {
-  List _jobList;
+  List _jobList = [];
   List<String> _dropDownHeaderItemStrings = ['状态', '任务类型',];
   String _dropdownMenuChange = '';
   GlobalKey _stackKey = GlobalKey();
 
-  SortCondition _selectStatusList; // 状态数组选中值
-  SortCondition _selectTypeList; // 任务类型选中值
+  SortCondition? _selectStatusList; // 状态数组选中值
+  SortCondition? _selectTypeList; // 任务类型选中值
   GZXDropdownMenuController _dropdownMenuController = GZXDropdownMenuController();
 
   List<SortCondition> _statusList = []; // 状态数组
@@ -83,7 +83,7 @@ class _MyBacklogState extends State<MyBacklog> {
           'executor':'杨大锤',
         }
       ]; //警情数据
-      if(mounted){
+      if(mounted == true){
         setState(() {
           _jobList = respone;
         });
@@ -137,7 +137,7 @@ class _MyBacklogState extends State<MyBacklog> {
                   iconColor: Color(0xff8A9099),
                 ),
                 Expanded(
-                  child:_jobList == null ?
+                  child:_jobList.isEmpty ?
                   CasingPly.casingPly4()  :
                   ListView.builder(
                     itemCount: _jobList.length,
@@ -181,7 +181,7 @@ class _MyBacklogState extends State<MyBacklog> {
                   dropDownWidget: _buildConditionListWidget(_statusList, (value) {
                     _selectStatusList = value;
                     _dropDownHeaderItemStrings[0] =
-                    _selectStatusList.name == '全部' ? '状态' : _selectStatusList.name;
+                    _selectStatusList!.name == '全部' ? '状态' : _selectStatusList!.name!;
                     _dropdownMenuController.hide();
                     setState(() {});
                   })
@@ -191,7 +191,7 @@ class _MyBacklogState extends State<MyBacklog> {
                   dropDownWidget: _buildConditionListWidget(_typeList, (value) {
                     _selectTypeList = value;
                     _dropDownHeaderItemStrings[1] =
-                    _selectTypeList.name == '全部' ? '任务类型' : _selectTypeList.name;
+                    _selectTypeList!.name == '全部' ? '任务类型' : _selectTypeList!.name!;
                     _dropdownMenuController.hide();
                     setState(() {});
                   })
@@ -228,15 +228,15 @@ class _MyBacklogState extends State<MyBacklog> {
                 SizedBox(width: 16,),
                 Expanded(
                   child: Text(
-                    goodsSortCondition.name,
+                    goodsSortCondition.name!,
                     style: TextStyle(
-                      color: goodsSortCondition.isSelected
+                      color: goodsSortCondition.isSelected!
                           ? Theme.of(context).primaryColor
                           : Colors.black,
                     ),
                   ),
                 ),
-                goodsSortCondition.isSelected
+                goodsSortCondition.isSelected!
                     ? Icon(Icons.check, color: Theme.of(context).primaryColor, size: 16,)
                     : SizedBox(),
                 SizedBox(width: 16,),
