@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cs_app/utils/listView/unListview.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/utils/listView/unListview.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 // 下拉选择器 支持 单选 多选操作
 class DownInput extends StatefulWidget {
@@ -31,10 +31,10 @@ class _DownInputState extends State<DownInput> {
   GlobalKey? _globalKey;
   String? _hitStr;//标题背景
   String? _value;//选择后显示
-  List? _data; //下拉数据
+  List _data = []; //下拉数据
   bool _more = false;//true 多选 false 单选
   Map? _currentData; //单选时候的内容
-  List? _currentDataList;//多选时候的内容
+  List _currentDataList = [];//多选时候的内容
 
   @override
   void initState() {
@@ -43,10 +43,10 @@ class _DownInputState extends State<DownInput> {
     _globalKey = GlobalKey();
     _hitStr= widget.hitStr;
     _value= widget.value;
-    _data = widget.data;
+    _data = widget.data ?? _data;
     _more = widget.more;
     _currentData = widget.currentData;
-    _currentDataList = widget.currentDataList != null ? widget.currentDataList : [];
+    _currentDataList = widget.currentDataList ?? _currentDataList;
   }
 
   @override
@@ -54,19 +54,19 @@ class _DownInputState extends State<DownInput> {
     super.didUpdateWidget(oldWidget);
     _hitStr= widget.hitStr;
     _value= widget.value;
-    // _data = widget.data;
+    _data = widget.data ?? _data;
     _more = widget.more;
     _currentData = widget.currentData != null ? widget.currentData:_currentData;
-    _currentDataList = widget.currentDataList != null ? widget.currentDataList : _currentDataList;
+    _currentDataList = widget.currentDataList ?? _currentDataList;
   }
 
   ///判断多选还是单选的回调操作
   setList(Map val){
     if(_more){  //多选
-      if(_currentDataList!.contains(val)) {
-        _currentDataList!.remove(val);
+      if(_currentDataList.contains(val)) {
+        _currentDataList.remove(val);
       } else {
-        _currentDataList!.add(val);
+        _currentDataList.add(val);
       }
       widget.callback(_currentDataList);
     } else { //单选
@@ -123,7 +123,7 @@ class _DownInputState extends State<DownInput> {
                             '${_value == null || _value == '' ? _hitStr : _value}',
                             style: TextStyle(
                                 fontSize:sp(28.0),
-                                color: _currentData == null && _currentDataList?.length == 0 ? Color(0XFFA8ABB3) : Color(0XFF45474D)
+                                color: _currentData == null && _currentDataList.length == 0 ? Color(0XFFA8ABB3) : Color(0XFF45474D)
                             ),
                           ),
                         ),
@@ -146,7 +146,7 @@ class _DownInputState extends State<DownInput> {
         if(widget.value ==null ) {
           print('未设置value---->\nvalue：选中后的内容，设置为您变量中的参数\nhitStr:默认提示',);
         }
-        if(_data?.isEmpty ?? true ) {
+        if(_data == [] || _data.length <= 0 ) {
           return;
         }
         RenderBox renderBox = _globalKey!.currentContext!.findRenderObject() as RenderBox;
@@ -157,7 +157,7 @@ class _DownInputState extends State<DownInput> {
                 position: box, //位置
                 callback:(val) { setList(val); },
                 // menuHeight: px(500),//显示的高度自由调节
-                data: _data!, // 下拉数据
+                data: _data, // 下拉数据
                 more: _more, // 是否开启多选状态
                 currentData: _currentData,
                 currentDataList: _currentDataList

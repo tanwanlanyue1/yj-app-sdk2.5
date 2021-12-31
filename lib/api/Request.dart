@@ -1,11 +1,11 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:cs_app/utils/storage/storage.dart';
-import 'package:cs_app/components/Loading.dart';
-import 'package:cs_app/components/ToastWidget.dart';
-import 'package:cs_app/main.dart';
-import 'package:cs_app/utils/storage/data_storageKey.dart';
+import 'package:scet_dz/components/Loading.dart';
+import 'package:scet_dz/components/ToastWidget.dart';
+import 'package:scet_dz/main.dart';
+import 'package:scet_dz/utils/storage/data_storageKey.dart';
+import 'package:scet_dz/utils/storage/storage.dart';
 import 'Api.dart';
 
 class Request {
@@ -31,40 +31,40 @@ class Request {
 
     // 添加拦截器
     dio.interceptors.add(InterceptorsWrapper(
-        onRequest: (RequestOptions options,RequestInterceptorHandler handler) {
-          BotToast.showCustomLoading(
-              ignoreContentClick: true,
-              toastBuilder: (cancelFunc) {
-                return Loading(cancelFunc: cancelFunc);
-              }
-          );
-          dio.lock();
-          Future<dynamic> future = Future(() async {
-            return StorageUtil().getString(StorageKey.Token) ?? "";
-          });
-          future.then((value) {
-            options.headers["token"] = value;
-            return options;
-          }).whenComplete(() => dio.unlock());
-          return handler.next(options);
-        },
-        onResponse: (Response response,ResponseInterceptorHandler handler) {
-          if (response.data is Map && response.data['code'] == 302) {
-            ToastWidget.showToastMsg('用户信息过时，请重新登录！');
-            BuildContext context = navigatorKey.currentState!.overlay!.context;
-            Future.delayed(Duration(seconds: 0)).then((onValue) {
-              Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-            });
+      onRequest: (RequestOptions options,RequestInterceptorHandler handler) {
+        BotToast.showCustomLoading(
+          ignoreContentClick: true,
+          toastBuilder: (cancelFunc) {
+            return Loading(cancelFunc: cancelFunc);
           }
-          BotToast.closeAllLoading();
-          return handler.next(response);
-        },
-        onError: (DioError e,ErrorInterceptorHandler  handler) {
-          BotToast.closeAllLoading();
-          ErrorEntity eInfo = createErrorEntity(e);
-          ToastWidget.showToastMsg(eInfo.message!);
-          return handler.next(e);
+        );
+        dio.lock();
+        Future<dynamic> future = Future(() async {
+          return StorageUtil().getString(StorageKey.Token) ?? "";
+        });
+        future.then((value) {
+          options.headers["token"] = value;
+          return options;
+        }).whenComplete(() => dio.unlock());
+        return handler.next(options);
+      }, 
+      onResponse: (Response response,ResponseInterceptorHandler handler) {
+        if (response.data is Map && response.data['code'] == 302) {
+          ToastWidget.showToastMsg('用户信息过时，请重新登录！');
+          BuildContext context = navigatorKey.currentState!.overlay!.context;
+          Future.delayed(Duration(seconds: 0)).then((onValue) {
+            Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+          });
         }
+        BotToast.closeAllLoading();
+        return handler.next(response);
+      }, 
+      onError: (DioError e,ErrorInterceptorHandler  handler) {
+        BotToast.closeAllLoading();
+        ErrorEntity eInfo = createErrorEntity(e);
+        ToastWidget.showToastMsg(eInfo.message!);
+        return handler.next(e);
+      }
     ));
   }
 
@@ -85,6 +85,7 @@ class Request {
       return response.data;
     } on DioError catch (e) {
       print("post错误-->$e");
+      print('===>$url');
       return {'code':null};
     }
   }
@@ -102,6 +103,7 @@ class Request {
       return response.data;
     } on DioError catch (e) {
       print("get错误-->$e");
+      print('===>$url');
       return {'code':null};
     }
   }
@@ -111,9 +113,9 @@ class Request {
     Response response;
     try {
       response = await dio.download(urlPath, savePath,
-          onReceiveProgress: (int count, int total) {
-            print("下载进度：$count /""+""$total");
-          });
+        onReceiveProgress: (int count, int total) {
+          print("下载进度：$count /""+""$total");
+      });
       return response.data;
     } on DioError catch (e) {
       print("download错误-->$e");
@@ -175,18 +177,22 @@ class Request {
         {
           return ErrorEntity(code: -1, message: "请求取消");
         }
+        break;
       case DioErrorType.connectTimeout:
         {
           return ErrorEntity(code: -1, message: "连接超时");
         }
+        break;
       case DioErrorType.sendTimeout:
         {
           return ErrorEntity(code: -1, message: "请求超时");
         }
+        break;
       case DioErrorType.receiveTimeout:
         {
           return ErrorEntity(code: -1, message: "响应超时");
         }
+        break;
       case DioErrorType.response:
         {
           try {
@@ -196,38 +202,47 @@ class Request {
                 {
                   return ErrorEntity(code: errCode, message: "请求语法错误");
                 }
+                break;
               case 401:
                 {
                   return ErrorEntity(code: errCode, message: "没有权限");
                 }
+                break;
               case 403:
                 {
                   return ErrorEntity(code: errCode, message: "服务器拒绝执行");
                 }
+                break;
               case 404:
                 {
                   return ErrorEntity(code: errCode, message: "无法连接服务器");
                 }
+                break;
               case 405:
                 {
                   return ErrorEntity(code: errCode, message: "请求方法被禁止");
                 }
+                break;
               case 500:
                 {
                   return ErrorEntity(code: errCode, message: "服务器内部错误");
                 }
+                break;
               case 502:
                 {
                   return ErrorEntity(code: errCode, message: "无效的请求");
                 }
+                break;
               case 503:
                 {
                   return ErrorEntity(code: errCode, message: "服务器挂了");
                 }
+                break;
               case 505:
                 {
                   return ErrorEntity(code: errCode, message: "不支持HTTP协议请求");
                 }
+                break;
               default:
                 {
                   return ErrorEntity(code: errCode, message: error.response?.statusMessage);

@@ -1,34 +1,20 @@
-import 'package:cs_app/model/data/data_jpush.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:cs_app/components/ToastWidget.dart';
-import 'package:cs_app/pages/ModuleAlarm/AlarmCenter.dart';
-import 'package:cs_app/pages/ModuleInfo/InfoCenter.dart';
-import 'package:cs_app/pages/ModuleMap/MapCenter.dart';
-import 'package:cs_app/pages/ModuleMonitor/MonitorCenter.dart';
-import 'package:cs_app/utils/screen/Adapter.dart';
+import 'package:scet_dz/components/ToastWidget.dart';
+import 'package:scet_dz/pages/ModuleAlarm/AlarmCenter.dart';
+import 'package:scet_dz/pages/ModuleInfo/InfoCenter.dart';
+import 'package:scet_dz/pages/ModuleMap/MapCenter.dart';
+import 'package:scet_dz/pages/ModuleMonitor/MonitorCenter.dart';
+import 'package:scet_dz/utils/screen/Adapter.dart';
 
 class HomePage extends StatefulWidget {
-  final Map? arguments;
-  HomePage({this.arguments});
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    if(widget.arguments !=null && widget.arguments?['index'] != null ){
-      _tabIndex = widget.arguments?['index'];
-      _pageController = PageController(initialPage: _tabIndex,);
-    }
-    _initData();
-    JpushData.isNotificationEnabled(context);
-  }
   var _pageController = PageController();
   int _tabIndex = 0;  // 默认索引第一个tab 
   
@@ -55,13 +41,9 @@ class _HomePageState extends State<HomePage> {
 
   List<StatefulWidget> _pageList = [];
   void _initData() {
-    int index1 = 0;
-    if(widget.arguments !=null && widget.arguments?['index1'] != null  ){
-      index1 = widget.arguments?['index1'];
-    }
     _pageList = [
       new MapCenter(),
-      new AlarmCenter(index:index1),
+      new AlarmCenter(),
       new MonitorCenter(),
       new InfoCenter(),
     ];
@@ -79,7 +61,11 @@ class _HomePageState extends State<HomePage> {
   Text getTabTitle(int curIndex) {
     return new Text(
       tabTitles[curIndex],
-      style: curIndex == _tabIndex ? TextStyle(color: Color(0XFF4D7CFF)) : TextStyle(color: Color(0XFFB9B9B9))
+      style: curIndex == _tabIndex 
+        ? 
+          TextStyle(color: Color(0XFF4D7CFF)) 
+        : 
+          TextStyle(color: Color(0XFFB9B9B9))
     );
   }
 
@@ -109,13 +95,20 @@ class _HomePageState extends State<HomePage> {
       return false;
     });
   }
+
   static Future<void> pop() async {
     await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
   }
-
+@override
+  void initState() {
+    // TODO: implement initState
+      _initData();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init(BoxConstraints(maxWidth: MediaQuery.of(context).size.width, maxHeight: MediaQuery.of(context).size.height), designSize: Size(Adapter.designWidth, Adapter.designHeight), orientation: Orientation.portrait);
+    // ScreenUtil.init(context, designSize: Size(Adapter.designWidth, Adapter.designHeight), allowFontScaling: false);
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
@@ -131,7 +124,9 @@ class _HomePageState extends State<HomePage> {
           currentIndex: _tabIndex,
           onTap: (index) {
             _pageController.jumpToPage(index);
-            setState(() {_tabIndex = index;});
+            setState(() {
+              _tabIndex = index;
+            });
           },
         )
       ),

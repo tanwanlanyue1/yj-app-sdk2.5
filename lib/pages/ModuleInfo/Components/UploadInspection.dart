@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cs_app/api/Api.dart';
-import 'package:cs_app/api/Request.dart';
-import 'package:cs_app/components/DownInput.dart';
-import 'package:cs_app/components/WidgetCheck.dart';
-import 'package:cs_app/components/TimeSelect.dart';
-import 'package:cs_app/components/ToastWidget.dart';
-import 'package:cs_app/model/provider/provider_home.dart';
-import 'package:cs_app/pages/ModuleMonitor/Components/SubmitButton.dart';
-import 'package:cs_app/utils/screen/Adapter.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/api/Api.dart';
+import 'package:scet_dz/api/Request.dart';
+import 'package:scet_dz/components/DownInput.dart';
+import 'package:scet_dz/components/WidgetCheck.dart';
+import 'package:scet_dz/components/TimeSelect.dart';
+import 'package:scet_dz/components/ToastWidget.dart';
+import 'package:scet_dz/model/provider/provider_home.dart';
+import 'package:scet_dz/pages/ModuleMonitor/Components/SubmitButton.dart';
+import 'package:scet_dz/utils/screen/Adapter.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 /*------------添加巡检-------------*/ 
 class UploadInspection extends StatefulWidget {
@@ -24,8 +24,9 @@ class _UploadInspectionState extends State<UploadInspection> {
   FocusNode blankNode = FocusNode();
 
   String? person, remark;
-
+  
   Map station = {};
+
   DateTime? currentTime;
   void timeChange(DateTime time) {
     if (mounted) {

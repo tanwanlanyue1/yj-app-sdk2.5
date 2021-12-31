@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:cs_app/pages/ModuleAlarm/Components/HistoryAlarm.dart';
-import 'package:cs_app/pages/ModuleAlarm/Components/RealTimeAlarm.dart';
-import 'package:cs_app/pages/ModuleAlarm/Components/StationCount.dart';
-import 'package:cs_app/utils/screen/Adapter.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/pages/ModuleAlarm/Components/HistoryAlarm.dart';
+import 'package:scet_dz/pages/ModuleAlarm/Components/RealTimeAlarm.dart';
+import 'package:scet_dz/pages/ModuleAlarm/Components/StationCount.dart';
+import 'package:scet_dz/utils/screen/Adapter.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 class AlarmCenter extends StatefulWidget {
-  final int index;
-  AlarmCenter({this.index = 0});
   _AlarmCenterState createState() => _AlarmCenterState();
 }
 
@@ -21,7 +19,6 @@ class _AlarmCenterState extends State<AlarmCenter> with SingleTickerProviderStat
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this,length: _tabTitles.length);
-    _tabController.index = widget.index;
   }
 
   @override
@@ -59,16 +56,18 @@ class _AlarmCenterState extends State<AlarmCenter> with SingleTickerProviderStat
               child: DefaultTabController(
                 length: _tabTitles.length,
                 child: TabBar(
-                    controller: _tabController,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    indicatorPadding: EdgeInsets.only(bottom: 5.0),
-                    isScrollable: false,
-                    labelColor: Colors.blue,
-                    labelStyle: TextStyle(fontSize: sp(30.0)),
-                    unselectedLabelColor: Colors.grey,
-                    tabs: _tabTitles.map((item) {
-                      return Tab(text: item);
-                    }).toList()
+                  controller: _tabController,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  indicatorPadding: EdgeInsets.only(bottom: 5.0),
+                  isScrollable: false,
+                  labelColor: Colors.blue,
+                  labelStyle: TextStyle(
+                    fontSize: sp(30.0)
+                  ),
+                  unselectedLabelColor: Colors.grey,
+                  tabs: _tabTitles.map((item) {
+                    return Tab(text: item);
+                  }).toList()
                 ),
               ),
             ),

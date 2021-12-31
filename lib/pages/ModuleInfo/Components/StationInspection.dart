@@ -1,14 +1,14 @@
-import 'package:cs_app/utils/dateUtc/dateUtc.dart';
+import 'package:scet_dz/utils/dateUtc/dateUtc.dart';
 import 'package:flutter/material.dart';
-import 'package:cs_app/api/Api.dart';
-import 'package:cs_app/api/Request.dart';
-import 'package:cs_app/components/DateRange.dart';
-import 'package:cs_app/components/DownInput.dart';
-import 'package:cs_app/components/NoData.dart';
-import 'package:cs_app/components/WidgetCheck.dart';
-import 'package:cs_app/utils/screen/screen.dart';
-import 'package:cs_app/utils/storage/data_storageKey.dart';
-import 'package:cs_app/utils/storage/storage.dart';
+import 'package:scet_dz/api/Api.dart';
+import 'package:scet_dz/api/Request.dart';
+import 'package:scet_dz/components/DateRange.dart';
+import 'package:scet_dz/components/DownInput.dart';
+import 'package:scet_dz/components/NoData.dart';
+import 'package:scet_dz/components/WidgetCheck.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
+import 'package:scet_dz/utils/storage/data_storageKey.dart';
+import 'package:scet_dz/utils/storage/storage.dart';
 
 class StationInspection extends StatefulWidget {
   final int? stId;
@@ -43,13 +43,13 @@ class _StationInspectionState extends State<StationInspection> {
   // 获取站点数据
   List _stationList = [];
   void _getStationList() {
-    List data = StorageUtil().getJSON(StorageKey.RealStationInfo);
-    data.insert(0, {"stName": '全部站点', "stId": '0'});
-    List stationList = data.map((item) {
+    List? data = StorageUtil().getJSON(StorageKey.RealStationInfo);
+    data?.insert(0, {"stName": '全部站点', "stId": '0'});
+    List? stationList = data?.map((item) {
       return {"name": item['stName'], "value": item['stId'].toString()};
     }).toList();
     setState(() {
-      _stationList = stationList;
+      _stationList = stationList ?? [];
     });
   }
 
@@ -150,12 +150,6 @@ class _StationInspectionState extends State<StationInspection> {
 
   Widget _itemInspect(data) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: px(10.0), vertical: px(10.0)),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(px(16.0)),
-        )
-      ),
       margin: EdgeInsets.only(top: px(30.0)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

@@ -1,6 +1,6 @@
-# cs_app
+# scet_dz
 
-A new Flutter application.com.example.cs_app
+A new Flutter application com.scet.scet_dz.
 
 ## Getting Started
 

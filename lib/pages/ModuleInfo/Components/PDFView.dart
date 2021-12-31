@@ -1,13 +1,13 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:scet_dz/utils/screen/Adapter.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-import 'package:cs_app/utils/screen/Adapter.dart';
-import 'package:cs_app/utils/screen/screen.dart';
 
 class PDFView extends StatelessWidget {
   final String? pathPDF;
   PDFView({this.pathPDF});
 
+  final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,9 +27,10 @@ class PDFView extends StatelessWidget {
       ),
       body: SfPdfViewer.network(
         '$pathPDF',
+        key: _pdfViewerKey,
       ),
       // body:SfPdfViewer.file(
-      //   File("$pathPDF"),
+      //   File(pathPDF),
       //   key: _pdfViewerKey,
       // ),
     );

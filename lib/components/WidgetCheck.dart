@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 class WidgetCheck {
 
   static TextStyle nameStyle = TextStyle(fontSize: sp(30), fontWeight: FontWeight.w600,fontFamily: 'Alibaba-PuHuiTi-M, Alibaba-PuHuiTi');
-
-  static Widget rowItem({bool alignStart = false, required bool padding, bool expanded = true,required String title, required Widget child}) {
+  
+  static Widget rowItem({bool alignStart = false,required bool padding, bool expanded = true, String? title,required Widget child}) {
     return Padding(
       padding: padding ? EdgeInsets.symmetric(vertical: px(24.0)) : EdgeInsets.zero,
       child: Row(
@@ -79,10 +79,11 @@ class WidgetCheck {
         //   borderSide: BorderSide(color: Colors.transparent)
         // ),
         border: InputBorder.none,
+
       ),
-        onChanged: (val){
-          onChanged?.call(val);
-        },
+      onChanged: (val){
+        onChanged?.call(val);
+      },
       style: TextStyle(
           color: Color(0XFF2E2F33),
           fontSize: sp(28.0),
@@ -90,7 +91,7 @@ class WidgetCheck {
     );
   }
 
-  static Widget selectWidget({String? hintText, required List items,  String? value, Function? onChanged}) {
+  static Widget selectWidget({String? hintText,required List items, String? value, Function? onChanged}) {
     return Container(
       padding: EdgeInsets.only(left: px(8.0)),
       height: px(54.0),
@@ -152,7 +153,7 @@ class WidgetCheck {
       ),
       onChanged: (val){
         onChanged?.call(val);
-      },
+      }
     );
   }
 }

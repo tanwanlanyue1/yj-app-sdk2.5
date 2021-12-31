@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:cs_app/api/Api.dart';
-import 'package:cs_app/api/Request.dart';
-import 'package:cs_app/components/DateRange.dart';
-import 'package:cs_app/components/DownInput.dart';
-import 'package:cs_app/components/NoData.dart';
-import 'package:cs_app/components/WidgetCheck.dart';
-import 'package:cs_app/pages/ModuleInfo/Components/ReportCard.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/api/Api.dart';
+import 'package:scet_dz/api/Request.dart';
+import 'package:scet_dz/components/DateRange.dart';
+import 'package:scet_dz/components/DownInput.dart';
+import 'package:scet_dz/components/NoData.dart';
+import 'package:scet_dz/components/WidgetCheck.dart';
+import 'package:scet_dz/pages/ModuleInfo/Components/ReportCard.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 class Report extends StatefulWidget {
   @override
@@ -24,7 +24,7 @@ class _ReportState extends State<Report> {
   String _currentType = 'day';
 
   Map _report=  {'name': '快报(日报)', 'value': 'day'}; // 选中项目
-
+  
   List _reportType = [
     {'name': '快报(日报)', 'value': 'day'},
     {'name': '周报', 'value': 'week'},
@@ -100,7 +100,6 @@ class _ReportState extends State<Report> {
                   callBack: (val) {
                     _startTime = val[0];
                     _endTime = val[1];
-                    setState(() {});
                   },
                 )
               ),

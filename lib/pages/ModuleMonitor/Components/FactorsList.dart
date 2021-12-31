@@ -1,11 +1,11 @@
-import 'package:cs_app/utils/dateUtc/dateUtc.dart';
+import 'package:scet_dz/utils/dateUtc/dateUtc.dart';
 import 'package:flutter/material.dart';
-import 'package:cs_app/api/Api.dart';
-import 'package:cs_app/api/Request.dart';
-import 'package:cs_app/components/NoData.dart';
-import 'package:cs_app/pages/ModuleMonitor/Components/MonitorCharts.dart';
-import 'package:cs_app/utils/alarmLevel/ColorLevel.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/api/Api.dart';
+import 'package:scet_dz/api/Request.dart';
+import 'package:scet_dz/components/NoData.dart';
+import 'package:scet_dz/pages/ModuleMonitor/Components/MonitorCharts.dart';
+import 'package:scet_dz/utils/alarmLevel/ColorLevel.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 class FactorsList extends StatefulWidget {
   final int stId;
@@ -43,20 +43,7 @@ class _FactorsList extends State<FactorsList> with AutomaticKeepAliveClientMixin
         return double.parse(b['value'].toString()).compareTo(double.parse(a['value'].toString()));
       });
       normal.sort((a, b) {
-        int numberA;
-        int numberB;
-        if(a['warn'].containsKey('level')){
-          numberA = a['warn']['level'];
-        }else{
-          numberA = a['warn']['warning']['level'];
-        }
-        if(b['warn'].containsKey('level')){
-          numberB = b['warn']['level'];
-        }else{
-          numberB = b['warn']['warning']['level'];
-        }
-        return numberB.compareTo(numberA);
-        // return int.parse(b['warn']['warning']['level'].toString()).compareTo(int.parse(a['warn']['warning']['level'].toString()));
+        return int.parse(b['warn']['warning']['level'].toString()).compareTo(int.parse(a['warn']['warning']['level'].toString()));
       });
       setState(() {
         normalFactor = normal;
@@ -139,12 +126,7 @@ class _FactorsList extends State<FactorsList> with AutomaticKeepAliveClientMixin
   }
 
   Widget _getGridViewItemUI({factor}) {
-    int level;
-    if(factor['warn'].containsKey('level')){
-      level = factor['warn']['level'];
-    }else{
-      level = factor['warn']['warning']['level'];
-    }
+    int level = factor['warn']['warning']['level'];
     bool warnState = level > 0 ? true : false;
     var color = colorSelest(level);
     return InkWell(

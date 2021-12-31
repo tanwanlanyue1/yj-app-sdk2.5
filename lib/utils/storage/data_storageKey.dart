@@ -8,8 +8,4 @@ class StorageKey{
   static const String Token = 'token'; // 用户token
 
   static const String RealStationInfo = 'realStationInfo'; // 全局的站点信息
-
-  static const String showAlarm = 'showAlarm'; // 首页警情提示
-
-  static const String user = 'user'; //用户信息
 }

@@ -1,11 +1,11 @@
 {
-    "name": "cs_app",
-    "short_name": "cs_app",
+    "name": "scet_dz",
+    "short_name": "scet_dz",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter application.com.example.cs_app",
+    "description": "A new Flutter application com.scet.scet_dz.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

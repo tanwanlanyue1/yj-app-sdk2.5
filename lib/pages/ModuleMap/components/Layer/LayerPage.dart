@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:cs_app/pages/ModuleMap/components/Layer/DangerFactors.dart';
-import 'package:cs_app/pages/ModuleMap/components/Layer/MonitorDevice.dart';
-import 'package:cs_app/pages/ModuleMap/components/Layer/SensitivePoint.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/pages/ModuleMap/components/Layer/DangerFactors.dart';
+import 'package:scet_dz/pages/ModuleMap/components/Layer/MonitorDevice.dart';
+import 'package:scet_dz/pages/ModuleMap/components/Layer/SensitivePoint.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 class LayerPage extends StatefulWidget {
   final Map? arguments;
@@ -30,7 +30,7 @@ class _LayerPageState extends State<LayerPage> with SingleTickerProviderStateMix
     tabController = TabController(
       length: _tabs.length,
       vsync: this,
-        initialIndex: widget.arguments?['index']);
+      initialIndex: widget.arguments?['index']);
   }
 
   @override

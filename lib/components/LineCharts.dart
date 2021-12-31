@@ -22,6 +22,7 @@ class LineCharts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print(warnLevel);
     _colorSelect(warnLevel);
     return Echarts(
       option: '''
@@ -59,7 +60,7 @@ class LineCharts extends StatelessWidget {
               date = date.toJSON().substr(0, 19).replace('T', ' ');
               return (
                 "时间：" + date + '<br/>' +
-                params[0].marker +params[0].seriesName+ '：' + params[0].data[1] + '${unit == null ? '': unit}'
+                params[0].marker +params[0].seriesName+ '：' + params[0].data[1] + '$unit'
               );
             }
           },
@@ -89,7 +90,7 @@ class LineCharts extends StatelessWidget {
             }
           },
           yAxis: {
-            name: '${unit == null ? '': unit}',
+            name: '$unit',
             nameTextStyle: {
               color: '#A1A6B3',
               fontSize: 12
@@ -116,13 +117,13 @@ class LineCharts extends StatelessWidget {
               smooth: true,
               showSymbol: true,
               symbol: 'circle',
-              symbolSize:5,
+              symbolSize: 3,
               yAxisIndex: 0,
               itemStyle: {
                 normal: {
                   color: '$themeColor',
                   lineStyle: {
-                    width: 2,
+                    width: 1,
                     shadowColor: '$themeColor',
                   }
                 }

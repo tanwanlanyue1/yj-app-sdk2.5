@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:cs_app/pages/ModuleInfo/Components/Report.dart';
-import 'package:cs_app/pages/ModuleInfo/Components/StationInspection.dart';
-import 'package:cs_app/utils/screen/Adapter.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/pages/ModuleInfo/Components/Report.dart';
+import 'package:scet_dz/pages/ModuleInfo/Components/StationInspection.dart';
+import 'package:scet_dz/utils/screen/Adapter.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 class InfoCenter extends StatefulWidget {
 

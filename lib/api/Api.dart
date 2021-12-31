@@ -1,8 +1,7 @@
 class Api {
-  static final BASE_URL_APP = 'https://cq.scet.com.cn/app';
+  static final BASE_URL_APP = 'https://dz.scet.com.cn:1443/app';
 
-  static final BASE_URL_PC = 'https://cq.scet.com.cn/api';
-  // static final BASE_URL_PC = 'http://10.10.1.217:9700';
+  static final BASE_URL_PC = 'https://dz.scet.com.cn:1443/api';
 
   static final Map url = {
 
@@ -13,19 +12,13 @@ class Api {
     // "alarmCount": BASE_URL_APP + '/alarm/station', // 当天警情 > 0
     "alarmCount": BASE_URL_PC + '/alarm/sites/number', // 当天警情 > 0
 
-    "threshold": BASE_URL_PC + '/alarm/sites/each/threshold', // 查询四种类型警情
-
     "realtimeAlarm": BASE_URL_APP + '/alarm/realtime', // 实时警情
 
     "historyAlarm": BASE_URL_APP + '/alarm/historydata', // 历史警情
 
-    // "alarmLine": BASE_URL_APP + '/alarm/factor/historydata', // 警情浓度
-
-    "alarmLine": BASE_URL_PC + '/data/history', // 警情浓度
-
     "table": BASE_URL_PC + '/alarm/table', // 历史警情
 
-    // "alarmLine": BASE_URL_APP + '/alarm/factor/historydata', // 警情浓度
+    "alarmLine": BASE_URL_APP + '/alarm/factor/historydata', // 警情浓度
 
     "samePoint": BASE_URL_APP + '/data/getLatestData', // 同类点位
 
@@ -44,8 +37,7 @@ class Api {
     // "stationDevice": BASE_URL_APP + '/station/device',  // 站点设备
     "stationDevice": BASE_URL_PC + '/instruments/site',  // 站点设备
 
-    // "factorValueList": BASE_URL_APP + '/data/monitor',  // 因子趋势
-    "factorValueList": BASE_URL_PC + '/data/history',  // 因子趋势
+    "factorValueList": BASE_URL_APP + '/data/monitor',  // 获取当前因子的浓度趋势
 
     "factorDescription": BASE_URL_APP + '/data/description',  // 因子描述
 
@@ -88,10 +80,8 @@ class Api {
     "taskList": BASE_URL_PC + '/events/subordinate', // 任务中心
 
     "dataPlural": BASE_URL_PC + '/data/plural/history', // 数据核查
-
+    
     "chemicals": BASE_URL_PC + '/chemicals/mobile/list', // 所有监测因子
-
-    "jpush": BASE_URL_PC + '/jpush', // 极光
   };
 
 }

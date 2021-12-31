@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 class RightMenu extends StatefulWidget {
   final bool commonMapType;
@@ -76,9 +76,9 @@ class _RightMenuState extends State<RightMenu> {
               _title('站点图层'),
               _station(),
               _title('其他'),
-              Expanded(
-                child: _others(),
-              )
+              // Expanded(
+              //   child: _others(),
+              // )
             ],
           ),
         ),
@@ -109,7 +109,7 @@ class _RightMenuState extends State<RightMenu> {
       child: Row(
       children: _mapTheme.asMap().keys.map((index) {
         var data = _mapTheme[index];
-        bool state = (index == 0) ? widget.commonMapType : !widget.commonMapType;
+        bool state = index == 0 ? widget.commonMapType : !widget.commonMapType;
         return Container(
           margin: EdgeInsets.only(right: px(32)),
           child: Column(

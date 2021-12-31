@@ -1,18 +1,16 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:cs_app/utils/storage/data_storageKey.dart';
-import 'package:cs_app/utils/storage/storage.dart';
-import 'package:cs_app/api/Api.dart';
-import 'package:cs_app/api/Request.dart';
-import 'package:cs_app/components/DateRange.dart';
-import 'package:cs_app/components/DownInput.dart';
-import 'package:cs_app/components/NoData.dart';
-import 'package:cs_app/components/WidgetCheck.dart';
-import 'package:cs_app/pages/ModuleAlarm/Components/ListAlarm.dart';
-import 'package:cs_app/utils/screen/screen.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:cs_app/utils/easyRefresh/easyRefreshs.dart';
+import 'package:scet_dz/utils/easyRefresh/easyRefreshs.dart';
+import 'package:scet_dz/utils/storage/data_storageKey.dart';
+import 'package:scet_dz/utils/storage/storage.dart';
+import 'package:scet_dz/api/Api.dart';
+import 'package:scet_dz/api/Request.dart';
+import 'package:scet_dz/components/DateRange.dart';
+import 'package:scet_dz/components/DownInput.dart';
+import 'package:scet_dz/components/NoData.dart';
+import 'package:scet_dz/components/WidgetCheck.dart';
+import 'package:scet_dz/pages/ModuleAlarm/Components/ListAlarm.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 class HistoryAlarm extends StatefulWidget {
   final int? stId;
@@ -32,28 +30,24 @@ class _HistoryAlarmState extends State<HistoryAlarm> {
   bool _enableLoad = true; // 是否开启加载
   int _total = 10;
   int _pageNo =1;
-
   // 获取历史警情
   List historyAlarm = [];
-  void _getHistoryAlarm(stId, _startTime, _endTime,{typeStatus? type}) async {
+  void _getHistoryAlarm(stId, _startTime, _endTime, {typeStatus? type}) async {
     Map<String, dynamic> params = Map();
     params['stId'] = stId;
-    params['type'] = 'history';
-    params['pageNo'] = _pageNo;
-    params['pageSize'] = 10;
-    params['status'] = jsonEncode([0,1]);
     params['startTime'] = _startTime.toUtc();
     params['endTime'] = _endTime.toUtc();
-    print(params);
+    params['pageNo'] = _pageNo;
+    params['pageSize'] = 10;
     var response = await Request().get(Api.url['table'], data: params);
     if(response['code'] == 200) {
-      _pageNo++;
       List data = response['data']["data"];
+      _pageNo++;
       _total = response['data']["total"];
       data.forEach((item) {
         item['type'] = 'history';
       });
-      setState(() {});
+      if (mounted) {
         if(type == typeStatus.onRefresh) {
           // 下拉刷新
           refreshPage(data);
@@ -61,41 +55,39 @@ class _HistoryAlarmState extends State<HistoryAlarm> {
           // 上拉加载
           _onLoad(response['data']['data']);
         }
+      }
+      setState(() {});
     }
   }
 
   //下拉刷新
   void refreshPage(List data) {
-    if(mounted == true){
-      setState(() {
-        historyAlarm = data;
-        _enableLoad = true;
-        _controller.resetLoadState();
-        try{
-          _controller.finishRefresh();
-        }catch(e){}
-      });
+    historyAlarm = data;
+    _enableLoad = true;
+    _controller.resetLoadState();
+    _controller.finishRefresh();
+    if(historyAlarm.length >= _total){
+      _controller.finishLoad(noMore: true);
     }
+    setState(() {});
   }
   // 上拉加载
   _onLoad(List data) {
-    if(mounted == true){
-      setState(() {
-        historyAlarm.addAll(data);
-        _controller.finishLoadCallBack!();
-        if(historyAlarm.length >= _total){
-          _controller.finishLoad(noMore: true);
-          _enableLoad = false;
-        }
-      });
+    historyAlarm.addAll(data);
+    _controller.finishLoadCallBack!();
+    if(historyAlarm.length >= _total){
+      _controller.finishLoad(noMore: true);
+      _enableLoad = false;
     }
+    setState(() {});
   }
   @override
   void initState() {
     super.initState();
     _getStationList();
-    _getHistoryAlarm('', _startTime, _endTime,type: typeStatus.onRefresh);
+    // _getHistoryAlarm(0, _startTime, _endTime);
   }
+
   // 获取站点数据
   List _stationList = [];
   void _getStationList() {
@@ -108,12 +100,7 @@ class _HistoryAlarmState extends State<HistoryAlarm> {
       _stationList = stationList ?? [];
     });
   }
-  @override
-    void dispose() {
-      // TODO: implement dispose
-    _controller.dispose();
-    super.dispose();
-    }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -168,8 +155,6 @@ class _HistoryAlarmState extends State<HistoryAlarm> {
                 child: GestureDetector(
                   onTap: () {
                     _pageNo = 1;
-                    historyAlarm = [];
-                    setState(() {});
                     _getHistoryAlarm(_station['value'], _startTime, _endTime,type: typeStatus.onRefresh);
                   },
                   child: Image.asset(
@@ -181,26 +166,28 @@ class _HistoryAlarmState extends State<HistoryAlarm> {
             ],
           )
         ),
-        historyAlarm.length > 0 ?
         Expanded(
           child: EasyRefresh(
             enableControlFinishRefresh: true,
             enableControlFinishLoad: true,
             topBouncing: true,
+            firstRefresh: true,
             controller: _controller,
             taskIndependence: false,
             header: headers(),
             footer: footers(),
-            onRefresh: () async{
-              _pageNo = 1;
-              _getHistoryAlarm(_station['value'], _startTime, _endTime,type: typeStatus.onRefresh);
-            },
-            onLoad:  _enableLoad ? () async {
-              _getHistoryAlarm(_station['value'], _startTime, _endTime,type: typeStatus.onLoad);
-            } : null,
-            child: ListAlarm(alarmData: historyAlarm),
-          )
-        ): NoData(timeType: true, state: '该时间段无异常数据！'),
+              onRefresh: () async{
+                _pageNo = 1;
+                _getHistoryAlarm(_station['value'], _startTime, _endTime,type: typeStatus.onRefresh);
+              },
+              onLoad:  _enableLoad ? () async {
+                  _getHistoryAlarm(_station['value'], _startTime, _endTime,type: typeStatus.onLoad);
+              } : null,
+            child: historyAlarm.length > 0 ?
+            ListAlarm(alarmData: historyAlarm)
+            : NoData(timeType: true, state: '该时间段无异常数据！'),
+            )
+          ),
       ],
     );
   }

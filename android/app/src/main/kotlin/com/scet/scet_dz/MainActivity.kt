@@ -1,4 +1,4 @@
-package com.example.cs_app
+package com.scet.scet_dz
 
 import io.flutter.embedding.android.FlutterActivity
 

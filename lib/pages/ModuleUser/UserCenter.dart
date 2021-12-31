@@ -1,12 +1,10 @@
 import 'dart:ui';
-import 'package:cs_app/model/data/data_jpush.dart';
-import 'package:cs_app/utils/storage/data_storageKey.dart';
 import 'package:flutter/material.dart';
-import 'package:cs_app/api/Api.dart';
-import 'package:cs_app/api/Request.dart';
-import 'package:cs_app/components/ToastWidget.dart';
-import 'package:cs_app/utils/screen/screen.dart';
-import 'package:cs_app/utils/storage/storage.dart';
+import 'package:scet_dz/api/Api.dart';
+import 'package:scet_dz/api/Request.dart';
+import 'package:scet_dz/components/ToastWidget.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
+import 'package:scet_dz/utils/storage/storage.dart';
 
 class UserCenter extends StatefulWidget {
   _UserCenterState createState() => _UserCenterState();
@@ -119,12 +117,8 @@ class _UserCenterState extends State<UserCenter> {
                           fontSize: sp(32.0)
                         ),
                       ),
-                      onPressed: (){
-                        // jpushPhone(userInfo['phone']);
-                        JpushData.stopPush(); // 停止推送
-                        StorageUtil().remove(StorageKey.Token);
-                        StorageUtil().remove(StorageKey.user,);
-                        JpushData.cleanTags();
+                      onPressed: (){ 
+                        StorageUtil().remove('token');
                         Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
                       }
                     ),
@@ -175,7 +169,7 @@ class _UserCenterState extends State<UserCenter> {
     );
   }
 
-  Widget _itemInfoCard(int index, String firstName, String? firstValue, String? secondName, String? secondValue) {
+  Widget _itemInfoCard(int index, String? firstName, String? firstValue, String? secondName, String? secondValue) {
     return Container(
       margin: EdgeInsets.only(top: px(50.0)),
       padding: EdgeInsets.symmetric(horizontal: px(20.0)),

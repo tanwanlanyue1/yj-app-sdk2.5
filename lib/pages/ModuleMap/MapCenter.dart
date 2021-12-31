@@ -1,17 +1,16 @@
-import 'package:cs_app/components/ToastWidget.dart';
-import 'package:cs_app/model/data/data_global.dart';
-import 'package:cs_app/model/data/data_jpush.dart';
-import 'package:cs_app/pages/ModuleUser/UpdateApp.dart';
+import 'package:scet_dz/pages/ModuleUser/UpdateApp.dart';
 import 'package:flutter/material.dart';
-import 'package:cs_app/api/Api.dart';
-import 'package:cs_app/api/Request.dart';
-import 'package:cs_app/pages/ModuleMap/components/AlarmInfo.dart';
-import 'package:cs_app/pages/ModuleMap/components/MapWidget.dart';
-import 'package:cs_app/pages/ModuleMap/components/RightMenu.dart';
-import 'package:cs_app/utils/screen/Adapter.dart';
-import 'package:cs_app/utils/screen/screen.dart';
-import 'package:cs_app/utils/storage/data_storageKey.dart';
-import 'package:cs_app/utils/storage/storage.dart';
+import 'package:provider/provider.dart';
+import 'package:scet_dz/api/Api.dart';
+import 'package:scet_dz/api/Request.dart';
+import 'package:scet_dz/model/provider/provider_home.dart';
+import 'package:scet_dz/pages/ModuleMap/components/AlarmInfo.dart';
+import 'package:scet_dz/pages/ModuleMap/components/MapWidget.dart';
+import 'package:scet_dz/pages/ModuleMap/components/RightMenu.dart';
+import 'package:scet_dz/utils/screen/Adapter.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
+import 'package:scet_dz/utils/storage/data_storageKey.dart';
+import 'package:scet_dz/utils/storage/storage.dart';
 
 class MapCenter extends StatefulWidget {
   @override
@@ -29,76 +28,54 @@ class _MapCenterState extends State<MapCenter> with AutomaticKeepAliveClientMixi
   bool _commonMapType = false, _backPark = false;
 
   String _currentLayerType = 'station';
-
-  List iconList = [
-    {'icon':'lib/assets/icon/map/one.png','name':'一级警情'},
-    {'icon':'lib/assets/icon/map/two.png','name':'二级警情'},
-    {'icon':'lib/assets/icon/map/three.png','name':'三级警情'},
-    {'icon':'lib/assets/icon/map/four.png','name':'四级警情'},
-  ];
+  int total = 0;
 
   // 获取警情消息
+  List realAlarm = [];
+  bool realAlarmState = false;
   void _getRealTimeAlarm() async{
-    var response = await Request().get(Api.url['realtimeAlarm']);
+    Map<String, dynamic> params = Map();
+    params['type'] = 'realTime';
+    params['pageNo'] = 1;
+    params['pageSize'] = 10;
+    var response = await Request().get(Api.url['table'], data: params);
     if(response['code'] == 200) {
-      List data = response['data'];
-      showAlarm(data);
+      List data = response['data']['data'];
+      total = response['data']['total'];
+      realAlarm = data;
+      setState(() {});
     }
   }
 
-  // 是否开启警情推送
-  void _openPush() async{
-    if(Global.showAlarm == true){
-      JpushData.deleteTags(['app']);
-      JpushData.stopPush();
-      ToastWidget.showToastMsg('已关闭告警消息推送通知');
-      Global.changeShowAlarm(show: false);
-    }else{
-      JpushData.resumePush();
-      Future.microtask(() {
-        Future.delayed(Duration(milliseconds: 1000), () {
-          JpushData.setTags(['app']);
-        });
+  // 站点接口
+  _realStationInfo() async {
+    var response = await Request().get(Api.url['realStationInfo']);
+    if(response != null && response['code'] == 200){
+      /** pc站點兼容操作**/
+      response['data'].forEach((item){
+        item['stId'] = item['oldId'];
       });
-      ToastWidget.showToastMsg('已开启告警消息推送通知');
-      Global.changeShowAlarm(show: true);
+      //缓存站点数据
+      StorageUtil().setJSON(StorageKey.RealStationInfo, response['data']);
+      context.read<HomeModel>().getSiteList(response['data']);
+      print('读取站点信息==>${StorageUtil().getJSON(StorageKey.RealStationInfo)}');
     }
-    setState(() {});
   }
-  
+
   @override
   void initState() {
     super.initState();
     // 获取警情消息
-    if(!Global.showAlarmToast){ _getRealTimeAlarm();}
-  }
-
-  //告警消息推送
-  showAlarm(List realAlarm){
-    if (StorageUtil().getBool(StorageKey.showAlarm) == true) {
-      Global.showAlarmToast = true;
-      Future.microtask(() {
-        showDialog<Null>(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return GestureDetector(
-                onTap: () {Navigator.pop(context);},
-                child: Material(
-                  color: Color.fromRGBO(0, 0, 0, 0.5),
-                  child:  AlarmInfo(realAlarm),
-                )
-            );},
-        );
-      });
-    }
+    _getRealTimeAlarm();
+    // 获取站点数据
+      _realStationInfo();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: _appBar(),
+        appBar: _appBar(),
       endDrawer: _endDrawer(),
       body: Stack(
         children: <Widget>[
@@ -107,6 +84,18 @@ class _MapCenterState extends State<MapCenter> with AutomaticKeepAliveClientMixi
             commonMapType: _commonMapType,
             layerType: _currentLayerType,
             backPark: _backPark
+          ),
+          // 警情提示
+          Visibility(
+            visible: realAlarmState,
+            child: Positioned(
+              top: px(16.0),
+              right: px(40.0),
+              child: AlarmInfo(
+              realAlarm: realAlarm,
+              params: total,
+            ),
+            )
           ),
           Positioned(
             right: px(20.0),
@@ -148,24 +137,6 @@ class _MapCenterState extends State<MapCenter> with AutomaticKeepAliveClientMixi
               ],
             ),
           ),
-          if(_currentLayerType == 'station') Positioned(
-            left: px(20.0),
-            bottom: px(20.0),
-            child: Column(
-              children: iconList.map((item){
-                 return Row(
-                    children: [
-                      SizedBox(
-                        width: px(45.0),
-                        height: px(55.0),
-                        child: Image.asset(item['icon'], fit: BoxFit.cover),
-                      ),
-                      Text('：${item['name']}',style: TextStyle(color: Colors.white,fontSize: sp(27)),),
-                    ],
-                  );
-              }).toList()
-            ),
-          ),
           Positioned(
             child: UpdateApp()
           ),
@@ -173,73 +144,74 @@ class _MapCenterState extends State<MapCenter> with AutomaticKeepAliveClientMixi
       )
     );
   }
-
   //头部
   PreferredSizeWidget _appBar(){
     return PreferredSize(
-        preferredSize: Size(Adapt.screenW(), px(Adapter.topBarHeight)),
-        child: AppBar(
-          title: Row(
-            children: <Widget>[
-              Container(
-                height: px(50.0),
-                width: px(50.0),
-                child: Image.asset(
-                  'lib/assets/images/logo.png',
-                  fit: BoxFit.cover,
-                ),
+      preferredSize: Size(Adapt.screenW(), px(Adapter.topBarHeight)),
+      child: AppBar(
+        title: Row(
+          children: <Widget>[
+            Container(
+              height: px(50.0),
+              width: px(50.0),
+              child: Image.asset(
+                'lib/assets/images/logo.png',
+                fit: BoxFit.cover,
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 5.0),
-                child: Text(
-                    '长寿园区预警',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: sp(40.0)
-                    )
-                ),
-              )
-            ],
-          ),
-          iconTheme: IconThemeData(color: Colors.white),
-          automaticallyImplyLeading: false,
-          actions: <Widget>[
-            GestureDetector(
-                onDoubleTap: _openPush,
-                child: IconButton(
-                  icon: Icon(
-                    Icons.notifications_active,
-                    size: sp(50.0),
-                    color: Global.showAlarm  == true ? Colors.red : Colors.white,
-                  ),
-                  tooltip: '警情消息',
-                  onPressed:(){}
-                )
             ),
-            IconButton(
-              icon: Icon(Icons.person, size: sp(50.0)),
-              tooltip: '个人中心',
-              onPressed: () {
-                Navigator.pushNamed(context, '/mine');
-              },
+            Padding(
+              padding: EdgeInsets.only(left: 5.0),
+              child: Text(
+                  '刁镇园区预警',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: sp(40.0)
+                  )
+              ),
             )
           ],
         ),
+        iconTheme: IconThemeData(color: Colors.white),
+        automaticallyImplyLeading: false,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.notifications_active,
+              size: sp(50.0),
+              color: realAlarm.length > 0 ? Colors.red : Colors.white,
+            ),
+            tooltip: '警情消息',
+            onPressed: () {
+              this.setState(() {
+                realAlarmState = !realAlarmState ? true : false;
+              });
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.person, size: sp(50.0)),
+            tooltip: '个人中心',
+            onPressed: () {
+              Navigator.pushNamed(context, '/mine');
+            },
+          )
+        ],
+      ),
     );
   }
-
   //抽屉
   Widget _endDrawer(){
     return RightMenu(
         commonMapType: _commonMapType,
         layerType: _currentLayerType,
         layerData: (index) {
-          _currentLayerType = index;
-          setState(() {});
+          setState(() {
+            _currentLayerType = index;
+          });
         },
         mapType: (type) {
-          _commonMapType = type;
-          setState(() {});
+          this.setState(() {
+            _commonMapType = type;
+          });
         }
     );
   }

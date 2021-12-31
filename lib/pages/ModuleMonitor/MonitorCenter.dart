@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:cs_app/api/Api.dart';
-import 'package:cs_app/api/Request.dart';
-import 'package:cs_app/utils/screen/Adapter.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/api/Api.dart';
+import 'package:scet_dz/api/Request.dart';
+import 'package:scet_dz/utils/screen/Adapter.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 class MonitorCenter extends StatefulWidget {
   _MonitorCenter createState() => _MonitorCenter();
@@ -67,7 +67,7 @@ class _MonitorCenter extends State<MonitorCenter> {
         data.forEach((items) {
           if(station['stId'] == items['stId']) {
             station['facSum'] = items['factorSum'];
-          }
+          } 
         });
       });
       stationData.sort((a, b) {
@@ -133,19 +133,19 @@ class _MonitorCenter extends State<MonitorCenter> {
                         crossAxisAlignment: CrossAxisAlignment.center, 
                         children: <Widget>[
                           Text(
-                            '监测因子', 
-                            style: TextStyle(
-                              color: Colors.white, 
-                              fontSize: sp(30.0)
-                            )
+                              '监测因子',
+                              style: TextStyle(
+                                color: Colors.white,
+                                  fontSize: sp(30.0)
+                              )
                           ),
                           Text(
-                            '${stationList[index]['factors'].length}',
-                            style: TextStyle(
-                              color: Colors.white, 
-                              fontSize: sp(56.0), 
-                              fontWeight: FontWeight.w600
-                            )
+                              '${stationList[index]['factors'].length}',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: sp(56.0),
+                                  fontWeight: FontWeight.w600
+                              )
                           ),
                         ]
                       )
@@ -160,12 +160,14 @@ class _MonitorCenter extends State<MonitorCenter> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center, 
                               children: <Widget>[
-                                Text(
-                                  '${stationList[index]['stName']}', 
-                                  style: TextStyle(
-                                    color: Colors.black,  
-                                    fontSize: sp(34.0)
-                                  )
+                                Expanded(
+                                  child: Text(
+                                    '${stationList[index]['stName']}',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: sp(34.0)
+                                    )
+                                  ),
                                 ),
                                 Text(
                                   '${stationList[index]['status'] == 1 ? '正常' : '停用'}', 
@@ -184,19 +186,19 @@ class _MonitorCenter extends State<MonitorCenter> {
                               crossAxisAlignment: CrossAxisAlignment.center, 
                               children: <Widget>[
                                 _itemWeatherData(
-                                  title: '温度', 
-                                  value: ( weather != null && weather['temp'] != null) ? weather['temp'].toStringAsFixed(1) : "-",
-                                  unit: '℃'
+                                    title: '温度',
+                                    value: (weather != null && weather['temp'] != null) ? weather['temp'].toStringAsFixed(1) : "-",
+                                    unit: '℃'
                                 ),
                                 _itemWeatherData(
-                                  title: '风向', 
-                                  value: ( weather != null && weather['wdExpl'] != null) ? weather['wdExpl']: "-",
-                                  unit: ''
+                                    title: '风向',
+                                    value: (weather != null && weather['wdExpl'] != null) ? weather['wdExpl'] : "-",
+                                    unit: ''
                                 ),
                                 _itemWeatherData(
-                                  title: '风速', 
-                                  value: ( weather != null && weather['ws'] != null) ? weather['ws'].toStringAsFixed(1) : "-",
-                                  unit: 'm/s'
+                                    title: '风速',
+                                    value: (weather != null && weather['ws'] != null) ? weather['ws'].toStringAsFixed(1) : "-",
+                                    unit: 'm/s'
                                 ),
                               ]
                             ),

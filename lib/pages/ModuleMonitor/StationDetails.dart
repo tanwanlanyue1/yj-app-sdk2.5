@@ -1,13 +1,13 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:cs_app/api/Api.dart';
-import 'package:cs_app/api/Request.dart';
-import 'package:cs_app/pages/ModuleMonitor/Components/StationRecord.dart';
-import 'package:cs_app/pages/ModuleMonitor/Components/StationDevice.dart';
-import 'package:cs_app/pages/ModuleMonitor/Components/FactorsList.dart';
-import 'package:cs_app/utils/screen/Adapter.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/api/Api.dart';
+import 'package:scet_dz/api/Request.dart';
+import 'package:scet_dz/pages/ModuleMonitor/Components/StationRecord.dart';
+import 'package:scet_dz/pages/ModuleMonitor/Components/StationDevice.dart';
+import 'package:scet_dz/pages/ModuleMonitor/Components/FactorsList.dart';
+import 'package:scet_dz/utils/screen/Adapter.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 class StationDetails extends StatefulWidget {
   final data;

@@ -14,24 +14,24 @@ class Loading extends StatefulWidget {
 class _LoadingWidget extends State<Loading> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return new Material(
       type: MaterialType.transparency,
-      child: Center(
-        child: Container(
-          decoration:  ShapeDecoration(
+      child: new Center(
+        child: new Container(
+          decoration: new ShapeDecoration(
             color: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(  Radius.circular(10))
+            shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.all(new Radius.circular(10))
             )
           ),
           width: 100,
           height: 100,
           padding: EdgeInsets.all(10),
-          child: Column(
+          child: new Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               CircularProgressIndicator(),
-                Text(
+              new Text(
                 '正在加载...',
                 style: TextStyle(
                   fontSize: 12,

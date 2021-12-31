@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:cs_app/pages/ModuleMonitor/Components/RecordMaintain.dart';
-import 'package:cs_app/pages/ModuleMonitor/Components/RecordInspection.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/pages/ModuleMonitor/Components/RecordMaintain.dart';
+import 'package:scet_dz/pages/ModuleMonitor/Components/RecordInspection.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 class StationRecord extends StatefulWidget{
   final int? stId;

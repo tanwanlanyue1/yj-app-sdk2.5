@@ -1,5 +1,5 @@
-name: cs_app
-description: A new Flutter application.com.example.cs_app
+name: scet_dz
+description: A new Flutter application com.scet.scet_dz.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 4.2.9+1
+version: 4.2.2+1
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -29,29 +29,33 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^0.1.3
   flutter_screenutil: ^5.0.0 # 屏幕适配
   bot_toast: ^4.0.1 #弹出框
   flutter_map: ^0.14.0 #地图
   flutter_map_marker_cluster: ^0.4.0 #点聚合
   flutter_picker: ^2.0.2 #时间选择
+  #  intl: ^0.16.1 #格式化时间
+#  date_range_picker: ^1.0.7 #日期范围
   syncfusion_flutter_datepicker: ^19.2.62 #日期范围
-  dio: ^4.0.1 #网络请求
-  shared_preferences: ^2.0.8 #本地存储
+  dio: ^4.0.0 #网络请求
+  shared_preferences: ^2.0.5 #本地存储
   provider: ^6.0.0 #状态管理
-  #  video_player: ^0.10.12+2 #视频
+#  video_player: ^0.10.12+2 #视频
   geolocator: ^7.0.2 #定位
   flutter_echarts: ^2.2.0 #可视化
   gzx_dropdown_menu: ^3.1.0 #下拉筛选菜单
-  #  flutter_full_pdf_viewer: ^1.0.6 #pdf
-  syncfusion_flutter_pdfviewer: ^19.4.38-beta #pdf
+  #  native_pdf_view: ^4.0.1
+#  flutter_full_pdf_viewer: ^1.0.6 #pdf
+  syncfusion_flutter_pdfviewer: ^19.2.62-beta #pdf
   flutter_easyrefresh: ^2.2.1 #下拉刷新
-  package_info_plus: ^1.3.0 #应用程序包的信息
-#  flutter_downloader: ^1.4.4
-  r_upgrade: ^0.3.6 #升级apk
-  date_format: ^2.0.4
   cached_network_image: ^3.1.0 #网络图片缓存
-  jpush_flutter: ^2.1.4
+#  package_info: ^0.4.1
+  package_info_plus: ^1.0.6
+  r_upgrade: ^0.3.6
+  flutter_downloader: ^1.7.1
+#  install_plugin: ^2.0.1
+  date_format: ^2.0.4
 
 dev_dependencies:
   flutter_test:
@@ -70,41 +74,12 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - lib/assets/icon/map/
-    - lib/assets/icon/publish.png
-    - lib/assets/icon/cancel.png
-    - lib/assets/icon/pdf.png
-    - lib/assets/icon/search.png
-    - lib/assets/icon/map/locate.png
-    - lib/assets/icon/map/locations.png
-    - lib/assets/icon/map/station.png
-    - lib/assets/icon/map/enterprise.png
-    - lib/assets/icon/map/riskSource.png
-    - lib/assets/icon/map/flue.png
-
-    - lib/assets/images/logo.png
-    - lib/assets/images/login_bg.png
-    - lib/assets/images/bgImage.png
-    - lib/assets/images/personCenter_bg.png
-    - lib/assets/images/user.jpg
-    - lib/assets/images/pdf.png
-    - lib/assets/images/switch_menu.png
-    - lib/assets/images/map/layer.png
-    - lib/assets/images/map/satellite_map.png
-    - lib/assets/images/map/standard_map.png
-    - lib/assets/images/map/check.png
-    - lib/assets/images/map/air.png
-    - lib/assets/images/map/btn.png
-    - lib/assets/images/map/unBtn.png
-    - lib/assets/images/map/danger.png
-    - lib/assets/images/map/effluent.png
-    - lib/assets/images/map/enterprises.png
-    - lib/assets/images/map/flue.png
-    - lib/assets/images/map/other.png
-    - lib/assets/images/map/other.png
-    - lib/assets/images/map/sites.png
-    - lib/assets/images/map/unenterprises.png
-    - lib/assets/images/map/unsites.png
+     - lib/assets/images/
+     - lib/assets/images/map/
+     - lib/assets/icon/
+     - lib/assets/icon/map/
+  #   - images/a_dot_burr.jpeg
+  #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

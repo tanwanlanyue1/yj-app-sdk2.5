@@ -1,10 +1,10 @@
-import 'package:cs_app/utils/dateUtc/dateUtc.dart';
+import 'package:scet_dz/utils/dateUtc/dateUtc.dart';
 import 'package:flutter/material.dart';
-import 'package:cs_app/api/Api.dart';
-import 'package:cs_app/api/Request.dart';
-import 'package:cs_app/components/LineCharts.dart';
-import 'package:cs_app/utils/alarmLevel/warnLevel.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/api/Api.dart';
+import 'package:scet_dz/api/Request.dart';
+import 'package:scet_dz/components/LineCharts.dart';
+import 'package:scet_dz/utils/alarmLevel/warnLevel.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 class MonitorCharts extends StatefulWidget {
   final factor;
@@ -23,7 +23,6 @@ class _MonitorCharts extends State<MonitorCharts> {
     Map<String, dynamic> params = Map();
     params['stId'] = stId;
     params['facId'] = facId;
-    params['startTime'] = DateTime.now().add(Duration(days: -1));
     params['endTime'] = DateTime.now().toUtc();
     var response = await Request().get(Api.url['factorValueList'], data: params);
     if(response['code'] == 200) {
@@ -33,7 +32,6 @@ class _MonitorCharts extends State<MonitorCharts> {
       });
       setState(() {
         _valueData = valueList;
-        _facInfo = response['data'][0];
       });
     }
   }
@@ -46,7 +44,10 @@ class _MonitorCharts extends State<MonitorCharts> {
     var response = await Request().get(Api.url['factorDescription'], data: params);
     if(response['code'] == 200) {
       setState(() {
-        _facInfo = response['data'][0];
+        if(response['data'].length > 0){
+          _facInfo = response['data'][0];
+        }
+
       });
     }
   }
@@ -55,7 +56,7 @@ class _MonitorCharts extends State<MonitorCharts> {
   void initState() {
     super.initState();
     // 获取当前因子的详细信息
-    // _getFactorDescription(facId: widget.factor['facId']);
+    _getFactorDescription(facId: widget.factor['facId']);
     // 获取当前因子的浓度趋势
     _getFactorValueList(
       stId: widget.factor['stId'], 
@@ -141,44 +142,29 @@ class _MonitorCharts extends State<MonitorCharts> {
                   rightTitle: '化学式',
                   rightData: '${_facInfo['MF'] ?? '/'}'
                 ),
+                _itemDataWidget(
+                  state: 1,
+                  padding: false,
+                  leftTitle: '英文名称',
+                  leftData: '${_facInfo['enName'] ?? '/'}',
+                  rightTitle: '监测仪器',
+                  rightData: '${_facInfo['devType'] ?? '/'}'
+                ),
                 // 描述
                 Padding(
                   padding: EdgeInsets.only(top: px(20.0), bottom: px(40.0)),
                   child: Text.rich(
-                    TextSpan(text: '监测仪器：',
+                    TextSpan(text: '描述：',
                       style: nameStyle,
                       children: <TextSpan>[
                         TextSpan(
-                            text: '${_facInfo['devType'] ?? '/'}',
-                            style: valueStyle
+                          text: '${_facInfo['description'] ?? '/'}', 
+                          style: valueStyle
                         )
                       ],
                     ),
                   ),
                 ),
-                // _itemDataWidget(
-                //   state: 1,
-                //   padding: false,
-                //   leftTitle: '英文名称',
-                //   leftData: '${_facInfo['enName'] ?? '/'}',
-                //   rightTitle: '监测仪器',
-                //   rightData: '${_facInfo['devType'] ?? '/'}'
-                // ),
-                // // 描述
-                // Padding(
-                //   padding: EdgeInsets.only(top: px(20.0), bottom: px(40.0)),
-                //   child: Text.rich(
-                //     TextSpan(text: '描述：',
-                //       style: nameStyle,
-                //       children: <TextSpan>[
-                //         TextSpan(
-                //           text: '${_facInfo['description'] ?? '/'}',
-                //           style: valueStyle
-                //         )
-                //       ],
-                //     ),
-                //   ),
-                // ),
               ],
             ),
             Expanded(
@@ -198,13 +184,7 @@ class _MonitorCharts extends State<MonitorCharts> {
   TextStyle keyValueStyle = TextStyle(color: Color(0XFF45C79D), fontSize:sp(30.0));
   TextStyle valueStyle = TextStyle(color: Color(0XFF585858), fontSize:sp(28.0));
 
-  Widget _itemDataWidget({
-    required int state,
-    required bool padding,
-    String? leftTitle,
-    String? leftData,
-    String? rightTitle,
-    String? rightData}) {
+  Widget _itemDataWidget({required int state, required bool padding, String? leftTitle, String? leftData, String? rightTitle, String? rightData}) {
     return Padding(
       padding: padding ? EdgeInsets.symmetric(vertical: 10.0) : EdgeInsets.zero,
       child: Row(

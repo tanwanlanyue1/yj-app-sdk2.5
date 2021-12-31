@@ -1,11 +1,9 @@
-import 'package:cs_app/model/data/data_jpush.dart';
-import 'package:cs_app/utils/storage/data_storageKey.dart';
 import 'package:flutter/material.dart';
-import 'package:cs_app/api/Api.dart';
-import 'package:cs_app/api/Request.dart';
-import 'package:cs_app/components/ToastWidget.dart';
-import 'package:cs_app/utils/screen/screen.dart';
-import 'package:cs_app/utils/storage/storage.dart';
+import 'package:scet_dz/api/Api.dart';
+import 'package:scet_dz/api/Request.dart';
+import 'package:scet_dz/components/ToastWidget.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
+import 'package:scet_dz/utils/storage/storage.dart';
 
 class UserLogin extends StatefulWidget {
   @override
@@ -37,13 +35,8 @@ class _UserLoginState extends State<UserLogin> {
       params['password'] = passWord!;
       var response = await Request().post(Api.url['userLogin'], data: params);
       if(response['code'] == 200) {
-        JpushData.setTags(['app']);
-        StorageUtil().setString(StorageKey.Token, response['data']['token']);
-        StorageUtil().setJSON(StorageKey.user, response['data']);
-        JpushData.resumePush(); // 开启推送
+        StorageUtil().setString('token', response['data']['token']);
         Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-      }else if(response['code'] == 500) {
-        ToastWidget.showToastMsg(response['status']);
       }
     }
   }

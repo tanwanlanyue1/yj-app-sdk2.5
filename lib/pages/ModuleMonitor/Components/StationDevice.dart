@@ -1,7 +1,7 @@
-import 'package:cs_app/components/NoData.dart';
-import 'package:cs_app/utils/dateUtc/dateUtc.dart';
+import 'package:scet_dz/components/NoData.dart';
+import 'package:scet_dz/utils/dateUtc/dateUtc.dart';
 import 'package:flutter/material.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 
 class StationDevice extends StatelessWidget {
@@ -26,7 +26,7 @@ class StationDevice extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: (deviceList?.length ?? 0) > 0
+        child: deviceList?.isNotEmpty ?? false
         ? 
           ListView.builder(
             padding: EdgeInsets.only(top: px(20.0)),
@@ -67,7 +67,7 @@ class StationDevice extends StatelessWidget {
                       ),
                       _itemDeviceData(
                         leftData: '监测设备', 
-                        rightData: '监测类型：${deviceList![index]['type']}'
+                        rightData: '出场编号：${deviceList![index]['code']}'
                       ),
                       _itemDeviceData(
                         leftData: '${dateUtc(DateTime.now().toString())}', 

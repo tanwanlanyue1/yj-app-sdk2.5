@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:cs_app/api/Api.dart';
-import 'package:cs_app/api/Request.dart';
-import 'package:cs_app/components/DownInput.dart';
-import 'package:cs_app/components/WidgetCheck.dart';
-import 'package:cs_app/components/TimeSelect.dart';
-import 'package:cs_app/components/ToastWidget.dart';
-import 'package:cs_app/pages/ModuleMonitor/Components/SubmitButton.dart';
-import 'package:cs_app/utils/screen/Adapter.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/api/Api.dart';
+import 'package:scet_dz/api/Request.dart';
+import 'package:scet_dz/components/DownInput.dart';
+import 'package:scet_dz/components/WidgetCheck.dart';
+import 'package:scet_dz/components/TimeSelect.dart';
+import 'package:scet_dz/components/ToastWidget.dart';
+import 'package:scet_dz/pages/ModuleMonitor/Components/SubmitButton.dart';
+import 'package:scet_dz/utils/screen/Adapter.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 /*------------添加检修-------------*/ 
 class UploadMaintain extends StatefulWidget {
@@ -58,9 +58,11 @@ class _UploadMaintainState extends State<UploadMaintain> {
       ToastWidget.showToastMsg('请填写申请人员！');
     }  else if(stopTime == null){
       ToastWidget.showToastMsg('请选择停运时间！');
-    } else if(nto == null){
-      ToastWidget.showToastMsg('请选择是否通知业主！');
-    } else if(expectTime == null) {
+    }
+    // else if(nto == null){
+    //   ToastWidget.showToastMsg('请选择是否通知业主！');
+    // }
+    else if(expectTime == null) {
       ToastWidget.showToastMsg('请选择预期恢复时间！');
     } else if(offSetReason == null) {
       ToastWidget.showToastMsg('请填写停运原因！');
@@ -134,6 +136,7 @@ class _UploadMaintainState extends State<UploadMaintain> {
                           value: device['name'] ?? null,
                           data: _deviceList(),
                           callback: (val) {
+                            print(val);
                             setState(() {
                               device = val;
                             });

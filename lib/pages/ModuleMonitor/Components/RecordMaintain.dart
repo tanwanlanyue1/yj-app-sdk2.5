@@ -1,11 +1,11 @@
-import 'package:cs_app/utils/dateUtc/dateUtc.dart';
+import 'package:scet_dz/utils/dateUtc/dateUtc.dart';
 import 'package:flutter/material.dart';
-import 'package:cs_app/api/Api.dart';
-import 'package:cs_app/api/Request.dart';
-import 'package:cs_app/components/DateRange.dart';
-import 'package:cs_app/components/NoData.dart';
-import 'package:cs_app/components/WidgetCheck.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/api/Api.dart';
+import 'package:scet_dz/api/Request.dart';
+import 'package:scet_dz/components/DateRange.dart';
+import 'package:scet_dz/components/NoData.dart';
+import 'package:scet_dz/components/WidgetCheck.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 class RecordMaintain extends StatefulWidget {
   final int? stId;

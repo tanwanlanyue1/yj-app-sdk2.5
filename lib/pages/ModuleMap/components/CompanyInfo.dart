@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 class CompanyInfo extends StatelessWidget {
 

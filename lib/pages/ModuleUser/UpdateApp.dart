@@ -1,11 +1,11 @@
 import 'dart:io';
-import 'package:cs_app/api/Api.dart';
-import 'package:cs_app/api/Request.dart';
-import 'package:cs_app/utils/screen/screen.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:r_upgrade/r_upgrade.dart';
+import 'package:scet_dz/api/Api.dart';
+import 'package:scet_dz/api/Request.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 class UpdateApp extends StatefulWidget {
@@ -18,18 +18,19 @@ class _UpdateAppState extends State<UpdateApp> {
   bool downloadState = false;
   String? _version, appUrl;
   double _progress = 0.0;
-  int? id;
-
+  int?  id;
   // 获取平台信息
   Future<String?> _getAppInfo() async {
+    print('_getAppInfo');
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     _version = packageInfo.version;
     // 请求接口
     Map<String, String> params = Map();
     params['type'] = 'app';
     var response = await Request().get(Api.url['versions'], data: params);
-    if(response['code'] == 200 && response['data'].isNotEmpty && _version != response['data'][0]['name']) {
+    if(response['code'] == 200 && _version != response['data'][0]['name']) {
       String url = Api.BASE_URL_PC + '/' + response['data'][0]['file']['path'];
+      print(url);
       this.setState(() {
         downloadState = true;
         _version = response['data'][0]['name'];
@@ -84,6 +85,7 @@ class _UpdateAppState extends State<UpdateApp> {
       return;
     }
   }
+
   //下载apk
   void upgrade(String url) async {
     id = await RUpgrade.upgrade(
@@ -190,6 +192,7 @@ class _UpdateAppState extends State<UpdateApp> {
                             str: '更新APP',
                             bgColor:  Color(0xFF4D7CFF),
                             onTap: () {
+                              // _installApk(appUrl);
                               upgrade(appUrl!);
                             },
                           )

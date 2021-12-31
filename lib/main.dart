@@ -4,7 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:cs_app/routers/Routes.dart';
+import 'package:scet_dz/routers/Routes.dart';
+
 import 'model/data/data_global.dart';
 import 'model/provider/provider.dart';
 import 'model/provider/provider_app.dart';
@@ -16,7 +17,10 @@ void main() {
       debugPrint(flutterErrorDetails.toString());
       return Material(
         child: Center(
-          child: Text("发生了没有处理的错误\n请通知开发者", textAlign: TextAlign.center,)
+          child: Text(
+            "发生了没有处理的错误\n请通知开发者",
+            textAlign: TextAlign.center,
+          )
         ),
       );
     };
@@ -28,10 +32,23 @@ void main() {
     runApp(
       MultiProvider(
         providers: [
-          ChangeNotifierProvider<AppState>.value(value: Global.appState,),
-          ChangeNotifierProvider<HomeModel>.value(value: HomeModel(),),
+          ChangeNotifierProvider<AppState>.value(
+            value: Global.appState,
+          ),
+          ChangeNotifierProvider<HomeModel>.value(
+            value: HomeModel(),
+          ),
         ],
-        child: MyApp()
+        child: Consumer<AppState>(builder: (context, appState, _) {
+          if (appState.isGrayFilter) {
+            return ColorFiltered(
+              colorFilter: ColorFilter.mode(Colors.white, BlendMode.color),
+              child: MyApp(),
+            );
+          } else {
+            return MyApp();
+          }
+        }),
       ),
     );
   }, (Object error, StackTrace stack) {
@@ -65,8 +82,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Color(0XFFF2F4FA),
       ),
       initialRoute: '/',
-      // onGenerateRoute: onGenerateRoute,
-      onGenerateRoute:(RouteSettings settings) =>onGenerateRoute(settings),
+      onGenerateRoute: (RouteSettings settings) => onGenerateRoute(settings),
     );
   }
 }

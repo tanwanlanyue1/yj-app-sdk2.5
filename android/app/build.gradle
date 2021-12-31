@@ -20,6 +20,7 @@ def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
+
 def keystorePropertiesFile = rootProject.file("key.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
@@ -37,21 +38,13 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.cs_app"
+        applicationId "com.scet.scet_dz"
         minSdkVersion 19
         targetSdkVersion 31
-        multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        manifestPlaceholders = [
-                JPUSH_PKGNAME : applicationId,
-                JPUSH_APPKEY : "ed55900be48cdc15361977f0", // NOTE: JPush 上注册的包名对应的 Appkey.
-                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
-
-                MEIZU_APPKEY : "MZ-94e68244540244dc9b21d2b42cf0fed1", // 魅族平台注册的appkey
-                MEIZU_APPID : "MZ-142898", // 魅族平台注册的appid
-        ]
     }
+
     signingConfigs {
         release {
             keyAlias keystoreProperties['keyAlias']
@@ -66,6 +59,7 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
@@ -73,11 +67,10 @@ android {
             signingConfig signingConfigs.release
             ndk {
                 abiFilters'armeabi-v7a'
-//                abiFilters'armeabi-v7a' , 'x86_64' , 'arm64-v8a'
             }
         }
         debug {
-           signingConfig signingConfigs.debug
+            signingConfig signingConfigs.debug
         }
     }
 }
@@ -87,13 +80,5 @@ flutter {
 }
 
 dependencies {
-    implementation "androidx.multidex:multidex:2.0.1"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.huawei.hms:push:5.3.0.301'
-    implementation 'cn.jiguang.sdk.plugin:huawei:4.0.9'// 极光厂商插件版本与接入 JPush 版本保持一致，
-    implementation 'cn.jiguang.sdk.plugin:meizu:4.0.9'// 接入魅族厂商
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
 }

@@ -1,9 +1,9 @@
-import 'package:cs_app/utils/dateUtc/dateUtc.dart';
+import 'package:scet_dz/utils/dateUtc/dateUtc.dart';
 import 'package:flutter/material.dart';
-import 'package:cs_app/api/Api.dart';
-import 'package:cs_app/api/Request.dart';
-import 'package:cs_app/components/LineCharts.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/api/Api.dart';
+import 'package:scet_dz/api/Request.dart';
+import 'package:scet_dz/components/LineCharts.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
 
 class AlarmCharts extends StatefulWidget {
   final data;
@@ -27,8 +27,8 @@ class _AlarmChartsState extends State<AlarmCharts> {
     Map<String, dynamic> params = Map();
     params['stId'] = widget.data['stId'];
     params['facId'] = widget.data['facId'];
-    params['startTime'] = DateTime.parse(widget.data['triggerTime']).add(Duration(hours: -1));
-    params['endTime'] = widget.data['time'];
+    params['lastTime'] = widget.data['time'];
+    params['type'] = widget.data['type'];
     var response = await Request().get(Api.url['alarmLine'], data: params);
     if(response['code'] == 200) {
       List valueList = [];
@@ -50,8 +50,8 @@ class _AlarmChartsState extends State<AlarmCharts> {
     super.initState();
   }
 
-  TextStyle nameStyle = TextStyle(fontSize: sp(25.0), color: Color(0XFF999999));
-  TextStyle valueStyle = TextStyle(color: Color(0XFF45C79D), fontSize: sp(27.0), fontWeight: FontWeight.w400);
+  TextStyle nameStyle = TextStyle(fontSize: sp(22.0), color: Color(0XFF999999));
+  TextStyle valueStyle = TextStyle(color: Color(0XFF45C79D), fontSize: sp(26.0), fontWeight: FontWeight.w400);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -125,13 +125,13 @@ class _AlarmChartsState extends State<AlarmCharts> {
                 ), 
               ),
               Container(
-                  height: px(420.0),
-                  child: LineCharts(
-                    facName: factor['facName'],
-                    unit: factor['unit'],
-                    warnLevel: factor['warn'] == null ? 0 : factor['warn']['level'],
-                    valueData: _valueData,
-                  )
+                height: px(420.0),
+                child: LineCharts(
+                facName: factor['facName'],
+                unit: factor['unit'],
+                warnLevel: factor['warn'] == null ? 0 : factor['warn']['level'],
+                valueData: _valueData
+              )
               ),
             ],
           ),

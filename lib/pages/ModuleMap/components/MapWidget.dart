@@ -1,18 +1,16 @@
-import 'dart:async';
-
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cs_app/components/ToastWidget.dart';
-import 'package:cs_app/utils/storage/data_storageKey.dart';
-import 'package:cs_app/utils/storage/storage.dart';
+import 'package:scet_dz/utils/storage/data_storageKey.dart';
+import 'package:scet_dz/utils/storage/storage.dart';
+import 'package:scet_dz/components/ToastWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:provider/provider.dart';
-import 'package:cs_app/api/Api.dart';
-import 'package:cs_app/api/Request.dart';
-import 'package:cs_app/model/provider/provider_home.dart';
-import 'package:cs_app/utils/screen/screen.dart';
+import 'package:scet_dz/api/Api.dart';
+import 'package:scet_dz/api/Request.dart';
+import 'package:scet_dz/model/provider/provider_home.dart';
+import 'package:scet_dz/utils/screen/screen.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class MapWidget extends StatefulWidget {
   final bool commonMapType;
@@ -28,30 +26,39 @@ class _MapWidgetState extends State<MapWidget> {
   FocusNode blankNode = FocusNode();
 
   MapController _mapController = MapController();
+  // 119.563522,37.015781
+  LatLng _centerPoint = LatLng(36.897795, 117.456403);
 
-  LatLng _centerPoint = LatLng(29.82406569218712, 107.0230918881089);
-
-  double _mapZoom = 12.0;
+  double _mapZoom = 13.5;
 
   var currentId;
 
   List<Marker> _markers = [];
   Color _markerColor = Color(0XFFFFFFFF);
-
   void _switchLayer(String type) {
     _markers.clear();
     switch (type) {
-      case 'station':_realStationInfo(); break;
-      case 'enterprise':_getEnterprise(); break;
-      case 'dangerFactors':_getDangerFactors(); break;
-      case 'sensitivePoint': _getSensitivePoint();break;
-      case 'monitorDevice': _getMonitorDevice(); break;
+      case 'station': _realStationInfo();break;
+      case 'enterprise':_getEnterprise();break;
+      case 'dangerFactors':_getDangerFactors();break;
+      case 'sensitivePoint':_getSensitivePoint();break;
+      case 'monitorDevice':_getMonitorDevice();break;
     }
   }
-
+  // 站点接口
+  _realStationInfo() async {
+    var response = await Request().get(Api.url['realStationInfo']);
+    if (response != null && response['code'] == 200) {
+      response['data'].forEach((item) {
+        item['stId'] = item['oldId'];
+      });
+      //缓存站点数据
+      StorageUtil().setJSON(StorageKey.RealStationInfo, response['data']);
+      context.read<HomeModel>().getSiteList(response['data']);
+    }
+  }
 // 获取园区范围
   List _polylines = [];
-// 园区界
   void _getParkBorder() async {
     var response = await Request().get(Api.url['parkBorder']);
     if (response['code'] == 200) {
@@ -59,7 +66,7 @@ class _MapWidgetState extends State<MapWidget> {
       for (var i = 0; i < border.length; i++) {
         List itemData = [];
         if (border[i].length == 1) {
-          itemData = border[i][0];
+          itemData = border[0];
         } else {
           itemData = border[i];
         }
@@ -75,48 +82,11 @@ class _MapWidgetState extends State<MapWidget> {
     }
   }
 
-  // 站点接口
-  _realStationInfo() async {
-    var response = await Request().get(Api.url['realStationInfo']);
-    if(response != null && response['code'] == 200){
-      if(mounted){
-        response['data'].forEach((item){
-          item['stId'] = item['oldId'];
-        });
-        List data = response['data'];
-        data.forEach((item) {
-          item['level'] = 0;
-          item['factors'].forEach((item2){
-            List keys = [];
-            if(item2['warn'] != null){
-              keys = item2['warn'].keys.toList();
-            }
-            for(var key in keys){
-              if(item2['warn'][key]['level'] > item['level']){
-                item['level'] = item2['warn'][key]['level'];
-              }
-            }
-          });
-        });
-        //缓存站点数据
-        StorageUtil().setJSON(StorageKey.RealStationInfo, response['data']);
-        context.read<HomeModel>().getSiteList(response['data']);
-      }
-    }
-  }
-
   @override
   void initState() {
     super.initState();
+    _getParkBorder();
     _switchLayer(widget.layerType);
-    resueStation();
-  }
-//  定时请求站点
-  resueStation(){
-    const timeout = const Duration(seconds: 30);
-    Timer.periodic(timeout, (timer) {
-      _realStationInfo();
-    });
   }
 
   @override
@@ -144,7 +114,7 @@ class _MapWidgetState extends State<MapWidget> {
             plugins: [
               MarkerClusterPlugin(),
             ],
-            onTap: (_,__) {
+            onTap: (_,val) {
               FocusScope.of(context).requestFocus(blankNode);
             }),
         layers: [
@@ -156,52 +126,38 @@ class _MapWidgetState extends State<MapWidget> {
               'accessToken':
                   'pk.eyJ1IjoiaWdhdXJhYiIsImEiOiJjazFhOWlkN2QwYzA5M2RyNWFvenYzOTV0In0.lzjuSBZC6LcOy_oRENLKCg',
             },
-            tileProvider: CachedTileProvider(), //启用地图缓存
+            tileProvider: CachedTileProvider(),
           ),
           PolylineLayerOptions(
-            polylines: _polylines.map((item) => (Polyline(
-                    points: item, strokeWidth: 2.0, color: Color(0XFF3093DA))
-            )).toList(),
+            polylines: _polylines
+                .map((item) => (Polyline(
+                    points: item, strokeWidth: 2.0, color: Color(0XFF3093DA))))
+                .toList(),
           ),
           _markers.length == 0 ?
           _markerLayerOptions() :
           _markerClusterLayerOptions()
         ]);
   }
-
   // 获取站点数据
   _markerLayerOptions(){
     List data = context.watch<HomeModel>().siteList;
     return MarkerLayerOptions(
         markers: widget.layerType != 'station' ? []:
-        List.generate(data.length, (i){
-          var item = data[i];
+        data.where((item)=>item['longitude'] != null).toList().map((item) {
           return commonMaker(
-              latiude: double.parse(item['latitude'].toString()),
-              longitude: double.parse(item['longitude'].toString()),
-              icon: mapIcon(item['level']),
-              markerName: item['stName'],
-              selected: item['stId'] == currentId,
-              onTap: () {
+            latiude: double.parse(item['latitude'].toString()),
+            longitude: double.parse(item['longitude'].toString()),
+            icon: 'lib/assets/icon/map/station.png',
+            markerName: item['stName'],
+            selected: item['stId'] == currentId,
+             onTap: () {
+               setState(() {
                 currentId = item['stId'];
-                setState(() {});
-                Navigator.pushNamed(context, '/station/details',
-                    arguments: {'stId': item['stId'], 'title': item['stName']});
               });
-        }) );
-  }
-
-  //  显示不一样的图标
-  String mapIcon (int level) {
-    switch(level) {
-      case 0 : return 'lib/assets/icon/map/station.png'; break;
-      case 1 : return 'lib/assets/icon/map/one.png'; break;
-      case 2 : return 'lib/assets/icon/map/two.png'; break;
-      case 3 : return 'lib/assets/icon/map/three.png'; break;
-      case 4 : return 'lib/assets/icon/map/four.png'; break;
-      case 5 : return 'lib/assets/icon/map/four.png'; break;
-      default: return 'lib/assets/icon/map/station.png';
-    }
+              Navigator.pushNamed(context, '/station/details',arguments: {'stId': item['stId'], 'title': item['stName']});
+          });
+    }).toList());
   }
 
   // 获取企业
@@ -217,7 +173,9 @@ class _MapWidgetState extends State<MapWidget> {
             latiude: item['geometry']['coordinates'][1],
             longitude: item['geometry']['coordinates'][0],
             icon: 'lib/assets/icon/map/enterprise.png',
-            markerName: item['properties']['shortName'],
+            markerName: item['properties']['shortName'] == null
+                ? item['properties']['name']
+                : item['properties']['shortName'],
             selected: item['properties']['id'] == currentId,
             onTap: () {
               setState(() {
@@ -231,9 +189,8 @@ class _MapWidgetState extends State<MapWidget> {
       });
     }
   }
-
   //渲染企业
-   _markerClusterLayerOptions(){
+  _markerClusterLayerOptions(){
     return MarkerClusterLayerOptions(
       maxClusterRadius: 80,
       size: Size(px(40.0), px(40.0)),
@@ -250,14 +207,13 @@ class _MapWidgetState extends State<MapWidget> {
             child: Container(
                 color: _markerColor,
                 child: Center(
-                    child: Text('${markers.length}', style: TextStyle(color: Colors.white, fontSize: sp(22.0)))
-                )
-            )
-        );
+                    child: Text('${markers.length}',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: sp(22.0))))));
       },
     );
   }
-
   // 获取风险物质
   void _getDangerFactors() async {
     var response = await Request().get(Api.url['riskSource']);
@@ -380,7 +336,7 @@ class _MapWidgetState extends State<MapWidget> {
   }
 }
 
-///  使用CachedNetworkImageProvider 实现地图缓存
+/// 使用CachedNetworkImageProvider 实现地图缓存
 class CachedTileProvider extends TileProvider {
   const CachedTileProvider();
   @override
