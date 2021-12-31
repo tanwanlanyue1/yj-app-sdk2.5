@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scet_app/utils/tool/screen/screen.dart';
+import 'package:cs_app/utils/screen/screen.dart';
 
 class LoadingDialog extends Dialog {
   final String? text;

@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
-import 'package:intl/intl.dart';
-import 'package:scet_app/utils/tool/dateUtc/dateUtc.dart';
-import 'package:scet_app/utils/tool/screen/screen.dart';
+import 'package:cs_app/utils/screen/screen.dart';
+import 'package:cs_app/utils/dateUtc/dateUtc.dart';
 
 class TimeSelect extends StatefulWidget {
-  final GlobalKey<ScaffoldState> scaffoldKey ;
+  final GlobalKey<ScaffoldState>? scaffoldKey;
   final DateTime? time;
   final String? hintText;
   final callBack;
-  TimeSelect(
-      {Key? key, required this.scaffoldKey, this.time, this.hintText, this.callBack})
-      : super(key: key);
+  TimeSelect({Key? key, this.scaffoldKey, this.time, this.hintText, this.callBack}):super(key: key);
 
   @override
   _TimeSelectState createState() => _TimeSelectState();
@@ -112,7 +109,7 @@ class _TimeSelectState extends State<TimeSelect> {
           setState(() {
             currentTime = formatTime(time);
           });
-        }).show(widget.scaffoldKey.currentState!);
+        }).show(widget.scaffoldKey!.currentState!);
   }
 
   String formatTime(time) {

@@ -1,21 +1,25 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.scet_app">
+    package="com.example.cs_app"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> 
+    <permission android:name="${applicationId}.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="${applicationId}.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <!-- //获取设备网络状态，禁用后无法获取网络状态 -->
-    <uses-permission android:name="android.permission.INTERNET"/> 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <!-- //网络权限，当禁用后，无法进行检索等相关业务 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- //读取设备硬件信息，统计数据 -->
-    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" /> 
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <!-- //读取系统信息，包含系统版本等信息，用作统计 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- //获取设备的网络状态，鉴权所需网络代理 -->
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" /> 
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <!-- //获取统计数据 -->
-    <uses-permission android:name="android.permission.CAMERA" />  
+    <uses-permission android:name="android.permission.CAMERA" />
     <!-- //配置Camera权限 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!-- //允许sd卡写入权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- //允许sd卡读取权限 -->
@@ -26,10 +30,11 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <application
-        android:name="io.flutter.app.FlutterApplication"
-        android:label="园区预警"
-        android:icon="@mipmap/logo">
+   <application
+       android:label="长寿预警"
+       tools:replace="android:label"
+       android:networkSecurityConfig="@xml/network_security_config"
+       android:icon="@mipmap/logo">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -41,19 +46,13 @@
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
-            <meta-data
-              android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme"
-              />
+            <meta-data android:name="io.flutter.embedding.android.NormalTheme" android:resource="@style/NormalTheme" />
             <!-- Displays an Android View that continues showing the launch screen
                  Drawable until Flutter paints its first frame, then this splash
                  screen fades out. A splash screen is useful to avoid any visual
                  gap between the end of Android's launch screen and the painting of
                  Flutter's first frame. -->
-            <meta-data
-              android:name="io.flutter.embedding.android.SplashScreenDrawable"
-              android:resource="@drawable/launch_background"
-              />
+            <meta-data android:name="io.flutter.embedding.android.SplashScreenDrawable" android:resource="@drawable/launch_background" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -61,8 +60,22 @@
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
-        <meta-data
-            android:name="flutterEmbedding"
-            android:value="2" />
+       <service android:name="cn.jpush.android.service.DaemonService" android:enabled="true" android:exported="true">
+           <intent-filter >
+               <action android:name="cn.jpush.android.intent.DaemonService" />
+               <category android:name="${applicationId}"/>
+           </intent-filter>
+       </service>
+       <service android:name=".services.HmsService"
+           android:exported="false">
+           <intent-filter>
+               <action android:name="com.huawei.push.action.MESSAGING_EVENT" />
+           </intent-filter>
+       </service>
+       <meta-data android:name="flutterEmbedding" android:value="2" />
+       <meta-data android:name="com.huawei.hms.client.appid" android:value="104539535"/>
+       <meta-data android:name="com.huawei.hms.client.cpid" android:value="260086000234191553"/>
+       <meta-data android:name="MEIZU_APPKEY" android:value="MZ-94e68244540244dc9b21d2b42cf0fed1" />
+       <meta-data android:name="MEIZU_APPID" android:value="MZ-142898" />
     </application>
 </manifest>

@@ -1,6 +1,6 @@
-# scet_app
+# cs_app
 
-A new Flutter project.
+A new Flutter application.com.example.cs_app
 
 ## Getting Started
 

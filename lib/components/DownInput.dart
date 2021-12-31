@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:scet_app/utils/tool/listView/unListview.dart';
-import 'package:scet_app/utils/tool/screen/screen.dart';
+import 'package:cs_app/utils/listView/unListview.dart';
+import 'package:cs_app/utils/screen/screen.dart';
 
 // 下拉选择器 支持 单选 多选操作
 class DownInput extends StatefulWidget {
@@ -14,8 +14,7 @@ class DownInput extends StatefulWidget {
   final bool more;    // 是否开启多选状态 默认单选
   DownInput({
     this.hitStr = '请选择内容',
-    this.value,
-    this.data,
+    this.value, this.data,
     this.currentData,
     this.currentDataList,
     this.callback,
@@ -30,12 +29,13 @@ class DownInput extends StatefulWidget {
 class _DownInputState extends State<DownInput> {
 
   GlobalKey? _globalKey;
-  String _hitStr = "";//标题背景
+  String? _hitStr;//标题背景
   String? _value;//选择后显示
-  List _data = []; //下拉数据
+  List? _data; //下拉数据
   bool _more = false;//true 多选 false 单选
   Map? _currentData; //单选时候的内容
   List? _currentDataList;//多选时候的内容
+
   @override
   void initState() {
     // TODO: implement initState
@@ -43,21 +43,23 @@ class _DownInputState extends State<DownInput> {
     _globalKey = GlobalKey();
     _hitStr= widget.hitStr;
     _value= widget.value;
-    _data = widget.data!;
+    _data = widget.data;
     _more = widget.more;
     _currentData = widget.currentData;
-    _currentDataList = (widget.currentDataList != null ? widget.currentDataList : [])!;
+    _currentDataList = widget.currentDataList != null ? widget.currentDataList : [];
   }
+
   @override
   void didUpdateWidget(DownInput oldWidget) {
     super.didUpdateWidget(oldWidget);
     _hitStr= widget.hitStr;
     _value= widget.value;
-    _data = widget.data!;
+    // _data = widget.data;
     _more = widget.more;
-    _currentData = widget.currentData != null ? widget.currentData!:_currentData;
-    _currentDataList = widget.currentDataList != null ? widget.currentDataList! : _currentDataList;
+    _currentData = widget.currentData != null ? widget.currentData:_currentData;
+    _currentDataList = widget.currentDataList != null ? widget.currentDataList : _currentDataList;
   }
+
   ///判断多选还是单选的回调操作
   setList(Map val){
     if(_more){  //多选
@@ -121,8 +123,7 @@ class _DownInputState extends State<DownInput> {
                             '${_value == null || _value == '' ? _hitStr : _value}',
                             style: TextStyle(
                                 fontSize:sp(28.0),
-                                color:
-                                _currentData == null && _currentDataList?.length == 0 ? Color(0XFFA8ABB3) : Color(0XFF45474D)
+                                color: _currentData == null && _currentDataList?.length == 0 ? Color(0XFFA8ABB3) : Color(0XFF45474D)
                             ),
                           ),
                         ),
@@ -145,11 +146,10 @@ class _DownInputState extends State<DownInput> {
         if(widget.value ==null ) {
           print('未设置value---->\nvalue：选中后的内容，设置为您变量中的参数\nhitStr:默认提示',);
         }
-        if(_data.length <= 0 ) {
+        if(_data?.isEmpty ?? true ) {
           return;
         }
         RenderBox renderBox = _globalKey!.currentContext!.findRenderObject() as RenderBox;
-        // RenderBox renderBox = _globalKey.currentContext.findRenderObject();
         Rect box = renderBox.localToGlobal(Offset.zero) & renderBox.size;
         Navigator.push(
             context,
@@ -157,7 +157,7 @@ class _DownInputState extends State<DownInput> {
                 position: box, //位置
                 callback:(val) { setList(val); },
                 // menuHeight: px(500),//显示的高度自由调节
-                data: _data, // 下拉数据
+                data: _data!, // 下拉数据
                 more: _more, // 是否开启多选状态
                 currentData: _currentData,
                 currentDataList: _currentDataList
@@ -172,7 +172,7 @@ class DropDownMenuRouteLayout extends SingleChildLayoutDelegate {
   final Rect position;
   final double menuHeight;
 
-  DropDownMenuRouteLayout({required this.position, required this.menuHeight});
+  DropDownMenuRouteLayout({required this.position,required this.menuHeight});
 
   @override
   BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
@@ -196,7 +196,7 @@ class DropDownMenuRouteLayout extends SingleChildLayoutDelegate {
 class DropDownMenuRoute extends PopupRoute {
   final Rect position; //出現的位置
   final double? menuHeight; //下拉顯示的高度 已设置默认 4*px（58）
-  final List? data; //数据
+  final List data; //数据
   final Map? currentData;//单选内容
   final List? currentDataList;//多选内容
   final bool? more;//多选状态
@@ -204,7 +204,7 @@ class DropDownMenuRoute extends PopupRoute {
   DropDownMenuRoute({
     required this.position,
     this.menuHeight,
-    this.data,
+    required this.data,
     this.currentData,
     this.currentDataList,
     this.more,
@@ -231,15 +231,15 @@ class DropDownMenuRoute extends PopupRoute {
           position: position,
           menuHeight: menuHeight != null
               ? menuHeight!
-              : data!.length <= 4 ? data!.length * px(58.0) + px(data!.length) : 4 * px(58.0)+px(40)
+              : data.length <= 4 ? data.length * px(58.0)+px(data.length) : 4 * px(58.0)+px(40)
       ),
       child: SizeTransition(
           sizeFactor: Tween<double>(begin: 0.0, end: 1.0).animate(animation),
           child:WindowsPop(
-            data: data!,
-            callback: callback,
+            data: data,
+            callback:  callback,
             currentData: currentData,
-            currentDataList: currentDataList!,
+            currentDataList: currentDataList,
             more: more!,
           )
       ),
@@ -272,7 +272,7 @@ class WindowsPop extends StatefulWidget {
 class _WindowsPopState extends State<WindowsPop> {
 
   List  _data = [];
-  Map?  _currentData;
+  Map? _currentData;
   List? _currentDataList;
   bool _more = false;
 

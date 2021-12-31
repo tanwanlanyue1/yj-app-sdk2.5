@@ -1,9 +1,9 @@
-name: scet_app
-description: A new Flutter project.
+name: cs_app
+description: A new Flutter application.com.example.cs_app
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: "none" # Remove this line if you wish to publish to pub.dev
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -15,7 +15,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 4.2.9+1
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -29,42 +29,30 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.3
+  cupertino_icons: ^1.0.2
   flutter_screenutil: ^5.0.0 # 屏幕适配
-#  flutter_screenutil: ^3.1.0 # 屏幕适配
   bot_toast: ^4.0.1 #弹出框
-#  flutter_map: ^0.10.0 #地图
   flutter_map: ^0.14.0 #地图
-#  flutter_map_marker_cluster: ^0.3.1 #点聚合
   flutter_map_marker_cluster: ^0.4.0 #点聚合
-#  flutter_picker: ^1.1.5 #时间选择
   flutter_picker: ^2.0.2 #时间选择
-  #  intl: ^0.16.1 #格式化时间
-  intl: ^0.17.0
-#  date_range_picker: ^1.0.7 #日期范围
   syncfusion_flutter_datepicker: ^19.2.62 #日期范围
-#  dio: ^3.0.10 #网络请求
-  dio: ^4.0.0 #网络请求
-#  shared_preferences: ^0.5.12 #本地存储
-  shared_preferences: ^2.0.5 #本地存储
-#  provider: ^4.0.4 #状态管理
+  dio: ^4.0.1 #网络请求
+  shared_preferences: ^2.0.8 #本地存储
   provider: ^6.0.0 #状态管理
-#  geolocator: ^6.1.1 #定位
+  #  video_player: ^0.10.12+2 #视频
   geolocator: ^7.0.2 #定位
-#  flutter_echarts: ^2.1.0 #可视化
   flutter_echarts: ^2.2.0 #可视化
-#  gzx_dropdown_menu: ^2.1.0 #下拉筛选菜单
   gzx_dropdown_menu: ^3.1.0 #下拉筛选菜单
-#  flutter_full_pdf_viewer: ^1.0.6 #pdf
-  syncfusion_flutter_pdfviewer: ^19.2.62-beta #pdf
-#  flutter_easyrefresh: ^2.1.6 #下拉刷新
+  #  flutter_full_pdf_viewer: ^1.0.6 #pdf
+  syncfusion_flutter_pdfviewer: ^19.4.38-beta #pdf
   flutter_easyrefresh: ^2.2.1 #下拉刷新
-#  path_provider: ^1.6.27 #创建目录和文件
-  path_provider: ^2.0.1 #创建目录和文件
-#  date_format: ^1.0.8
+  package_info_plus: ^1.3.0 #应用程序包的信息
+#  flutter_downloader: ^1.4.4
+  r_upgrade: ^0.3.6 #升级apk
   date_format: ^2.0.4
-#  cached_network_image: ^2.0.0 #图片缓存
-  cached_network_image: ^3.1.0 #图片缓存
+  cached_network_image: ^3.1.0 #网络图片缓存
+  jpush_flutter: ^2.1.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -74,6 +62,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -81,103 +70,41 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/video/open.mp4
+    - lib/assets/icon/map/
+    - lib/assets/icon/publish.png
+    - lib/assets/icon/cancel.png
+    - lib/assets/icon/pdf.png
+    - lib/assets/icon/search.png
+    - lib/assets/icon/map/locate.png
+    - lib/assets/icon/map/locations.png
+    - lib/assets/icon/map/station.png
+    - lib/assets/icon/map/enterprise.png
+    - lib/assets/icon/map/riskSource.png
+    - lib/assets/icon/map/flue.png
 
-    - assets/icon/bottomMenu/tab_index.png
-    - assets/icon/bottomMenu/tab_index_active.png
-    - assets/icon/bottomMenu/tab_add.png
-    - assets/icon/bottomMenu/tab_add_close.png
-    - assets/icon/bottomMenu/tab_mine.png
-    - assets/icon/bottomMenu/tab_mine_active.png
-
-    - assets/icon/add/maintenance.png
-    - assets/icon/add/polling.png
-    - assets/icon/add/complaints.png
-    - assets/icon/add/inspect_task.png
-    - assets/icon/add/monitor_task.png
-    - assets/icon/add/alarm_event.png
-
-    - assets/icon/map/locate.png
-    - assets/icon/map/locations.png
-    - assets/icon/map/station.png
-    - assets/icon/map/enterprise.png
-    - assets/icon/map/riskSource.png
-    - assets/icon/map/flue.png
-
-    - assets/icon/report/search.png
-    - assets/icon/report/pdf.png
-
-    - assets/icon/input/close.png
-    - assets/icon/input/search.png
-
-    - assets/icon/other/add.png
-    - assets/icon/other/close.png
-    - assets/icon/other/publish.png
-    - assets/icon/other/cancel.png
-    - assets/icon/other/task.png
-
-    - assets/icon/alarm/InspectTask.png
-    - assets/icon/alarm/MonitorTask.png
-    - assets/icon/alarm/BasicInformation.png
-    - assets/icon/alarm/DataSource.png
-    - assets/icon/alarm/DataAnalysis.png
-    - assets/icon/alarm/MsdsSuggest.png
-    - assets/icon/alarm/AttachmentReport.png
-    - assets/icon/alarm/MsdsSuggestIcon.png
-
-    - assets/icon/user/alert.png
-    - assets/icon/user/abnormal.png
-    - assets/icon/user/inspect.png
-    - assets/icon/user/monitor.png
-    - assets/icon/user/service.png
-    - assets/icon/user/polling.png
-
-    - assets/icon/login/people.png
-    - assets/icon/login/password.png
-
-    - assets/images/home/layer.png
-    - assets/images/home/map_button.png
-    - assets/images/home/satellite_map.png
-    - assets/images/home/standard_map.png
-    - assets/images/home/bgImage.png
-
-    - assets/images/RightMenu/check.png
-    - assets/images/RightMenu/air.png
-    - assets/images/RightMenu/btn.png
-    - assets/images/RightMenu/unBtn.png
-    - assets/images/RightMenu/danger.png
-    - assets/images/RightMenu/effluent.png
-    - assets/images/RightMenu/enterprises.png
-    - assets/images/RightMenu/flue.png
-    - assets/images/RightMenu/other.png
-    - assets/images/RightMenu/other.png
-    - assets/images/RightMenu/sites.png
-    - assets/images/RightMenu/unsites.png
-    - assets/images/RightMenu/unenterprises.png
-
-    - assets/images/monitor/factor_bg.png
-
-    - assets/images/user/setting.png
-    - assets/images/user/backlog.png
-    - assets/images/user/warning.png
-    - assets/images/user/monitor.png
-    - assets/images/user/supervise.png
-    - assets/images/user/header.png
-    - assets/images/user/monIcon.png
-
-    - assets/images/station/noData.png
-    - assets/images/station/matterBg.png
-    - assets/images/station/device.png
-    - assets/images/station/device-icon.png
-
-    - assets/images/login/bgImage.png
-    - assets/images/login/guide.png
-    - assets/images/login/logos.png
-
-    - assets/images/loading/loading1.png
-    - assets/images/loading/loading2.png
-    - assets/images/loading/loading3.png
-    - assets/images/loading/loading4.png
+    - lib/assets/images/logo.png
+    - lib/assets/images/login_bg.png
+    - lib/assets/images/bgImage.png
+    - lib/assets/images/personCenter_bg.png
+    - lib/assets/images/user.jpg
+    - lib/assets/images/pdf.png
+    - lib/assets/images/switch_menu.png
+    - lib/assets/images/map/layer.png
+    - lib/assets/images/map/satellite_map.png
+    - lib/assets/images/map/standard_map.png
+    - lib/assets/images/map/check.png
+    - lib/assets/images/map/air.png
+    - lib/assets/images/map/btn.png
+    - lib/assets/images/map/unBtn.png
+    - lib/assets/images/map/danger.png
+    - lib/assets/images/map/effluent.png
+    - lib/assets/images/map/enterprises.png
+    - lib/assets/images/map/flue.png
+    - lib/assets/images/map/other.png
+    - lib/assets/images/map/other.png
+    - lib/assets/images/map/sites.png
+    - lib/assets/images/map/unenterprises.png
+    - lib/assets/images/map/unsites.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

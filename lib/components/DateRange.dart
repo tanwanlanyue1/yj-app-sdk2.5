@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
-import 'package:scet_app/utils/tool/screen/screen.dart';
-import 'package:scet_app/utils/tool/dateUtc/dateUtc.dart';
+import 'package:cs_app/utils/screen/screen.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:cs_app/utils/dateUtc/dateUtc.dart';
 
 class DateRange extends StatefulWidget {
-  final DateTime start;
-  final DateTime end;
+  final DateTime? start;
+  final DateTime? end;
   final callBack;
-  DateRange({Key? key, required this.start, required this.end, this.callBack}) : super(key: key);
+  DateRange({Key? key, this.start, this.end, this.callBack}):super(key: key);
 
   @override
   _DateRangeState createState() => _DateRangeState();
@@ -24,6 +23,7 @@ class _DateRangeState extends State<DateRange> {
     endTime = formatTime(widget.end);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -55,8 +55,8 @@ class _DateRangeState extends State<DateRange> {
               ],
             ),
             onPressed: () async {
-              DateTime start = widget.start;
-              DateTime end = widget.end;
+              DateTime start = widget.start ?? DateTime.now();
+              DateTime end = widget.end ?? DateTime.now().add(Duration(days: 7));
               DateTime initFirstDate = DateTime(start.year-50,start.month,);
               DateTime initLastDate = DateTime(start.year+50,start.month,);
               return showDialog(context: context, builder: (context){
@@ -86,7 +86,7 @@ class _DateRangeState extends State<DateRange> {
                                 var picked = [
                                   val.startDate,
                                   val.endDate,];
-                                widget.callBack!(picked);
+                                widget.callBack(picked);
                                 startTime = formatTime(val.startDate);
                                 endTime = formatTime(val.endDate);
                                 setState(() {});
@@ -101,22 +101,8 @@ class _DateRangeState extends State<DateRange> {
                   },
                 );
               });
-              // final List<DateTime> picked =
-              //     await DateRangePicker.showDatePicker(
-              //         context: context,
-              //         initialFirstDate: new DateTime.now(),
-              //         initialLastDate:
-              //             (new DateTime.now()).add(new Duration(days: 7)),
-              //         firstDate: new DateTime(2018),
-              //         lastDate: new DateTime(DateTime.now().year + 2));
-              // if (picked != null && picked.length == 2) {
-              //   widget.callBack(picked);
-              //   setState(() {
-              //     startTime = formatTime(picked[0]);
-              //     endTime = formatTime(picked[1]);
-              //   });
-              // }
-            }));
+            })
+    );
   }
 
   String formatTime(time) {

@@ -1,42 +1,22 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_echarts/flutter_echarts.dart';
 
 class LineCharts extends StatelessWidget {
   final String? facName;
   final String? unit;
-  final bool showAxis;
-  final int warnLevel;
+  final int? warnLevel;
   final List? valueData;
-  bool reload = true;
-  LineCharts(
-      {this.facName, required this.showAxis, required this.warnLevel, this.unit, this.valueData});
+  LineCharts({this.facName, this.warnLevel,this.unit, this.valueData});
 
-  var themeColor;
-  List bgColor = [];
-  void _colorSelect(int level) {
-    switch (level) {
-      case 0:
-        bgColor = ['rgba(77, 124, 255, 0.3)', 'rgba(77, 124, 255, 0)'];
-        themeColor = 'rgba(77, 124, 255, 1)';
-        break;
-      case 1:
-        bgColor = ['rgba(144, 204, 0, 0.4)', 'rgba(255, 255, 255, 0)'];
-        themeColor = 'rgba(144, 204, 0, 1)';
-        break;
-      case 2:
-        bgColor = ['rgba(255, 219, 0, 1.0)', 'rgba(255, 255, 255, 0)'];
-        themeColor = 'rgba(255, 219, 0, 1)';
-        break;
-      case 3:
-        bgColor = ['rgba(255, 134, 0, 0.4)', 'rgba(255, 255, 255, 0)'];
-        themeColor = 'rgba(255, 134, 0, 1)';
-        break;
-      case 4:
-        bgColor = ['rgba(255, 51, 51, 0.5)', 'rgba(255, 255, 255, 0)'];
-        themeColor = 'rgba(255, 51, 51, 0.7)';
-        break;
+  var themeColor; 
+  void _colorSelect(int? level) {
+    switch(level) {
+      case 0: themeColor = 'rgba(102, 143, 255, 1)'; break;
+      case 1: themeColor = 'rgba(144, 204, 0, 1)'; break;
+      case 2: themeColor = 'rgba(255, 219, 0, 1)'; break; 
+      case 3: themeColor = 'rgba(255, 134, 0, 1)'; break; 
+      case 4: themeColor = 'rgba(102, 143, 255, 1)'; break;
+      default: themeColor = 'rgba(102, 143, 255, 1)';
     }
   }
 
@@ -44,17 +24,12 @@ class LineCharts extends StatelessWidget {
   Widget build(BuildContext context) {
     _colorSelect(warnLevel);
     return Echarts(
-        onLoad: (dynamic controller) {
-          if (reload && Platform.isIOS) {
-            controller.reload();
-            reload = false;
-          }
-        },
-        option: '''
+      option: '''
         {
           tooltip: {
-            show: $showAxis,
+            show: true,
             trigger: 'axis',
+            // backgroundColor: 'rgba(148, 194, 255, 1)',
             position: function (point, params, dom, rect, size) {
               let x = 0;
               let y = 0;
@@ -84,15 +59,15 @@ class LineCharts extends StatelessWidget {
               date = date.toJSON().substr(0, 19).replace('T', ' ');
               return (
                 "时间：" + date + '<br/>' +
-                params[0].marker +params[0].seriesName+ '：' + params[0].data[1] + '$unit'
+                params[0].marker +params[0].seriesName+ '：' + params[0].data[1] + '${unit == null ? '': unit}'
               );
             }
           },
           grid: {
-            top: '17%',
+            top: '10%',
             left: '1%',
             right: '5%',
-            bottom: '2%',
+            bottom: '5%',
             containLabel: true
           },
           xAxis: {
@@ -101,7 +76,6 @@ class LineCharts extends StatelessWidget {
             splitLine: {show: false},
             axisTick: {show: false},
             axisLine: {
-              show: $showAxis,
               lineStyle: {
                 type: 'solid',
                 color: 'rgba(161, 166, 179, 0.6)',
@@ -109,14 +83,13 @@ class LineCharts extends StatelessWidget {
               }
             },
             axisLabel: {
-              show: $showAxis,
               textStyle: {
                 color: 'rgba(161, 166, 179, 1)'
               }
             }
           },
           yAxis: {
-            name: '$unit',
+            name: '${unit == null ? '': unit}',
             nameTextStyle: {
               color: '#A1A6B3',
               fontSize: 12
@@ -125,13 +98,11 @@ class LineCharts extends StatelessWidget {
             axisTick: {show: false},
             axisLine: {show: false},
             axisLabel: {
-              show: $showAxis,
               textStyle: {
                 color: 'rgba(161, 166, 179, 1)'
               }
             },
             splitLine:{
-              show: $showAxis,
               lineStyle: {
                 color: 'RGBA(242, 243, 245, 0.8)',
                 type: 'dotted'
@@ -145,52 +116,22 @@ class LineCharts extends StatelessWidget {
               smooth: true,
               showSymbol: true,
               symbol: 'circle',
-              symbolSize: 3,
+              symbolSize:5,
               yAxisIndex: 0,
-              areaStyle: {
-                normal: {
-                  color: new echarts.graphic.LinearGradient(0, 0, 0, ${showAxis ? 1 : 0},[{
-                      offset: 0,
-                      color: '${bgColor[0]}'
-                    },
-                    {
-                      offset: 1,
-                      color: '${bgColor[1]}'
-                    }
-                  ]),
-                  shadowColor: '${bgColor[0]}',
-                  shadowBlur: 20
-                }
-              },
               itemStyle: {
                 normal: {
                   color: '$themeColor',
                   lineStyle: {
-                    width: 1,
+                    width: 2,
                     shadowColor: '$themeColor',
-                    opactiy: 0.3,
-                    shadowBlur: 10,
-                    shadowOffsetY: 1
                   }
                 }
               },
-              data: $valueData,
-              markPoint:{
-                label: {
-                  show: true,
-                  position: "top",
-                  distance: 4,
-                  offset: [1, 1],
-                  fontSize: 14
-                },
-                symbol: "circle",
-                symbolSize: 6,
-                symbolOffset: [0, 0],                          
-                data: [{type: 'max', name: '浓度最大值'}],       
-              }
+              data: $valueData
             }
           ]
         }
-      ''');
+      '''
+    );
   }
 }

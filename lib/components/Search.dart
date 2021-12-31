@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scet_app/utils/tool/screen/screen.dart';
+import 'package:cs_app/utils/screen/screen.dart';
 
 class Search extends StatefulWidget {
   final Color bgColor;
@@ -67,7 +67,6 @@ class _SearchState extends State<Search> {
                     } else {
                       _controller.clear();
                     }
-                    widget.search('');
                   },
                   child: Image.asset(
                     'assets/icon/input/close.png',
