@@ -60,54 +60,6 @@ class _StationCount extends State<StationCount> {
   }
 
 
-  // // 获取单个站点当天警情
-  // void _getHistory(stId, stName) async {
-  //   Map<String, dynamic> params = Map();
-  //   params['stId'] = stId;
-  //   params['type'] = '1';
-  //   var response = await Request().get(Api.url['historyAlarm'], data: params);
-  //   if(response['code'] == 200) {
-  //     List data = [];
-  //     response['data'].forEach((item) {
-  //       if(item['warnStatus'] != null  && item['warnStatus'] != 1) {
-  //         data.add(item);
-  //       }else if(item['status'] != 2 &&  item['alarmStatus'] != 2) {
-  //         data.add(item);
-  //       }
-  //     });
-  //     if(response['data'].length > 0) {
-  //       return showModalBottomSheet(
-  //         context: context,
-  //         builder: (BuildContext context) {
-  //           return Container(
-  //             height: px(580.0),
-  //             child: ListView(
-  //               children: <Widget>[
-  //                 Padding(
-  //                   padding: EdgeInsets.symmetric(vertical: 5.0),
-  //                   child: Text(
-  //                     '$stName实时报警情况',
-  //                     style: TextStyle(
-  //                       fontWeight: FontWeight.w600,
-  //                       fontSize: sp(30.0),
-  //                     ),
-  //                     textAlign: TextAlign.center,
-  //                   ),
-  //                 ),
-  //                 data.length > 0 ? ListAlarm(alarmData: data) : NoData(timeType: true, state: '当前无报警情况！'),
-  //               ],
-  //             ),
-  //           );
-  //         }
-  //       );
-  //     } else {
-  //       return ToastWidget.showToastMsg('$stName今日无报警情况！');
-  //     }
-  //   }
-  // }
-
-  // 获取单个站点当天警情
-
   void _getHistory(stId, stName) async {
     Map<String, dynamic> params = Map();
     params['stId'] = stId;
@@ -153,7 +105,7 @@ class _StationCount extends State<StationCount> {
         padding: EdgeInsets.only(top: 20.0),
         itemCount: stationList.length,
         itemBuilder: (context, index) {
-          Map weather = stationList[index]['weather'];
+          Map? weather = stationList[index]['weather'];
           return InkWell( 
             child: Card(
               shape: RoundedRectangleBorder(

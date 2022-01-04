@@ -50,24 +50,6 @@ class _RealTimeAlarmState extends State<RealTimeAlarm> {
     }
   }
 
-  void _getHistoryAlarm() async {
-    var now = DateTime.now();
-    var endTime = now.add(Duration(days: -7));
-    Map<String, dynamic> params = Map();
-    params['stId'] = 0;
-    params['startTime'] = endTime.toUtc();
-    params['endTime'] = now.toUtc();
-    var response = await Request().get(Api.url['historyAlarm'], data: params);
-    if(response['code'] == 200) {
-      List data = response['data'];
-      data.forEach((item) {
-        item['type'] = 'history';
-      });
-      setState(() {
-        historyAlarm = data;
-      });
-    }
-  }
   //刷新页面
   void refreshPage(List data) {
     realAlarm = data;
