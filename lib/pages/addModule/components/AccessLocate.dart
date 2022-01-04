@@ -65,15 +65,13 @@ class _AccessLocateState extends State<AccessLocate> {
                 builder: (context) {
                 return LoadingDialog(text: '获取当前定位中');
               });
-              Geolocator.getCurrentPosition(
-                desiredAccuracy: LocationAccuracy.medium
-              ).then((position) {
-                Navigator.pop(context);
+              Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((position){
                 String point = "${position.longitude}, ${position.latitude}";
                 widget.callback(position.longitude, position.latitude);
                 setState(() {
                   currentPoint = point;
                 });
+                Navigator.pop(context);
               });
             },
             child: Row(

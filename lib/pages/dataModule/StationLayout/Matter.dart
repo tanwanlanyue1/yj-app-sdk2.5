@@ -41,7 +41,8 @@ class _MatterState extends State<Matter> with AutomaticKeepAliveClientMixin {
         return double.parse(b['value'].toString()).compareTo(double.parse(a['value'].toString()));
       });
       data.sort((a, b) {
-        return int.parse(b['warn']['level'].toString()).compareTo(int.parse(a['warn']['level'].toString()));
+        print('warn   ====$b');
+        return int.parse(b['warn']["warning"]['level'].toString()).compareTo(int.parse(a['warn']["warning"]['level'].toString()));
       });
       // 获取当前因子的详细信息
       _getFactorDescription(facId: data[0]['facId']);
@@ -107,7 +108,7 @@ class _MatterState extends State<Matter> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _matterList == null ?
+      body: _matterList.length == 0 ?
       CasingPly.casingPly3()  :
       ListView(
         children: [

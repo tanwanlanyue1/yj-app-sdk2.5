@@ -183,7 +183,7 @@ class FormCheck {
     );
   }
 
-  static Widget textData({required String data}) {
+  static Widget textData({String? data}) {
     return Padding(
       padding: EdgeInsets.only(left: px(12.0)),
       child: Text(

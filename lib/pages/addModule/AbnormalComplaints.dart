@@ -12,7 +12,7 @@ import 'package:scet_app/utils/api/Request.dart';
 import 'package:scet_app/utils/tool/screen/Adapter.dart';
 import 'package:scet_app/utils/tool/screen/screen.dart';
 
-/*------------异常投诉-------------c3w*/
+/*------------异常投诉-------------*/
 class AbnormalComplaints extends StatefulWidget {
   @override
   _AbnormalComplaintsState createState() => _AbnormalComplaintsState();
@@ -30,7 +30,7 @@ class _AbnormalComplaintsState extends State<AbnormalComplaints> {
 
   DateTime currentTime = DateTime.now();
 
-  late String eventCode, eventName, complaintsPlace, complaintsContent,smellType, complaintsSmell,complaintsScene;
+  String? eventCode, eventName, complaintsPlace, complaintsContent,smellType, complaintsSmell,complaintsScene;
 
   Map complaintsType = {}, complaintsMethod = {}, 
     complaintsColor = {}, complaintsForm ={}, 

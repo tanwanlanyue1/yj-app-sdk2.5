@@ -337,9 +337,9 @@ class _MonitorTaskState extends State<MonitorTask> {
                                   callback: (lon, lat) =>
                                       _getLonLat(lon, lat, index),
                                   hintStrl: _monitoringTasks[index]
-                                          ['longitude'] +
+                                          ['longitude'].toString() +
                                       ',' +
-                                      _monitoringTasks[index]['latitude'],
+                                      _monitoringTasks[index]['latitude'].toString(),
                                 )),
                             FormCheck.formRowItem(
                                 padding: false,
