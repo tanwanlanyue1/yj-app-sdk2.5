@@ -175,13 +175,13 @@ class _MapWidgetState extends State<MapWidget> {
   List<Marker> _stationPointList() {
     var _homeModel = Provider.of<HomeModel>(context, listen: true);
     List data = _homeModel.siteList;
-    List<Marker> markerarray = [];
+    List<Marker> markerArray = [];
     data.forEach((item) {
-      if (item['latitude'] != null&&item['longitude'] != null) {
-        markerarray.add(commonMaker(
+      if (item['latitude'] != null && item['longitude'] != null) {
+        markerArray.add(commonMaker(
             latiude: double.parse(item['latitude'].toString()),
             longitude: double.parse(item['longitude'].toString()),
-            icon: 'lib/assets/icon/map/station.png',
+            icon: mapIcon(item['level']),
             markerName: item['stName'],
             selected: item['stId'] == currentId,
             onTap: () {
@@ -193,7 +193,7 @@ class _MapWidgetState extends State<MapWidget> {
             }));
       }
     });
-    return markerarray;
+    return markerArray;
   }
 
   //  显示不一样的图标
