@@ -135,30 +135,35 @@ class _MapWidgetState extends State<MapWidget> {
                 .toList(),
           ),
           _markers.length == 0 ?
-          _markerLayerOptions() :
+          MarkerLayerOptions(
+              markers: widget.layerType == 'station' ? _stationPointList() : [])
+              :
           _markerClusterLayerOptions()
         ]);
   }
+
   // 获取站点数据
-  _markerLayerOptions(){
+  List<Marker> _stationPointList() {
     List data = context.watch<HomeModel>().siteList;
-    return MarkerLayerOptions(
-        markers: widget.layerType != 'station' ? []:
-        data.where((item)=>item['longitude'] != null).toList().map((item) {
-          return commonMaker(
+    List<Marker> markerarray = [];
+    data.forEach((item) {
+      if (item['latitude'] != null&&item['longitude'] != null) {
+        markerarray.add(commonMaker(
             latiude: double.parse(item['latitude'].toString()),
             longitude: double.parse(item['longitude'].toString()),
             icon: 'lib/assets/icon/map/station.png',
             markerName: item['stName'],
             selected: item['stId'] == currentId,
-             onTap: () {
-               setState(() {
+            onTap: () {
+              setState(() {
                 currentId = item['stId'];
               });
               Navigator.pushNamed(context, '/station/details',arguments: {'stId': item['stId'], 'title': item['stName']});
-          });
-    }).toList());
-  }
+            }));
+    }
+        });
+  return markerarray;
+}
 
   // 获取企业
   void _getEnterprise() async {

@@ -19,6 +19,7 @@ class _StationCount extends State<StationCount> {
   _realStationInfo() async{
     var response = await Request().get(Api.url['realStationInfo']);
     if(response['code'] == 200) {
+      print('response===========$response');
       /** pc站點兼容操作**/
       response['data'].forEach((item){
         item['stId'] = item['oldId'];
