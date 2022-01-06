@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cs_app/components/ToastWidget.dart';
@@ -164,31 +165,35 @@ class _MapWidgetState extends State<MapWidget> {
             )).toList(),
           ),
           _markers.length == 0 ?
-          _markerLayerOptions() :
-          _markerClusterLayerOptions()
+              MarkerLayerOptions(
+              markers: widget.layerType == 'station' ? _stationPointList() : [])
+              : _markerClusterLayerOptions()
         ]);
   }
 
   // 获取站点数据
-  _markerLayerOptions(){
-    List data = context.watch<HomeModel>().siteList;
-    return MarkerLayerOptions(
-        markers: widget.layerType != 'station' ? []:
-        List.generate(data.length, (i){
-          var item = data[i];
-          return commonMaker(
-              latiude: double.parse(item['latitude'].toString()),
-              longitude: double.parse(item['longitude'].toString()),
-              icon: mapIcon(item['level']),
-              markerName: item['stName'],
-              selected: item['stId'] == currentId,
-              onTap: () {
+  List<Marker> _stationPointList() {
+    var _homeModel = Provider.of<HomeModel>(context, listen: true);
+    List data = _homeModel.siteList;
+    List<Marker> markerarray = [];
+    data.forEach((item) {
+      if (item['latitude'] != null&&item['longitude'] != null) {
+        markerarray.add(commonMaker(
+            latiude: double.parse(item['latitude'].toString()),
+            longitude: double.parse(item['longitude'].toString()),
+            icon: 'lib/assets/icon/map/station.png',
+            markerName: item['stName'],
+            selected: item['stId'] == currentId,
+            onTap: () {
+              setState(() {
                 currentId = item['stId'];
-                setState(() {});
                 Navigator.pushNamed(context, '/station/details',
                     arguments: {'stId': item['stId'], 'title': item['stName']});
               });
-        }) );
+            }));
+      }
+    });
+    return markerarray;
   }
 
   //  显示不一样的图标
