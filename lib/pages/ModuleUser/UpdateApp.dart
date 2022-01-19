@@ -54,15 +54,15 @@ class _UpdateAppState extends State<UpdateApp> {
   //取消下载apk
   void cancel() async {
     RUpgrade.cancel(id!);
-    RUpgrade.stream.listen((DownloadInfo info){
-      _progress =  info.percent ?? 0.0;
-      setState(() {});
-    });
   }
   @override
   void initState() {
     super.initState();
     _getAppInfo();
+    RUpgrade.stream.listen((DownloadInfo info){
+      _progress =  info.percent ?? 0.0;
+      setState(() {});
+    });
   }
 
   @override
