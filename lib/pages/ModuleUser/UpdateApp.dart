@@ -21,7 +21,7 @@ class _UpdateAppState extends State<UpdateApp> {
   int?  id;
   // 获取平台信息
   Future<String?> _getAppInfo() async {
-    print('_getAppInfo');
+    // print('_getAppInfo');
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     _version = packageInfo.version;
     // 请求接口
@@ -40,51 +40,6 @@ class _UpdateAppState extends State<UpdateApp> {
     }
   }
 
-  // 下载安卓更新包
-  Future<File?> _downloadAndroid(String url) async {
-    Directory? storageDir = await getExternalStorageDirectory();
-    String? storagePath = storageDir?.path;
-    File file = new File('$storagePath/csappv${_version}.apk');
-    if (!file.existsSync()) {
-      file.createSync();
-    }
-    try {
-      Response response = await Dio().get(url,
-        onReceiveProgress: (num received, num total) {
-          if (total != -1) {
-            double data = double.parse('${(received / total)}');
-            if(data != 1.0) {
-              this.setState(() {
-                _progress = data;
-              });
-            } else {
-              this.setState(() {
-                _progress = data;
-              });
-            }
-          }
-        },
-        options: Options(
-          responseType: ResponseType.bytes,
-          followRedirects: false,
-        )
-      );
-      file.writeAsBytesSync(response.data);
-      return file;
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  // 安装apk
-  Future<Null> _installApk(String url) async {
-    File? _apkFile = await _downloadAndroid(url);
-    String? _apkFilePath = _apkFile?.path;
-
-    if (_apkFilePath?.isEmpty ?? true) {
-      return;
-    }
-  }
 
   //下载apk
   void upgrade(String url) async {
@@ -95,34 +50,14 @@ class _UpdateAppState extends State<UpdateApp> {
         notificationVisibility:NotificationVisibility.VISIBILITY_VISIBLE,
         notificationStyle:NotificationStyle.planTime
     );
-    // ios
-    //跳转到AppStore进行更新
-    // void upgradeFromAppStore() async {
-    //   bool isSuccess =await RUpgrade.upgradeFromAppStore(
-    //     '您的AppId',
-    //   );
-    //   print(isSuccess);
-    // }
-    // 获取AppStore中你的应用最后的版本名
-    // void getVersionFromAppStore() async {
-    //         String versionName = await RUpgrade.getVersionFromAppStore(
-    //                 '您的AppId',
-    //                );
-    //         print(versionName);
-    //     }
   }
-  //重新下载
-  void pause(id) async {
-    DownloadStatus? status = await RUpgrade.getDownloadStatus(id);
-    bool? isSuccess=await RUpgrade.upgradeWithId(id);
-    print(">>>>获取下载状态$status");
-    print(">>>>重新下载$isSuccess");
-    // isSuccess 返回 false 即表示从来不存在此ID
-    // 返回 true
-    //    调用此方法前状态为 0,4,5 [STATUS_PAUSED/暂停]、[STATUS_FAILED/失败]、[STATUS_CANCEL/取消],将继续下载
-    //    调用此方法前状态为 1,2[STATUS_RUNNING]、[STATUS_PENDING]，不会发生任何变化
-    //    调用此方法前状态为 3[STATUS_SUCCESSFUL]，将会安装应用
-    // 当文件被删除时，重新下载
+  //取消下载apk
+  void cancel() async {
+    RUpgrade.cancel(id!);
+    RUpgrade.stream.listen((DownloadInfo info){
+      _progress =  info.percent ?? 0.0;
+      setState(() {});
+    });
   }
   @override
   void initState() {
@@ -169,7 +104,7 @@ class _UpdateAppState extends State<UpdateApp> {
                       Padding(
                         padding: EdgeInsets.only(bottom: px(40)),
                         child: Text(
-                          '已下载：${(_progress * 100).toStringAsFixed(2)}%',
+                          '已下载：$_progress%',
                           style: TextStyle(
                             fontSize: sp(22),
                             fontFamily: "M",
@@ -185,6 +120,7 @@ class _UpdateAppState extends State<UpdateApp> {
                             onTap: () {
                               setState(() {
                                 downloadState = false;
+                                cancel();
                               });
                             },
                           ),
