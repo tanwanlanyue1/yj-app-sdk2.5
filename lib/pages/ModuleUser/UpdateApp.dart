@@ -39,51 +39,6 @@ class _UpdateAppState extends State<UpdateApp> {
     }
   }
 
-  // 下载安卓更新包
-  Future<File?> _downloadAndroid(String url) async {
-    Directory? storageDir = await getExternalStorageDirectory();
-    String? storagePath = storageDir?.path;
-    File file = new File('$storagePath/csappv${_version}.apk');
-    if (!file.existsSync()) {
-      file.createSync();
-    }
-    try {
-      Response response = await Dio().get(url,
-        onReceiveProgress: (num received, num total) {
-          if (total != -1) {
-            double data = double.parse('${(received / total)}');
-            if(data != 1.0) {
-              this.setState(() {
-                _progress = data;
-              });
-            } else {
-              this.setState(() {
-                _progress = data;
-              });
-            }
-          }
-        },
-        options: Options(
-          responseType: ResponseType.bytes,
-          followRedirects: false,
-        )
-      );
-      file.writeAsBytesSync(response.data);
-      return file;
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  // 安装apk
-  Future<Null> _installApk(String url) async {
-    File? _apkFile = await _downloadAndroid(url);
-    String? _apkFilePath = _apkFile?.path;
-
-    if (_apkFilePath?.isEmpty ?? true) {
-      return;
-    }
-  }
   //下载apk
   void upgrade(String url) async {
     id = await RUpgrade.upgrade(
@@ -109,100 +64,98 @@ class _UpdateAppState extends State<UpdateApp> {
     //         print(versionName);
     //     }
   }
-  //重新下载
-  void pause(id) async {
-    DownloadStatus? status = await RUpgrade.getDownloadStatus(id);
-    bool? isSuccess=await RUpgrade.upgradeWithId(id);
-    print(">>>>获取下载状态$status");
-    print(">>>>重新下载$isSuccess");
-    // isSuccess 返回 false 即表示从来不存在此ID
-    // 返回 true
-    //    调用此方法前状态为 0,4,5 [STATUS_PAUSED/暂停]、[STATUS_FAILED/失败]、[STATUS_CANCEL/取消],将继续下载
-    //    调用此方法前状态为 1,2[STATUS_RUNNING]、[STATUS_PENDING]，不会发生任何变化
-    //    调用此方法前状态为 3[STATUS_SUCCESSFUL]，将会安装应用
-    // 当文件被删除时，重新下载
+  //取消下载apk
+  void cancel() async {
+    if(id != null){
+      RUpgrade.cancel(id!);
+    }
   }
   @override
   void initState() {
     super.initState();
     _getAppInfo();
+    RUpgrade.stream.listen((DownloadInfo info){
+      _progress =  info.percent ?? 0.0;
+      setState(() {});
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: downloadState,
-      child: Container(
-        width: Adapt.screenW(),
-        height: Adapt.screenH(),
-        color: Colors.black54,
-        child: Center(
-          child: Container(
-            width: px(540),
-            height: px(625),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('lib/assets/images/bgImage.png'),
-                fit: BoxFit.fill
-              )
-            ),
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(bottom: px(20)),
-                        child: Text(
-                          '解决了一些已知的问题！',
-                          style: TextStyle(
-                            fontSize: sp(32),
-                            fontFamily: "M",
-                            color: Color(0xFF2E2F33)
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: px(40)),
-                        child: Text(
-                          '已下载：${(_progress * 100).toStringAsFixed(2)}%',
-                          style: TextStyle(
-                            fontSize: sp(22),
-                            fontFamily: "M",
-                            color: Color(0xFFA8ABB3)
-                          ),
-                        ),
-                      ),
-                      Row(
+        visible: downloadState,
+        child: Container(
+            width: Adapt.screenW(),
+            height: Adapt.screenH(),
+            color: Colors.black54,
+            child: Center(
+              child: Container(
+                width: px(540),
+                height: px(625),
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('lib/assets/images/bgImage.png'),
+                        fit: BoxFit.fill
+                    )
+                ),
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          succeedDialogBtn(
-                            str: '取消',
-                            bgColor:  Color(0xFF8F98B3),
-                            onTap: () {
-                              setState(() {
-                                downloadState = false;
-                              });
-                            },
+                          Padding(
+                            padding: EdgeInsets.only(bottom: px(20)),
+                            child: Text(
+                              '解决了一些已知的问题！',
+                              style: TextStyle(
+                                  fontSize: sp(32),
+                                  fontFamily: "M",
+                                  color: Color(0xFF2E2F33)
+                              ),
+                            ),
                           ),
-                          succeedDialogBtn(
-                            str: '更新APP',
-                            bgColor:  Color(0xFF4D7CFF),
-                            onTap: () {
-                              upgrade(appUrl!);
-                            },
-                          )
+                          Padding(
+                            padding: EdgeInsets.only(bottom: px(40)),
+                            child: Text(
+                              '已下载：$_progress%',
+                              style: TextStyle(
+                                  fontSize: sp(22),
+                                  fontFamily: "M",
+                                  color: Color(0xFFA8ABB3)
+                              ),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              succeedDialogBtn(
+                                str: '取消',
+                                bgColor:  Color(0xFF8F98B3),
+                                onTap: () {
+                                  setState(() {
+                                    downloadState = false;
+                                    cancel();
+                                  });
+                                },
+                              ),
+                              succeedDialogBtn(
+                                str: '更新APP',
+                                bgColor:  Color(0xFF4D7CFF),
+                                onTap: () {
+                                  upgrade(appUrl!);
+                                },
+                              )
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
+                    )
+                  ],
+                ),
+              ),
+            )
         )
-      )
     );
   }
 
@@ -216,8 +169,8 @@ class _UpdateAppState extends State<UpdateApp> {
         child: Text(
           '$str',
           style: TextStyle(
-            fontSize: sp(30),
-            color: Color(0xFFFFFFFF)
+              fontSize: sp(30),
+              color: Color(0xFFFFFFFF)
           ),
         ),
       ),
