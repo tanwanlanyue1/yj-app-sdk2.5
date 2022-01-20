@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cs_app/api/Api.dart';
 import 'package:cs_app/api/Request.dart';
+import 'package:cs_app/components/ToastWidget.dart';
 import 'package:cs_app/utils/screen/screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class UpdateApp extends StatefulWidget {
 class _UpdateAppState extends State<UpdateApp> {
 
   bool downloadState = false;
+  bool updating = false; //更新中
   String? _version, appUrl;
   double _progress = 0.0;
   int? id;
@@ -48,6 +50,8 @@ class _UpdateAppState extends State<UpdateApp> {
         notificationVisibility:NotificationVisibility.VISIBILITY_VISIBLE,
         notificationStyle:NotificationStyle.planTime
     );
+    updating = true;
+    setState(() {});
     // ios
     //跳转到AppStore进行更新
     // void upgradeFromAppStore() async {
@@ -140,10 +144,14 @@ class _UpdateAppState extends State<UpdateApp> {
                                 },
                               ),
                               succeedDialogBtn(
-                                str: '更新APP',
+                                str: updating ? '正在更新':'更新APP',
                                 bgColor:  Color(0xFF4D7CFF),
                                 onTap: () {
-                                  upgrade(appUrl!);
+                                  if(!updating){
+                                    upgrade(appUrl!);
+                                  }else{
+                                    ToastWidget.showToastMsg('正在更新中');
+                                  }
                                 },
                               )
                             ],
