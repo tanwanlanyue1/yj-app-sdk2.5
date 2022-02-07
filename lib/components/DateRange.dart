@@ -5,10 +5,10 @@ import '../utils/dateUtc/dateUtc.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class DateRange extends StatefulWidget {
-  final DateTime? start;
-  final DateTime? end;
+  final DateTime start;
+  final DateTime end;
   final callBack;
-  DateRange({Key? key, this.start, this.end, this.callBack}):super(key: key);
+  DateRange({Key? key, required this.start, required this.end, this.callBack}):super(key: key);
 
   @override
   _DateRangeState createState() => _DateRangeState();
@@ -17,11 +17,14 @@ class DateRange extends StatefulWidget {
 class _DateRangeState extends State<DateRange> {
 
   String? startTime, endTime;
+  DateTime? initFirstDate, initLastDate;
 
   @override
   void initState() {
     startTime = formatTime(widget.start);
     endTime = formatTime(widget.end);
+    initFirstDate = DateTime(widget.start.year-50,widget.start.month,);
+    initLastDate = DateTime(widget.start.year+50,widget.start.month,);
     super.initState();
   }
 
@@ -66,10 +69,8 @@ class _DateRangeState extends State<DateRange> {
           ],
         ),
         onPressed: () async {
-          DateTime start = widget.start ?? DateTime.now();
-          DateTime end = widget.end ?? DateTime.now().add(Duration(days: 7));
-          DateTime initFirstDate = DateTime(start.year-50,start.month,);
-          DateTime initLastDate = DateTime(start.year+50,start.month,);
+          DateTime start = DateTime.parse(startTime!);
+          DateTime end = DateTime.parse(endTime!);
           return showDialog(context: context, builder: (context){
             return GestureDetector(
               child: Container(
