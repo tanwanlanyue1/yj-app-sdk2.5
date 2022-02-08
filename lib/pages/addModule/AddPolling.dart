@@ -38,7 +38,6 @@ class _AddPollingState extends State<AddPolling> {
   DateTime? stopTime, expectTime;
   void timeChange(int state, DateTime time) {
     if (mounted == true) {
-      // print(time);
       if (state == 0) {
         setState(() {
           stopTime = time;
@@ -68,15 +67,13 @@ class _AddPollingState extends State<AddPolling> {
       ToastWidget.showToastMsg('请选择设备位置！');
     } else if(device['value'] == null){
       ToastWidget.showToastMsg('请选择监测设备！');
-    } else if(offsetType == null) {
+    } else if(offsetType == {}) {
       ToastWidget.showToastMsg('请选择停运性质！');
     } else if(applicant == null) {
       ToastWidget.showToastMsg('请填写申请人员！');
     }  else if(stopTime == null){
       ToastWidget.showToastMsg('请选择停运时间！');
-    } else if(nto == null){
-      ToastWidget.showToastMsg('请选择是否通知业主！');
-    } else if(expectTime == null) {
+    }else if(expectTime == null) {
       ToastWidget.showToastMsg('请选择预期恢复时间！');
     } else if(offSetReason == null) {
       ToastWidget.showToastMsg('请填写停运原因！');

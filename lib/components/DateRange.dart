@@ -17,11 +17,14 @@ class DateRange extends StatefulWidget {
 
 class _DateRangeState extends State<DateRange> {
   String? startTime, endTime;
+  DateTime? initFirstDate, initLastDate;
 
   @override
   void initState() {
     startTime = formatTime(widget.start);
     endTime = formatTime(widget.end);
+    initFirstDate = DateTime(widget.start.year-50,widget.start.month,);
+    initLastDate = DateTime(widget.start.year+50,widget.start.month,);
     super.initState();
   }
   @override
@@ -55,10 +58,8 @@ class _DateRangeState extends State<DateRange> {
               ],
             ),
             onPressed: () async {
-              DateTime start = widget.start;
-              DateTime end = widget.end;
-              DateTime initFirstDate = DateTime(start.year-50,start.month,);
-              DateTime initLastDate = DateTime(start.year+50,start.month,);
+              DateTime start = DateTime.parse(startTime!);
+              DateTime end = DateTime.parse(endTime!);
               return showDialog(context: context, builder: (context){
                 return GestureDetector(
                   child: Container(
@@ -101,21 +102,6 @@ class _DateRangeState extends State<DateRange> {
                   },
                 );
               });
-              // final List<DateTime> picked =
-              //     await DateRangePicker.showDatePicker(
-              //         context: context,
-              //         initialFirstDate: new DateTime.now(),
-              //         initialLastDate:
-              //             (new DateTime.now()).add(new Duration(days: 7)),
-              //         firstDate: new DateTime(2018),
-              //         lastDate: new DateTime(DateTime.now().year + 2));
-              // if (picked != null && picked.length == 2) {
-              //   widget.callBack(picked);
-              //   setState(() {
-              //     startTime = formatTime(picked[0]);
-              //     endTime = formatTime(picked[1]);
-              //   });
-              // }
             }));
   }
 
