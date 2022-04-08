@@ -35,18 +35,16 @@ class _HistoryAlarmState extends State<HistoryAlarm> {
   void _getHistoryAlarm(stId, _startTime, _endTime, {typeStatus? type}) async {
     Map<String, dynamic> params = Map();
     params['stId'] = stId;
-    params['startTime'] = _startTime.toUtc();
-    params['endTime'] = _endTime.toUtc();
+    params['startTime'] = _startTime;
+    params['endTime'] = _endTime;
     params['pageNo'] = _pageNo;
     params['pageSize'] = 10;
+    params['type'] = "history";
     var response = await Request().get(Api.url['table'], data: params);
     if(response['code'] == 200) {
       List data = response['data']["data"];
       _pageNo++;
       _total = response['data']["total"];
-      data.forEach((item) {
-        item['type'] = 'history';
-      });
       if (mounted) {
         if(type == typeStatus.onRefresh) {
           // 下拉刷新
