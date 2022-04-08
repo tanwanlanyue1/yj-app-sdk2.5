@@ -18,7 +18,7 @@ class Api {
 
     "table": BASE_URL_PC + '/alarm/table', // 历史警情
 
-    "alarmLine": BASE_URL_APP + '/alarm/factor/historydata', // 警情浓度
+    "alarmLine": BASE_URL_PC + '/data/history', // 警情浓度
 
     "samePoint": BASE_URL_APP + '/data/getLatestData', // 同类点位
 
