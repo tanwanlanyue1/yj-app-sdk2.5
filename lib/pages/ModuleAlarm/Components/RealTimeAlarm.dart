@@ -34,9 +34,6 @@ class _RealTimeAlarmState extends State<RealTimeAlarm> {
       _pageNo++;
       List data = response['data']["data"];
       _total = response['data']["total"];
-      data.forEach((item) {
-        item['type'] = 'realtime';
-      });
       setState(() {});
       if (mounted) {
         if(type == typeStatus.onRefresh) {

@@ -50,9 +50,6 @@ class _HistoryAlarmState extends State<HistoryAlarm> {
       _pageNo++;
       List data = response['data']["data"];
       _total = response['data']["total"];
-      data.forEach((item) {
-        item['type'] = 'history';
-      });
       setState(() {});
         if(type == typeStatus.onRefresh) {
           // 下拉刷新

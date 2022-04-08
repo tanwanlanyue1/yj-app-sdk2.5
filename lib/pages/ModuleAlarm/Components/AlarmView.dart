@@ -134,19 +134,19 @@ class _AlarmViewState extends State<AlarmView> {
         for (var i = 0; i < data.length; i++) {
           switch (data[i]["level"]) {
             case 1: {
-              list.add(["异常(1级)",  data[i]["mgValue"], 'mg/m³']);
+              list.add(["异常(1级)",  data[i]["ppmValue"], 'ppm']);
             }
             break;
             case 2: {
-              list.add(["注意(2级)",  data[i]["mgValue"], 'mg/m³']);
+              list.add(["注意(2级)",  data[i]["ppmValue"], 'ppm']);
             }
             break;
             case 3: {
-              list.add(["警告(3级)",  data[i]["mgValue"], 'mg/m³']);
+              list.add(["警告(3级)",  data[i]["ppmValue"], 'ppm']);
             }
             break;
             case 4: {
-              list.add(["高报(4级)",  data[i]["mgValue"], 'mg/m³']);
+              list.add(["高报(4级)",  data[i]["ppmValue"], 'ppm']);
             }
             break;
           }

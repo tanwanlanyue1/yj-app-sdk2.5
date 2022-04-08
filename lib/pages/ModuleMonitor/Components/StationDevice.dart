@@ -62,7 +62,7 @@ class StationDevice extends StatelessWidget {
                       ),
                       Divider( color: Colors.white), 
                       _itemDeviceData(
-                        leftData: '${deviceList![index]['source']}',
+                        leftData: '${deviceList![index]['source'] ?? '/'}',
                         rightData: '设备状态：${deviceList![index]['status']  == 1 ? '正常' : '停运'}'
                       ),
                       _itemDeviceData(

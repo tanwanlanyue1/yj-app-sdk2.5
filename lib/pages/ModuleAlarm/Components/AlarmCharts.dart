@@ -91,7 +91,7 @@ class _AlarmChartsState extends State<AlarmCharts> {
                       TextSpan(text: '截止浓度: ',
                         style: nameStyle,
                         children: <TextSpan>[
-                          TextSpan(text: '${factor['value'] ?? '/'}${factor['unit'] ?? ''}', style: valueStyle,)
+                          TextSpan(text: '${widget.data['value'] ?? '/'}${factor['unit'] ?? ''}', style: valueStyle,)
                         ],
                       ),
                     ), 
@@ -103,7 +103,7 @@ class _AlarmChartsState extends State<AlarmCharts> {
                         style: nameStyle,
                         children: <TextSpan>[
                           TextSpan(
-                            text: "${factor['time']!=null ? dateUtc(factor['time']) : '/'}", 
+                            text: "${widget.data['time']!=null ? dateUtc(widget.data['time']) : '/'}",
                             style: valueStyle
                           )
                         ],
