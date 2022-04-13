@@ -20,7 +20,7 @@ class AlarmView extends StatefulWidget {
 
 class _AlarmViewState extends State<AlarmView> {
   
-  List _samePoint = [], _thresholds = [], _warning = [];
+  List _samePoint = [], _thresholds = [];
   Map dataAll = {};
   String _sourceCompany = '/';
   int kindIndex = 0;
@@ -31,7 +31,6 @@ class _AlarmViewState extends State<AlarmView> {
 
   List tableHeader = ["等级","范围","单位",];
   List sameHeader = ["站点","检测时间","浓度值",];
-  List warningHeader = ["物质","起终时间","浓度值","风向",'警情级别'];
 
   void _getSourceCompany() async {
     Map<String, dynamic> params = Map();
@@ -242,40 +241,6 @@ class _AlarmViewState extends State<AlarmView> {
     }
   }
 
-  // 获取警情消息
-  void _getRealTimeAlarm() async{
-    Map<String, dynamic> params = Map();
-    params['type'] = 'history';
-    params['pageNo'] = _pageNo;
-    params['pageSize'] = 10;
-    params['status'] = jsonEncode([0,1]);
-    params['startTime'] = DateTime.parse(widget.data['triggerTime']).add(Duration(hours: -1));
-    params['endTime'] = widget.data['time'];
-    params['facId'] = widget.data['facId'];
-    params['devId'] = widget.data['devId'];
-    var response = await Request().get(Api.url['table'], data: params);
-    if(response['code'] == 200) {
-      List data = response['data']["data"];
-      _total = response['data']["total"];
-      setState(() {});
-      warningDispose(data);
-    }
-  }
-
-  //警情信息处理
-  warningDispose(List data){
-    _warning = [];
-    for(var i = 0; i<data.length;i++){
-      _warning.add([
-        data[i]["facName"], // 物质
-        dateUtc(data[i]['time']), //起终时间
-        "${data[i]['value']}"+"${data[i]['unit']}", //浓度
-        data[i]['weather']["wdExpl"], //风向
-        data[i]['warn']["level"], //风向
-      ]);
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -283,7 +248,6 @@ class _AlarmViewState extends State<AlarmView> {
     // _getSourceCompany();
     _getStationFactor();
     _pageNo = _pageNo + 1;
-    _getRealTimeAlarm();
   }
   @override
   Widget build(BuildContext context) {
@@ -350,43 +314,6 @@ class _AlarmViewState extends State<AlarmView> {
                 SameTable(
                   tableHeader: sameHeader,
                   tableBody: _samePoint,
-                ):
-                Container(),
-                _warning.isNotEmpty ?
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 5.0),
-                  child: Text(
-                    '预警信息',
-                    style: TextStyle(
-                        fontSize: sp(24.0),
-                        color: Color(0XFF707070)
-                    ),
-                  ),
-                ):
-                Container(),
-                _warning.isNotEmpty ?
-                SameTable(
-                  tableHeader: warningHeader,
-                  tableBody: _warning,
-                  callBack: (){
-                    int _warningTotal = _warning.length + ( _pageNo - 1) * 10;
-                    if(_total > _warningTotal){
-                      _pageNo = _pageNo + 1;
-                      _getRealTimeAlarm();
-                      setState(() {});
-                    }else{
-                      ToastWidget.showToastMsg('已经到达最后一页');
-                    }
-                  },
-                  callPrevious: (){
-                    if(_pageNo == 1){
-                      ToastWidget.showToastMsg('已经到达第一页');
-                    }else{
-                      _pageNo = _pageNo - 1;
-                      _getRealTimeAlarm();
-                      setState(() {});
-                    }
-                  },
                 ):
                 Container(),
               ],
