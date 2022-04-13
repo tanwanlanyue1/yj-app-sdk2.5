@@ -8,13 +8,13 @@ class LineCharts extends StatelessWidget {
   final List? valueData;
   LineCharts({this.facName, this.warnLevel,this.unit, this.valueData});
 
-  var themeColor; 
+  var themeColor;
   void _colorSelect(int? level) {
     switch(level) {
       case 0: themeColor = 'rgba(102, 143, 255, 1)'; break;
       case 1: themeColor = 'rgba(144, 204, 0, 1)'; break;
-      case 2: themeColor = 'rgba(255, 219, 0, 1)'; break; 
-      case 3: themeColor = 'rgba(255, 134, 0, 1)'; break; 
+      case 2: themeColor = 'rgba(255, 219, 0, 1)'; break;
+      case 3: themeColor = 'rgba(255, 134, 0, 1)'; break;
       case 4: themeColor = 'rgba(102, 143, 255, 1)'; break;
       default: themeColor = 'rgba(102, 143, 255, 1)';
     }
@@ -22,7 +22,7 @@ class LineCharts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print(warnLevel);
+    // print('>>>>${valueData}');
     _colorSelect(warnLevel);
     return Echarts(
       option: '''

@@ -5,11 +5,12 @@ import 'package:scet_dz/api/Request.dart';
 import 'package:scet_dz/components/LineCharts.dart';
 import 'package:scet_dz/utils/screen/screen.dart';
 
+
 class AlarmCharts extends StatefulWidget {
   final data;
   final String? sourceCompany;
   AlarmCharts({this.data, this.sourceCompany});
-  
+
   @override
   _AlarmChartsState createState() => _AlarmChartsState();
 }
@@ -27,8 +28,8 @@ class _AlarmChartsState extends State<AlarmCharts> {
     Map<String, dynamic> params = Map();
     params['stId'] = widget.data['stId'];
     params['facId'] = widget.data['facId'];
-    params['lastTime'] = widget.data['time'];
-    params['type'] = widget.data['type'];
+    params['startTime'] = DateTime.parse(widget.data['triggerTime']).add(Duration(hours: -1));
+    params['endTime'] = widget.data['time'];
     var response = await Request().get(Api.url['alarmLine'], data: params);
     if(response['code'] == 200) {
       List valueList = [];
@@ -50,8 +51,8 @@ class _AlarmChartsState extends State<AlarmCharts> {
     super.initState();
   }
 
-  TextStyle nameStyle = TextStyle(fontSize: sp(22.0), color: Color(0XFF999999));
-  TextStyle valueStyle = TextStyle(color: Color(0XFF45C79D), fontSize: sp(26.0), fontWeight: FontWeight.w400);
+  TextStyle nameStyle = TextStyle(fontSize: sp(25.0), color: Color(0XFF999999));
+  TextStyle valueStyle = TextStyle(color: Color(0XFF45C79D), fontSize: sp(27.0), fontWeight: FontWeight.w400);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -83,34 +84,34 @@ class _AlarmChartsState extends State<AlarmCharts> {
               Divider(color: Color(0XFFD8D8D8)),
               // 浓度
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    flex: 2,
-                    child: Text.rich(
-                      TextSpan(text: '截止浓度: ',
-                        style: nameStyle,
-                        children: <TextSpan>[
-                          TextSpan(text: '${widget.data['value'] ?? '/'}${widget.data['unit'] ?? ''}', style: valueStyle,)
-                        ],
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      flex: 2,
+                      child: Text.rich(
+                        TextSpan(text: '截止浓度: ',
+                          style: nameStyle,
+                          children: <TextSpan>[
+                            TextSpan(text: '${widget.data['value'] ?? '/'}${factor['unit'] ?? ''}', style: valueStyle,)
+                          ],
+                        ),
                       ),
-                    ), 
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Text.rich(
-                      TextSpan(text: '截止时间: ',
-                        style: nameStyle,
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: "${widget.data['time']!=null ? dateUtc(widget.data['time']) : '/'}",
-                            style: valueStyle
-                          )
-                        ],
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Text.rich(
+                        TextSpan(text: '截止时间: ',
+                          style: nameStyle,
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: "${widget.data['time']!=null ? dateUtc(widget.data['time']) : '/'}",
+                                style: valueStyle
+                            )
+                          ],
+                        ),
                       ),
-                    ), 
-                  ),
-                ]
+                    ),
+                  ]
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 4.0),
@@ -122,16 +123,16 @@ class _AlarmChartsState extends State<AlarmCharts> {
                       TextSpan(text: '${ widget.sourceCompany }', style: valueStyle)
                     ],
                   ),
-                ), 
+                ),
               ),
               Container(
-                height: px(420.0),
-                child: LineCharts(
-                facName: factor['facName'],
-                unit: factor['unit'],
-                warnLevel: factor['warn'] == null ? 0 : factor['warn']['level'],
-                valueData: _valueData
-              )
+                  height: px(420.0),
+                  child: LineCharts(
+                    facName: factor['facName'],
+                    unit: factor['unit'],
+                    warnLevel: factor['warn'] == null ? 0 : factor['warn']['level'],
+                    valueData: _valueData,
+                  )
               ),
             ],
           ),
