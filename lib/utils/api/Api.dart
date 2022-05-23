@@ -19,7 +19,7 @@ class Api {
 
     "stationDevice": BASE_URL_APP + '/station/device',  // 站点设备
 
-    "factorValueList": BASE_URL_APP + '/data/monitor',  // 站点设备
+    "factorValueList": BASE_URL_PC + '/data/history',  // 站点设备
 
     "factorDescription": BASE_URL_APP + '/data/description',  // 因子描述
 

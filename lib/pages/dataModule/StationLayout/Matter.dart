@@ -25,6 +25,7 @@ class _MatterState extends State<Matter> with AutomaticKeepAliveClientMixin {
   Map _nowMatter = {}; // 选中的物质
   List _matterList = []; // 物质数组
   List _searchList = []; //搜索物质数组数据的参考数据源
+  Map _facInfo = {};
 
   @override
   void initState() {
@@ -57,7 +58,6 @@ class _MatterState extends State<Matter> with AutomaticKeepAliveClientMixin {
   }
 
   // 获取当前因子的详细信息
-  Map _facInfo = {};
   void _getFactorDescription({required String facId}) async {
     Map<String, dynamic> params = Map();
     params['facId'] = facId;
@@ -77,6 +77,7 @@ class _MatterState extends State<Matter> with AutomaticKeepAliveClientMixin {
     Map<String, dynamic> params = Map();
     params['stId'] = stId;
     params['facId'] = facId;
+    params['startTime'] = DateTime.now().add(Duration(days: -1));
     params['endTime'] = DateTime.now().toUtc();
     var response = await Request().get(Api.url['factorValueList'], data: params);
     if(response['code'] == 200) {
