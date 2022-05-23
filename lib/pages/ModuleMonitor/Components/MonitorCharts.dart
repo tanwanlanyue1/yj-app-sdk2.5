@@ -19,12 +19,15 @@ class _MonitorCharts extends State<MonitorCharts> {
 
   // 获取当前因子的浓度趋势
   List _valueData = [];
+  Map _facInfo = {};
+
   void _getFactorValueList({required int stId, required String facId}) async {
     Map<String, dynamic> params = Map();
     params['stId'] = stId;
     params['facId'] = facId;
+    params['startTime'] = DateTime.now().add(Duration(days: -1));
     params['endTime'] = DateTime.now().toUtc();
-    var response = await Request().get(Api.url['factorValueList'], data: params);
+    var response = await Request().get(Api.url['alarmLine'], data: params);
     if(response['code'] == 200) {
       List valueList = [];
       response['data'].forEach((item) {
@@ -32,12 +35,12 @@ class _MonitorCharts extends State<MonitorCharts> {
       });
       setState(() {
         _valueData = valueList;
+        _facInfo = response['data'][0];
       });
     }
   }
 
   // 获取当前因子的详细信息
-  Map _facInfo = {};
   void _getFactorDescription({required String facId}) async {
     Map<String, dynamic> params = Map();
     params['facId'] = facId;
@@ -56,7 +59,7 @@ class _MonitorCharts extends State<MonitorCharts> {
   void initState() {
     super.initState();
     // 获取当前因子的详细信息
-    _getFactorDescription(facId: widget.factor['facId']);
+    // _getFactorDescription(facId: widget.factor['facId']);
     // 获取当前因子的浓度趋势
     _getFactorValueList(
       stId: widget.factor['stId'], 

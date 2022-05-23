@@ -5,11 +5,12 @@ import 'package:scet_dz/api/Request.dart';
 import 'package:scet_dz/components/LineCharts.dart';
 import 'package:scet_dz/utils/screen/screen.dart';
 
-
 class AlarmCharts extends StatefulWidget {
   final data;
   final String? sourceCompany;
-  AlarmCharts({this.data, this.sourceCompany});
+  final List? valueData;
+  final Map? factorData;
+  AlarmCharts({this.data, this.sourceCompany,this.valueData,this.factorData});
 
   @override
   _AlarmChartsState createState() => _AlarmChartsState();
@@ -19,40 +20,24 @@ class _AlarmChartsState extends State<AlarmCharts> {
 
   Map factor = {};
 
-  var chartsTime, chartsValue;
-
   List _valueData=[];
-
-  // 获取浓度趋势
-  void _getStationFactor() async {
-    Map<String, dynamic> params = Map();
-    params['stId'] = widget.data['stId'];
-    params['facId'] = widget.data['facId'];
-    params['startTime'] = DateTime.parse(widget.data['triggerTime']).add(Duration(hours: -1));
-    params['endTime'] = widget.data['time'];
-    var response = await Request().get(Api.url['alarmLine'], data: params);
-    if(response['code'] == 200) {
-      List valueList = [];
-      response['data'].forEach((item) {
-        valueList.add([DateTime.parse(item['time']).millisecondsSinceEpoch, item['value']]);
-      });
-      if(valueList.length > 0) {
-        setState(() {
-          _valueData = valueList;
-          factor = response['data'][0];
-        });
-      }
-    }
-  }
 
   @override
   void initState() {
-    _getStationFactor();
+    _valueData = widget.valueData ?? [];
+    factor = widget.factorData ?? {};
     super.initState();
   }
-
   TextStyle nameStyle = TextStyle(fontSize: sp(25.0), color: Color(0XFF999999));
   TextStyle valueStyle = TextStyle(color: Color(0XFF45C79D), fontSize: sp(27.0), fontWeight: FontWeight.w400);
+
+  @override
+  void didUpdateWidget(covariant AlarmCharts oldWidget) {
+    // TODO: implement didUpdateWidget
+    _valueData = widget.valueData ?? [];
+    factor = widget.factorData ?? {};
+    super.didUpdateWidget(oldWidget);
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
