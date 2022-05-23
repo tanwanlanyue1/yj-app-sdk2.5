@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cs_app/components/ToastWidget.dart';
 import 'package:cs_app/model/data/data_global.dart';
 import 'package:cs_app/model/data/data_jpush.dart';
@@ -39,9 +41,14 @@ class _MapCenterState extends State<MapCenter> with AutomaticKeepAliveClientMixi
 
   // 获取警情消息
   void _getRealTimeAlarm() async{
-    var response = await Request().get(Api.url['realtimeAlarm']);
+    Map<String, dynamic> params = Map();
+    params['type'] = 'realTime';
+    params['pageNo'] = 1;
+    params['pageSize'] = 10;
+    params['status'] = jsonEncode([0,1]);
+    var response = await Request().get(Api.url['table']);
     if(response['code'] == 200) {
-      List data = response['data'];
+      List data = response['data']["data"];
       showAlarm(data);
     }
   }

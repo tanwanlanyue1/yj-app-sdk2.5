@@ -25,6 +25,7 @@ class _AlarmViewState extends State<AlarmView> {
   String _sourceCompany = '/';
   int kindIndex = 0;
   List kind = [];
+  List _valueData=[];
 
   int _total = 10;
   int _pageNo = 0;
@@ -82,6 +83,15 @@ class _AlarmViewState extends State<AlarmView> {
     var response = await Request().get(Api.url['alarmLine'], data: params);
     List list = [];
     if(response['code'] == 200) {
+      List valueList = [];
+      for(var i = 0; i < response['data'].length; i++){
+        valueList.add([DateTime.parse(response['data'][i]['time']).millisecondsSinceEpoch, response['data'][i]['value']]);
+      }
+      if(valueList.length > 0) {
+        setState(() {
+          _valueData = valueList;
+        });
+      }
       dataAll = response["data"][0];
       List keys = [];
       keys.addAll(dataAll.keys);
@@ -320,7 +330,12 @@ class _AlarmViewState extends State<AlarmView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   // 视图
-                  AlarmCharts(data: widget.data, sourceCompany: _sourceCompany),
+                  AlarmCharts(
+                    data: widget.data,
+                    sourceCompany: _sourceCompany,
+                    valueData: _valueData,
+                    factorData: dataAll,
+                  ),
                   // 阈值
                   Padding(
                     padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 5.0),

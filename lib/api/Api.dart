@@ -15,7 +15,6 @@ class Api {
 
     "threshold": BASE_URL_PC + '/alarm/sites/each/threshold', // 查询四种类型警情
 
-    "realtimeAlarm": BASE_URL_APP + '/alarm/realtime', // 实时警情
 
     "historyAlarm": BASE_URL_APP + '/alarm/historydata', // 历史警情
 

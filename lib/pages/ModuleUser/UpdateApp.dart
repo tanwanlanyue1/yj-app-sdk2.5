@@ -45,7 +45,7 @@ class _UpdateAppState extends State<UpdateApp> {
   void upgrade(String url) async {
     id = await RUpgrade.upgrade(
         url,
-        fileName: 'chongqing.apk',
+        fileName: 'yuanquyujing.apk',
         isAutoRequestInstall: true,
         notificationVisibility:NotificationVisibility.VISIBILITY_VISIBLE,
         notificationStyle:NotificationStyle.planTime
