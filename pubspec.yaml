@@ -52,6 +52,7 @@ dependencies:
   date_format: ^2.0.4
   cached_network_image: ^3.1.0 #网络图片缓存
   jpush_flutter: ^2.1.4
+  open_file: ^3.2.1 #文件打开
 
 dev_dependencies:
   flutter_test:
@@ -81,6 +82,7 @@ flutter:
     - lib/assets/icon/map/enterprise.png
     - lib/assets/icon/map/riskSource.png
     - lib/assets/icon/map/flue.png
+    - lib/assets/icon/word.png
 
     - lib/assets/images/logo.png
     - lib/assets/images/login_bg.png
