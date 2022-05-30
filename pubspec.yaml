@@ -45,12 +45,10 @@ dependencies:
   geolocator: ^7.0.2 #定位
   flutter_echarts: ^2.2.0 #可视化
   gzx_dropdown_menu: ^3.1.0 #下拉筛选菜单
-  #  native_pdf_view: ^4.0.1
-#  flutter_full_pdf_viewer: ^1.0.6 #pdf
-  syncfusion_flutter_pdfviewer: ^19.2.62-beta #pdf
   flutter_easyrefresh: ^2.2.1 #下拉刷新
   cached_network_image: ^3.1.0 #网络图片缓存
 #  package_info: ^0.4.1
+  open_file: ^3.2.1 #文件打开
   package_info_plus: ^1.0.6
   r_upgrade: ^0.3.6
   flutter_downloader: ^1.7.1
@@ -78,6 +76,7 @@ flutter:
      - lib/assets/images/map/
      - lib/assets/icon/
      - lib/assets/icon/map/
+     - lib/assets/icon/word.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

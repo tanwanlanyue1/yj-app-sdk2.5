@@ -239,8 +239,6 @@ class ShowMoudle extends StatefulWidget {
   _ShowMoudleState createState() => _ShowMoudleState();
 }
 
-GlobalKey<_ShowMoudleState> testMessg = GlobalKey();
-
 class _ShowMoudleState extends State<ShowMoudle> {
 
   EasyRefreshController _controller = EasyRefreshController(); // 上拉组件控制器

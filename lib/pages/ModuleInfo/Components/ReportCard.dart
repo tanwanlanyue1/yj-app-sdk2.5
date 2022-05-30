@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:intl/intl.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:scet_dz/api/Api.dart';
+import 'package:scet_dz/components/Loading.dart';
 import 'package:scet_dz/utils/screen/screen.dart';
 
 import '../../../utils/dateUtc/dateUtc.dart';
@@ -13,8 +15,13 @@ class ReportCard extends StatelessWidget {
   ReportCard({required this.data});
 
   Future<File> createFileOfPdfUrl(url) async {
-    url = Api.BASE_URL_PC + '/yujing/' + url;
-    print(url);
+    BotToast.showCustomLoading(
+        ignoreContentClick: true,
+        toastBuilder: (cancelFunc) {
+          return Loading(cancelFunc: cancelFunc);
+        }
+    );
+    url = Api.BASE_URL_PC +"/yujing/" + url;
     final filename = url.substring(url.lastIndexOf("/") + 1);
     var request = await HttpClient().getUrl(Uri.parse(url));
     var response = await request.close();
@@ -22,6 +29,7 @@ class ReportCard extends StatelessWidget {
     String dir = (await getApplicationDocumentsDirectory()).path;
     File file = new File('$dir/$filename');
     await file.writeAsBytes(bytes);
+    BotToast.closeAllLoading();
     return file;
   }
   
@@ -44,8 +52,7 @@ class ReportCard extends StatelessWidget {
                 width: px(100.0),
                 height: px(120.0),
                 margin: EdgeInsets.only(right: px(20.0)),
-                child: Image.asset(
-                  'lib/assets/icon/pdf.png', 
+                  child: Image.asset('lib/assets/icon/${data['contentType'] == 'docx' ? 'word':'pdf' }.png',
                   fit: BoxFit.cover
                 )
               ),
@@ -82,12 +89,12 @@ class ReportCard extends StatelessWidget {
           )
         )
       ),
-      onTap: () {
-        final url = Api.BASE_URL_PC + '/yujing/' + data['fileAddress'];
-        Navigator.pushNamed(context, '/report/details', arguments: url);
-        // createFileOfPdfUrl(url).then((file) {
-        //   Navigator.pushNamed(context, '/report/details', arguments: file.path);
-        // });
+      onTap: () async{
+        final url = data['fileAddress'];
+        File file = await createFileOfPdfUrl(url);
+        if(file != null){
+          OpenFile.open(file.path);
+        }
       }
     );
   }
