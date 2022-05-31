@@ -1,8 +1,12 @@
 import 'dart:io';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:scet_app/components/LoadingDialog.dart';
+import 'package:scet_app/utils/api/Api.dart';
 import 'package:scet_app/utils/tool/dateUtc/dateUtc.dart';
 import 'package:scet_app/utils/tool/screen/screen.dart';
 
@@ -10,16 +14,26 @@ class ReportCard extends StatelessWidget {
   final Map data;
   ReportCard({required this.data});
 
-  Future<File> createFileOfPdfUrl(url) async {
-    url = 'https://cz.scet.com.cn:1443/api/yujing/' + url;
+  Future<String?> createFileOfPdfUrl(url) async {
+    BotToast.showCustomLoading(
+        ignoreContentClick: true,
+        toastBuilder: (cancelFunc) {
+          return LoadingDialog();
+        }
+    );
+    url = Api.BASE_URL_PC + "/yujing/" + url;
     final filename = url.substring(url.lastIndexOf("/") + 1);
-    var request = await HttpClient().getUrl(Uri.parse(url));
-    var response = await request.close();
-    var bytes = await consolidateHttpClientResponseBytes(response);
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    File file = new File('$dir/$filename');
-    await file.writeAsBytes(bytes);
-    return file;
+    return HttpClient().getUrl(Uri.parse(url)).then((value) async {
+      var response = await value.close();
+      var bytes = await consolidateHttpClientResponseBytes(response);
+      String dir = (await getApplicationDocumentsDirectory()).path;
+      File file = File('$dir/$filename');
+      await file.writeAsBytes(bytes);
+      BotToast.closeAllLoading();
+      return file.path;
+    }).catchError((err){
+      return '';
+    });
   }
   String pdf = '';
   String pdfFile = '';
@@ -55,7 +69,8 @@ class ReportCard extends StatelessWidget {
                         width: px(100.0),
                         height: px(120.0),
                         margin: EdgeInsets.only(right: px(20.0)),
-                        child: Image.asset('assets/icon/report/pdf.png',
+                        child: Image.asset(
+                            'lib/assets/icon/${data['contentType'] == 'docx' ? 'word' : 'pdf' }.png',
                             fit: BoxFit.cover)),
                     Expanded(
                         child: Column(
@@ -85,15 +100,11 @@ class ReportCard extends StatelessWidget {
                 ))),
         onTap: ()async{
           //下载文件
-          // await createDirectory(pdf).then((value) => {
-          //    downLoad().then((file) async {
-          //       Navigator.pushNamed(context, '/data/report/details',
-          //     arguments: pdfFile);
-          //   })
-          // });
-          // final url = data['fileAddress'];
-          final url = 'https://cz.scet.com.cn:1443/api/yujing/'+data['fileAddress'];
-          Navigator.pushNamed(context, '/data/report/details', arguments: url);
+          final url = data['fileAddress'];
+          String? path = await createFileOfPdfUrl(url);
+          if (path != '' && path != null) {
+            OpenFile.open(path);
+          }
           // createFileOfPdfUrl(url).then((file) {
           //   Navigator.pushNamed(context, '/data/report/details',
           //       arguments: file.path);

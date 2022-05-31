@@ -31,40 +31,25 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.3
   flutter_screenutil: ^5.0.0 # 屏幕适配
-#  flutter_screenutil: ^3.1.0 # 屏幕适配
   bot_toast: ^4.0.1 #弹出框
-#  flutter_map: ^0.10.0 #地图
   flutter_map: ^0.14.0 #地图
-#  flutter_map_marker_cluster: ^0.3.1 #点聚合
   flutter_map_marker_cluster: ^0.4.0 #点聚合
-#  flutter_picker: ^1.1.5 #时间选择
   flutter_picker: ^2.0.2 #时间选择
-  #  intl: ^0.16.1 #格式化时间
   intl: ^0.17.0
-#  date_range_picker: ^1.0.7 #日期范围
   syncfusion_flutter_datepicker: ^19.2.62 #日期范围
-#  dio: ^3.0.10 #网络请求
   dio: ^4.0.0 #网络请求
-#  shared_preferences: ^0.5.12 #本地存储
   shared_preferences: ^2.0.5 #本地存储
-#  provider: ^4.0.4 #状态管理
   provider: ^6.0.0 #状态管理
-#  geolocator: ^6.1.1 #定位
   geolocator: ^7.0.2 #定位
-#  flutter_echarts: ^2.1.0 #可视化
   flutter_echarts: ^2.2.0 #可视化
-#  gzx_dropdown_menu: ^2.1.0 #下拉筛选菜单
   gzx_dropdown_menu: ^3.1.0 #下拉筛选菜单
-#  flutter_full_pdf_viewer: ^1.0.6 #pdf
   syncfusion_flutter_pdfviewer: ^19.2.62-beta #pdf
-#  flutter_easyrefresh: ^2.1.6 #下拉刷新
   flutter_easyrefresh: ^2.2.1 #下拉刷新
-#  path_provider: ^1.6.27 #创建目录和文件
   path_provider: ^2.0.1 #创建目录和文件
-#  date_format: ^1.0.8
   date_format: ^2.0.4
-#  cached_network_image: ^2.0.0 #图片缓存
   cached_network_image: ^3.1.0 #图片缓存
+  open_file: ^3.2.1 #文件打开
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -89,6 +74,7 @@ flutter:
     - assets/icon/bottomMenu/tab_add_close.png
     - assets/icon/bottomMenu/tab_mine.png
     - assets/icon/bottomMenu/tab_mine_active.png
+    - assets/icon/
 
     - assets/icon/add/maintenance.png
     - assets/icon/add/polling.png
