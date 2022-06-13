@@ -107,19 +107,18 @@ class JpushData{
     jpush.openSettingsForNotification();
   }
   // 停止接收推送
-  static void stopPush() async {
-    await jpushPhone(isPush: 0);
-    await jpush.stopPush();
+  static Future stopPush() async {
+    jpush.stopPush();
+    return jpushPhone(isPush: 0);
   }
 
-  static jpushPhone({required int isPush}) async { // 接口关闭推送
+  static Future jpushPhone({required int isPush}) async { // 接口关闭推送
     Map _user = StorageUtil().getJSON(StorageKey.user);
     Map<String, dynamic> params = Map();
     params['phone'] = _user['phone'];
     params['registrationId'] = registrationID;
     params['online'] = isPush;
-    print('==>${params}');
-    await Request().post(Api.url['jpush'], data: params);
+    return await Request().post(Api.url['jpush'], data: params);
   }
 
   // 恢复推送功能

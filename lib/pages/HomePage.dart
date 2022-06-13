@@ -20,7 +20,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if(widget.arguments !=null && widget.arguments?['index'] != null ){
       _tabIndex = widget.arguments?['index'];

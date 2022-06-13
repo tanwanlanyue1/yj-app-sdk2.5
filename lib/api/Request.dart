@@ -50,6 +50,7 @@ class Request {
         },
         onResponse: (Response response,ResponseInterceptorHandler handler) {
           if (response.data is Map && response.data['code'] == 302) {
+            StorageUtil().remove(StorageKey.Token);
             ToastWidget.showToastMsg('用户信息过时，请重新登录！');
             BuildContext context = navigatorKey.currentState!.overlay!.context;
             Future.delayed(Duration(seconds: 0)).then((onValue) {
@@ -70,6 +71,7 @@ class Request {
 
   // post请求 默认json 如果是from表单 true
   post(url, {data, isForm: false}) async {
+    // print('post===>$url\n${data}');
     Response response;
     Options option = Options();
     if (isForm) {
@@ -84,13 +86,14 @@ class Request {
       print('===>$url\n${response.data}');
       return response.data;
     } on DioError catch (e) {
-      print("post错误-->$e");
+      print("post错误-->$url\n$e");
       return {'code':null};
     }
   }
 
   // get请求
   get(url, {data}) async {
+    // print('get===>$url\n${data}');
     Response response;
     try {
       if (null == data) {
@@ -101,7 +104,7 @@ class Request {
       print('===>$url\n${response.data}');
       return response.data;
     } on DioError catch (e) {
-      print("get错误-->$e");
+      print("get错误-->$url\n$e");
       return {'code':null};
     }
   }

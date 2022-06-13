@@ -111,7 +111,7 @@ class _AlarmChartsState extends State<AlarmCharts> {
                 ),
               ),
               Container(
-                  height: px(420.0),
+                  height: px(460.0),
                   child: LineCharts(
                     facName: factor['facName'],
                     unit: factor['unit'],

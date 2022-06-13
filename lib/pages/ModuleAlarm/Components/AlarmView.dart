@@ -1,5 +1,6 @@
 import 'package:cs_app/components/SameTable.dart';
 import 'package:cs_app/components/ToastWidget.dart';
+import 'package:cs_app/utils/alarmLevel/warnLevel.dart';
 import 'package:cs_app/utils/dateUtc/dateUtc.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class _AlarmViewState extends State<AlarmView> {
 
   List tableHeader = ["等级","范围","单位",];
   List sameHeader = ["站点","检测时间","浓度值",];
-  List warningHeader = ["物质","起终时间","浓度值","风向",'警情级别'];
+  List warningHeader = ["开始时间","截止时间","风向","浓度值",'警情级别','处理结果'];
 
   void _getSourceCompany() async {
     Map<String, dynamic> params = Map();
@@ -167,7 +168,7 @@ class _AlarmViewState extends State<AlarmView> {
         for (var i = 0; i < data.length; i++) {
           switch (data[i]["level"]) {
             case 1: {
-              if(data[i]["mgValue"] == null){
+              if(data[i]["ppmValue"] != null){
                 list.add(["异常(1级)",  data[i]["ppmValue"], 'ppm']);
               }else{
                 list.add(["异常(1级)",  data[i]["mgValue"], 'mg/m³']);
@@ -175,7 +176,7 @@ class _AlarmViewState extends State<AlarmView> {
             }
             break;
             case 2: {
-              if(data[i]["mgValue"] == null){
+              if(data[i]["ppmValue"] != null){
                 list.add(["注意(2级)",  data[i]["ppmValue"], 'ppm']);
               }else{
                 list.add(["注意(2级)",  data[i]["mgValue"], 'mg/m³']);
@@ -183,7 +184,7 @@ class _AlarmViewState extends State<AlarmView> {
             }
             break;
             case 3: {
-              if(data[i]["mgValue"] == null){
+              if(data[i]["ppmValue"] != null){
                 list.add(["警告(3级)",  data[i]["ppmValue"], 'ppm']);
               }else{
                 list.add(["警告(3级)",  data[i]["mgValue"], 'mg/m³']);
@@ -191,7 +192,7 @@ class _AlarmViewState extends State<AlarmView> {
             }
             break;
             case 4: {
-              if(data[i]["mgValue"] == null){
+              if(data[i]["ppmValue"] != null){
                 list.add(["高报(4级)",  data[i]["ppmValue"], 'ppm']);
               }else{
                 list.add(["高报(4级)",  data[i]["mgValue"], 'mg/m³']);
@@ -206,19 +207,39 @@ class _AlarmViewState extends State<AlarmView> {
         for (var i = 0; i < data.length; i++) {
           switch (data[i]["level"]) {
             case 1: {
-              list.add(["1级",  data[i]["mgValue"], 'mg/m³']);
+              if(data[i]["ppmValue"] != null){
+                list.add(["1级",  data[i]["ppmValue"], 'ppm']);
+              }else{
+                list.add(["1级",  data[i]["mgValue"], 'mg/m³']);
+              }
             } break;
             case 2: {
-              list.add(["2级",  data[i]["mgValue"], 'mg/m³']);
+              if(data[i]["ppmValue"] != null){
+                list.add(["2级",  data[i]["ppmValue"], 'ppm']);
+              }else{
+                list.add(["2级",  data[i]["mgValue"], 'mg/m³']);
+              }
             } break;
             case 3: {
-              list.add(["3级",  data[i]["mgValue"], 'mg/m³']);
+              if(data[i]["ppmValue"] != null){
+                list.add(["3级",  data[i]["ppmValue"], 'ppm']);
+              }else{
+                list.add(["3级",  data[i]["mgValue"], 'mg/m³']);
+              }
             } break;
             case 4: {
-              list.add(["4级",  data[i]["mgValue"], 'mg/m³']);
+              if(data[i]["ppmValue"] != null){
+                list.add(["4级",  data[i]["ppmValue"], 'ppm']);
+              }else{
+                list.add(["4级",  data[i]["mgValue"], 'mg/m³']);
+              }
             } break;
             case 5: {
-              list.add(["5级",  data[i]["mgValue"], 'mg/m³']);
+              if(data[i]["ppmValue"] != null){
+                list.add(["5级",  data[i]["ppmValue"], 'ppm']);
+              }else{
+                list.add(["5级",  data[i]["mgValue"], 'mg/m³']);
+              }
             } break;
           }
         }
@@ -227,16 +248,32 @@ class _AlarmViewState extends State<AlarmView> {
         for (var i = 0; i < data.length; i++) {
           switch (data[i]["level"]) {
             case 1: {
-              list.add(["一般(1级)",  data[i]["mgValue"], 'mg/m³']);
+              if(data[i]["ppmValue"] != null){
+                list.add(["一般(1级)",  data[i]["ppmValue"], 'ppm']);
+              }else{
+                list.add(["一般(1级)",  data[i]["mgValue"], 'mg/m³']);
+              }
             } break;
             case 2: {
-              list.add(["较大(2级)",  data[i]["mgValue"], 'mg/m³']);
+              if(data[i]["ppmValue"] != null){
+                list.add(["较大(2级)",  data[i]["ppmValue"], 'ppm']);
+              }else{
+                list.add(["较大(2级)",  data[i]["mgValue"], 'mg/m³']);
+              }
             } break;
             case 3: {
-              list.add(["重大(3级)",  data[i]["mgValue"], 'mg/m³']);
+              if(data[i]["ppmValue"] != null){
+                list.add(["重大(3级)",  data[i]["ppmValue"], 'ppm']);
+              }else{
+                list.add(["重大(3级)",  data[i]["mgValue"], 'mg/m³']);
+              }
             } break;
             case 4: {
-              list.add(["特别重大(4级)",  data[i]["mgValue"], 'mg/m³']);
+              if(data[i]["ppmValue"] != null){
+                list.add(["特别重大(4级)",  data[i]["ppmValue"], 'ppm']);
+              }else{
+                list.add(["特别重大(4级)",  data[i]["mgValue"], 'mg/m³']);
+              }
             } break;
           }
         }
@@ -279,13 +316,27 @@ class _AlarmViewState extends State<AlarmView> {
   //警情信息处理
   warningDispose(List data){
     _warning = [];
-    for(var i = 0; i<data.length;i++){
+    for(var i = 0; i < data.length; i++){
+      print('==>${data[i]['weather']}');
+
+      String status = '';
+
+      if(data[i]['status'] == null || data[i]['status']  == 0){
+        status = '未处理';
+      } else if (data[i]['status'] == 1) {
+        status = '已核实';
+      } else if (data[i]['status'] == 2) {
+        status = '误判';
+      }
+
       _warning.add([
-        data[i]["facName"], // 物质
+        // data[i]["facName"], // 物质
+        dateUtc(data[i]['triggerTime']),//起终时间
         dateUtc(data[i]['time']), //起终时间
-        "${data[i]['value']}"+"${data[i]['unit']}", //浓度
         data[i]['weather']["wdExpl"], //风向
-        data[i]['warn']["level"], //风向
+        "${data[i]['value']}"+"${data[i]['unit']}", //浓度
+        warnLevel(data[i]['warn']["level"]), //警情级别
+        status, //处理结果
       ]);
     }
   }
@@ -377,7 +428,7 @@ class _AlarmViewState extends State<AlarmView> {
                   Padding(
                     padding: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 5.0),
                     child: Text(
-                      '预警信息',
+                      '预警信息：（${widget.data['facName']}）',
                       style: TextStyle(
                           fontSize: sp(24.0),
                           color: Color(0XFF707070)

@@ -112,11 +112,17 @@ class _MapWidgetState extends State<MapWidget> {
     _switchLayer(widget.layerType);
     resueStation();
   }
-//  定时请求站点
+
+  //  定时请求站点
   resueStation(){
-    const timeout = const Duration(seconds: 30);
-    Timer.periodic(timeout, (timer) {
-      _realStationInfo();
+    Timer? timerRealStationInfo;
+    timerRealStationInfo = Timer.periodic(Duration(seconds: 60),(timer){
+      String? token =  StorageUtil().getString(StorageKey.Token);
+     if(token != null && token != ''){
+       _realStationInfo();
+     }else{
+       timerRealStationInfo?.cancel();//取消定时器
+     }
     });
   }
 

@@ -35,7 +35,8 @@ class Api {
 
     "realFactorNum": BASE_URL_APP + '/station/realtime', // 浓度>0监测因子
 
-    "reportList": BASE_URL_APP + '/report/list',  // 报告列表
+    // "reportList": BASE_URL_APP + '/report/list',  // 报告列表
+    "reportList": BASE_URL_PC + '/yujing/common/getAllReportList',  // 报告列表
 
     // "stationFactor": BASE_URL_APP + '/station/factor',  // 站点因子
     "stationFactor": BASE_URL_PC + '/data/sites/latest',  // 站点因子

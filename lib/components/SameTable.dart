@@ -37,19 +37,18 @@ class _SameTableState extends State<SameTable> {
       bodyRow.add(
         Expanded(
           child: Container(
-              padding: EdgeInsets.symmetric(vertical: 8.0),
+              padding: EdgeInsets.symmetric(vertical: 8.0,horizontal: 2.5),
               decoration: BoxDecoration(
                   border: isHeader ? Border(bottom: BorderSide(width: px(1),color: Colors.black38)) : null
               ),
               child: Container(
                 // width: px(120),
                 alignment: Alignment.center,
-
                 child: Text(
                     '${item[i]}',
                     style: TextStyle(
                         color: Color(0XFF707070),
-                        fontSize: sp(24.0)
+                        fontSize: sp(20.0)
                     )
                 ),
               )
@@ -113,7 +112,7 @@ class _SameTableState extends State<SameTable> {
               },
               child: Container(
                 height: px(150),
-                child: Icon(Icons.chevron_right_outlined,size: 26,),
+                child: Icon(Icons.chevron_right_outlined,size: 20,),
               ),
             ),
           ),

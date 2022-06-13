@@ -41,7 +41,7 @@ class _ReportState extends State<Report> {
     params['endTime'] = endTime.toUtc();
     
     var response = await Request().get(Api.url['reportList'], data: params);
-    if(response['code'] == 200) {
+    if(response['msg'] == '成功') {
       setState(() {
         _pdfList = response['data'];
       });

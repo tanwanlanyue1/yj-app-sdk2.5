@@ -119,13 +119,17 @@ class _UserCenterState extends State<UserCenter> {
                           fontSize: sp(32.0)
                         ),
                       ),
-                      onPressed: (){
+                      onPressed: () async {
                         // jpushPhone(userInfo['phone']);
-                        JpushData.stopPush(); // 停止推送
-                        StorageUtil().remove(StorageKey.Token);
-                        StorageUtil().remove(StorageKey.user,);
-                        JpushData.cleanTags();
-                        Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                        final res = await JpushData.stopPush(); // 停止推送
+                        if(res['code'] == 200){
+                          StorageUtil().remove(StorageKey.Token);
+                          StorageUtil().remove(StorageKey.user,);
+                          JpushData.cleanTags();
+                          Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+                        } else {
+                          ToastWidget.showToastMsg('请稍后重试！');
+                        }
                       }
                     ),
                   )
