@@ -45,6 +45,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: '长寿预警',
       navigatorKey: navigatorKey,
       builder: BotToastInit(),
       navigatorObservers: [BotToastNavigatorObserver()],

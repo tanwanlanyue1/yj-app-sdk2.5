@@ -25,7 +25,7 @@ class _StationDetails extends State<StationDetails> with SingleTickerProviderSta
   // 获取站点设备
   List deviceList = [];
   void _getCurrentStationDevice({int? stId}) async {
-    var response = await Request().get(Api.url['stationDevice']  + '/$stId');
+    var response = await Request().get(Api.url['stationDevice']  + '$stId');
     if(response['code'] == 200) {
       List data = response['data'];
       data.sort((a, b) {

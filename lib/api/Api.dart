@@ -42,7 +42,8 @@ class Api {
     "stationFactor": BASE_URL_PC + '/data/sites/latest',  // 站点因子
 
     // "stationDevice": BASE_URL_APP + '/station/device',  // 站点设备
-    "stationDevice": BASE_URL_PC + '/instruments/site',  // 站点设备
+    // "stationDevice": BASE_URL_PC + '/instruments/site',  // 站点设备
+    "stationDevice": BASE_URL_PC + '/status/sites/devices?stId=',  // 站点设备
 
     // "factorValueList": BASE_URL_APP + '/data/monitor',  // 因子趋势
     "factorValueList": BASE_URL_PC + '/data/history',  // 因子趋势

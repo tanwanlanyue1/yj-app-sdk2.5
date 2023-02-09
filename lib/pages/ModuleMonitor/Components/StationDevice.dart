@@ -53,7 +53,7 @@ class StationDevice extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start, 
                     children: <Widget>[
                       Text(
-                        '${deviceList![index]['name']}',
+                        '${deviceList![index]['devName']}',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: sp(28.0),
@@ -62,15 +62,15 @@ class StationDevice extends StatelessWidget {
                       ),
                       Divider( color: Colors.white), 
                       _itemDeviceData(
-                        leftData: '${deviceList![index]['source'] ?? '/'}',
-                        rightData: '设备状态：${deviceList![index]['status']  == 1 ? '正常' : '停运'}'
+                        leftData: '${deviceList![index]['stName'] ?? '/'}',
+                        rightData: '设备状态：${deviceList![index]['status']  == 1 ? '正常' : '离线'}'
                       ),
                       _itemDeviceData(
                         leftData: '监测设备', 
-                        rightData: '监测类型：${deviceList![index]['type']}'
+                        rightData: 'MN：${deviceList![index]['MN']}'
                       ),
                       _itemDeviceData(
-                        leftData: '${dateUtc(DateTime.now().toString())}', 
+                        leftData: '${deviceList![index]['status']  == 1 ? dateUtc(deviceList![index]['time']) : dateUtc(deviceList![index]['offlineTime'])}',
                         rightData: '供应商：广东中联兴环保科技有限公司'
                       )
                     ]

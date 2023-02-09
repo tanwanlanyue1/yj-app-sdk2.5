@@ -33,6 +33,11 @@ class _FactorsList extends State<FactorsList> with AutomaticKeepAliveClientMixin
       List data = response['data'];
       List normal = [], zero = [];
       data.forEach((factor) {
+        if(!factor.containsKey('warn')){
+          factor['warn'] = {
+            'warning': {'level':-1, 'method': '无阈值'},
+          };
+        }
         if(factor['value'] > 0) {
           normal.add(factor);
         } else {

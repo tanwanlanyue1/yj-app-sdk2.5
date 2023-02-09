@@ -39,7 +39,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.cs_app"
         minSdkVersion 19
-        targetSdkVersion 31
+        targetSdkVersion 30
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -72,7 +72,7 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.release
             ndk {
-                abiFilters'armeabi-v7a'
+                abiFilters 'armeabi-v7a', 'arm64-v8a'
 //                abiFilters'armeabi-v7a' , 'x86_64' , 'arm64-v8a'
             }
         }
