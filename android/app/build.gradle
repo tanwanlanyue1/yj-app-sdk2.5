@@ -25,6 +25,7 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.huawei.agconnect'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
@@ -89,9 +90,9 @@ flutter {
 dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.huawei.hms:push:5.3.0.301'
-    implementation 'cn.jiguang.sdk.plugin:huawei:4.0.9'// 极光厂商插件版本与接入 JPush 版本保持一致，
-    implementation 'cn.jiguang.sdk.plugin:meizu:4.0.9'// 接入魅族厂商
+    implementation 'com.huawei.hms:push:6.7.0.300'
+    implementation 'cn.jiguang.sdk.plugin:huawei:4.9.0'// 极光厂商插件版本与接入 JPush 版本保持一致，
+    implementation 'cn.jiguang.sdk.plugin:meizu:4.9.0'// 接入魅族厂商
 }
 
 tasks.withType(JavaCompile) {

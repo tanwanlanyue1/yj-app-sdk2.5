@@ -51,7 +51,7 @@ dependencies:
   r_upgrade: ^0.3.6 #升级apk
   date_format: ^2.0.4
   cached_network_image: ^3.1.0 #网络图片缓存
-  jpush_flutter: ^2.1.4
+  jpush_flutter: ^2.4.2
   open_file: ^3.2.1 #文件打开
 
 dev_dependencies:
