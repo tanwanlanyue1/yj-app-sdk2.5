@@ -78,14 +78,14 @@ class JpushData{
               title: new Text("温馨提示",style: TextStyle(fontSize:sp(30)),),
               content: new Text("您当前没有开启通知权限",style: TextStyle(fontSize:sp(25)),),
               actions: <Widget>[
-                new FlatButton(
+                new TextButton(
                   onPressed: () {
                     openSettingsForNotification();
                     Navigator.pop(context);
                   },
                   child: new Text("去开启"),
                 ),
-                new FlatButton(
+                new TextButton(
                   onPressed: () {
                     ToastWidget.showToastMsg('请先开启通知权限');
                   },

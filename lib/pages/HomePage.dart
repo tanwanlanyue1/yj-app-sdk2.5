@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
       list.add(
         new BottomNavigationBarItem(
           icon: getTabIcon(i),
-          title: getTabTitle(i)
+          label: tabTitles[i]
         )
       );
     }
@@ -114,7 +114,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(BoxConstraints(maxWidth: MediaQuery.of(context).size.width, maxHeight: MediaQuery.of(context).size.height), designSize: Size(Adapter.designWidth, Adapter.designHeight), orientation: Orientation.portrait);
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
