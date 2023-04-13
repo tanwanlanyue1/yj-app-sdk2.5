@@ -190,8 +190,10 @@ class _UserLoginState extends State<UserLogin> {
             width: Adapt.screenW(),
             padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 15.0),
             margin: EdgeInsets.only(bottom: px(60.0)),
-            child: RaisedButton(
-              color: Color(0XFF2288F4),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Color(0XFF2288F4)),
+              ),
               onPressed: _forSubmitted,
               child: Text(
                 '登录',

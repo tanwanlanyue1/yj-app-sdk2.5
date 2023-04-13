@@ -33,9 +33,14 @@ class _DateRangeState extends State<DateRange> {
     return Container(
       height: ScreenUtil().setHeight(60.0),
       color: Color(0xffF5F6FA),
-      child: OutlineButton(
-        borderSide: BorderSide(color: Color(0XffF5F6FA)),
-        padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0.0),
+        child: OutlinedButton(
+            style: ButtonStyle(
+                side: MaterialStateProperty.all(
+                    BorderSide(color: Color(0XffF5F6FA))),
+                padding: MaterialStateProperty.all(
+                    EdgeInsets.fromLTRB(px(10.0), 0.0, px(5.0), 0.0)
+                )
+            ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[

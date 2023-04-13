@@ -108,8 +108,10 @@ class _UserCenterState extends State<UserCenter> {
                     height: px(100.0),
                     width: Adapt.screenW(),
                     padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: px(100.0)),
-                    child: RaisedButton(
-                      color: Color(0xFF1D7DFE),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF1D7DFE),
+                      ),
                       child: Text(
                         '退出登录',
                         style: TextStyle(

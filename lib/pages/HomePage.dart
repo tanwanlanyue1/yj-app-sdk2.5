@@ -76,7 +76,8 @@ class _HomePageState extends State<HomePage> {
       list.add(
         new BottomNavigationBarItem(
           icon: getTabIcon(i),
-          title: getTabTitle(i)
+          // title: getTabTitle(i),
+          label: tabTitles[i]
         )
       );
     }
@@ -107,29 +108,31 @@ class _HomePageState extends State<HomePage> {
   }
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(BoxConstraints(maxWidth: MediaQuery.of(context).size.width, maxHeight: MediaQuery.of(context).size.height), designSize: Size(Adapter.designWidth, Adapter.designHeight), orientation: Orientation.portrait);
-    // ScreenUtil.init(context, designSize: Size(Adapter.designWidth, Adapter.designHeight), allowFontScaling: false);
-    return WillPopScope(
-      onWillPop: _onWillPop,
-      child: Scaffold(
-        body: PageView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          controller: _pageController,
-          itemCount: _pageList.length,
-          itemBuilder: (context, index) => _pageList[index]
+    return ScreenUtilInit(
+        designSize: const Size(Adapter.designWidth, Adapter.designHeight),
+        minTextAdapt: false,
+        splitScreenMode: true,
+        builder: (context, child) => WillPopScope(
+        onWillPop: _onWillPop,
+        child: Scaffold(
+            body: PageView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                controller: _pageController,
+                itemCount: _pageList.length,
+                itemBuilder: (context, index) => _pageList[index]
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              items: getBottomNavigationBarItem(),
+              type: BottomNavigationBarType.fixed,
+              currentIndex: _tabIndex,
+              onTap: (index) {
+                _pageController.jumpToPage(index);
+                setState(() {
+                  _tabIndex = index;
+                });
+              },
+            )
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: getBottomNavigationBarItem(),
-          type: BottomNavigationBarType.fixed,
-          currentIndex: _tabIndex,
-          onTap: (index) {
-            _pageController.jumpToPage(index);
-            setState(() {
-              _tabIndex = index;
-            });
-          },
-        )
-      ),
-    );
+      ));
   }
 }

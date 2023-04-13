@@ -68,13 +68,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: [
         Locale('en', 'US'),
         Locale('zh', 'CH'),
       ],
-      locale: Locale('zh'),
+      locale: const Locale('zh'),
       theme: ThemeData(
         primarySwatch: Colors.blue,
         primaryColor: Color(0XFF4D7CFF),
@@ -86,4 +87,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
- 
