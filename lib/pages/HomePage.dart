@@ -110,7 +110,6 @@ class HomePageState extends State<HomePage> with TickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(BoxConstraints(maxWidth: MediaQuery.of(context).size.width, maxHeight: MediaQuery.of(context).size.height), designSize: Size(Adapter.designWidth, Adapter.designHeight), orientation: Orientation.portrait);
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(

@@ -58,7 +58,6 @@ class _GuidePageState extends State<GuidePage> {
   }
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(BoxConstraints(maxWidth: MediaQuery.of(context).size.width, maxHeight: MediaQuery.of(context).size.height), designSize: Size(Adapter.designWidth, Adapter.designHeight), orientation: Orientation.portrait);
     return Scaffold(
       body: Container(
         color: Colors.white,

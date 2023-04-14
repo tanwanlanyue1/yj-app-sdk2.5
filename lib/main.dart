@@ -3,8 +3,10 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:scet_app/routers/Routes.dart';
+import 'package:scet_app/utils/tool/screen/Adapter.dart';
 import 'model/data/data_global.dart';
 import 'model/provider/provider.dart';
 import 'model/provider/provider_app.dart';
@@ -50,36 +52,41 @@ class MyApp extends StatelessWidget {
   MyApp({required this.isLogin});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: '园区预警',
-        builder: BotToastInit(),
-        navigatorKey: Global.navigatorKey,
-        navigatorObservers: [BotToastNavigatorObserver()],
-        debugShowCheckedModeBanner: false,
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate
-        ],
-        supportedLocales: [
-          Locale('en', 'US'),
-          Locale('zh', 'CH'),
-        ],
-        locale: Locale('zh'),
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: Color(0XFF4D7CFF),
-          /*字体选择类型
-          *  B : Alibaba-PuHuiTi-Bold
-          *  M : Alibaba-PuHuiTi-Medium
-          *  R : Alibaba-PuHuiTi-Regular
-          */
-          fontFamily: 'R',
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          scaffoldBackgroundColor: Color(0XFFF2F4FA),
-        ),
-        initialRoute: isLogin ? '/HomePage' : '/',
-        // onGenerateRoute: onGenerateRoute,
-      onGenerateRoute:(RouteSettings settings) =>onGenerateRoute(settings),
+    return ScreenUtilInit(
+        designSize: const Size(Adapter.designWidth, Adapter.designHeight),
+        minTextAdapt: false,
+        splitScreenMode: true,
+        builder: (context, child) => MaterialApp(
+            title: '园区预警',
+            builder: BotToastInit(),
+            navigatorKey: Global.navigatorKey,
+            navigatorObservers: [BotToastNavigatorObserver()],
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate
+            ],
+            supportedLocales: [
+              Locale('en', 'US'),
+              Locale('zh', 'CH'),
+            ],
+            locale: Locale('zh'),
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              primaryColor: Color(0XFF4D7CFF),
+              /*字体选择类型
+              *  B : Alibaba-PuHuiTi-Bold
+              *  M : Alibaba-PuHuiTi-Medium
+              *  R : Alibaba-PuHuiTi-Regular
+              */
+              fontFamily: 'R',
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              scaffoldBackgroundColor: Color(0XFFF2F4FA),
+            ),
+            initialRoute: isLogin ? '/HomePage' : '/',
+            // onGenerateRoute: onGenerateRoute,
+          onGenerateRoute:(RouteSettings settings) =>onGenerateRoute(settings),
+        )
     );
   }
 }

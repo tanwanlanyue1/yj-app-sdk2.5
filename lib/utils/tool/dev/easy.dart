@@ -143,7 +143,7 @@ class _BasicPageState extends State<BasicPage> {
       ),
      persistentFooterButtons: <Widget>[
        _enableControlFinish
-           ? FlatButton(
+           ? TextButton(
                onPressed: () {
                  _controller.resetLoadState();
                  _controller.finishRefresh();
@@ -155,7 +155,7 @@ class _BasicPageState extends State<BasicPage> {
                height: 0.0,
              ),
        _enableControlFinish
-           ? FlatButton(
+           ? TextButton(
                onPressed: () {
                  _controller.finishLoad(noMore: _count >= 80);
                },
@@ -165,13 +165,13 @@ class _BasicPageState extends State<BasicPage> {
                width: 0.0,
                height: 0.0,
              ),
-       FlatButton(
+       TextButton(
            onPressed: () {
              _controller.callRefresh();
            },
            child: Text('2',
                style: TextStyle(color: Colors.black))),
-       FlatButton(
+       TextButton(
            onPressed: () {
              _controller.callLoad();
            },

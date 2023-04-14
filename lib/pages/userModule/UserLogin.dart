@@ -46,10 +46,12 @@ class _UserLoginState extends State<UserLogin> {
           margin: EdgeInsets.only(top: 10, left: 10, right: 10,bottom: 0),
           height: 40,
           width: MediaQuery.of(context).size.width,
-          child: RaisedButton(
-            elevation: 0,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
-            color: Colors.blue,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue,
+              elevation: 0,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
+            ),
             onPressed: _doUserLogin,
             child: Text(
               "登   录", 

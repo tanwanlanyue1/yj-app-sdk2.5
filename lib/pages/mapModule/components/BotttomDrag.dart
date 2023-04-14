@@ -261,7 +261,8 @@ class MyVerticalDragGestureRecognizer extends VerticalDragGestureRecognizer {
   @override
   void addPointer(PointerDownEvent event) {
     super.addPointer(event);
-    _velocityTrackers[event.pointer] = VelocityTracker();
+    // _velocityTrackers[event.pointer] = VelocityTracker();
+    _velocityTrackers[event.pointer] = VelocityTracker.withKind(PointerDeviceKind.touch);
   }
 
   ///来检测是否是fling

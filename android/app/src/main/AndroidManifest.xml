@@ -27,7 +27,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:name="io.flutter.app.FlutterApplication"
         android:label="园区预警"
         android:icon="@mipmap/logo">
         <activity
